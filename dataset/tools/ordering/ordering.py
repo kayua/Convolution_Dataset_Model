@@ -10,7 +10,6 @@ class Dataset:
 
         self.swarm_file_unsorted_input = args.input_unsorted_file
         self.swarm_file_sorted_output = args.output_sorted_file
-        self.input_file_swarm_sorted = args.input_file_swarm_sorted
         self.snapshot_column_position = args.snapshot_position
         self.peer_column_position = args.peer_position
 
