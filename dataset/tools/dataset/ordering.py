@@ -4,7 +4,7 @@ from subprocess import PIPE
 import numpy
 
 
-class Dataset:
+class Ordering:
 
     def __init__(self, args):
 
