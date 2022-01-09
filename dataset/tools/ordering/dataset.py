@@ -26,14 +26,19 @@ class Dataset:
             except:
 
                 self.allocation_matrix()
-                try:
-
-                    self.matrix_features[int(snapshot)][int(peer_id)] = 1
-
-                except:
-
-                    pass
+                self.matrix_features[int(snapshot) * self.number_block_per_samples][int(peer_id)] = 1
+                exit()
 
 
+    def load_swarm_to_feature(self):
+
+        file_pointer_swarm = open(self.input_file_swarm_sorted, 'r')
+        lines = file_pointer_swarm.readlines()
+
+        for line in lines:
+            array_list = line.split(' ')
+            snapshot_id = array_list[self.snapshot_column_position - 1]
+            peer_id = array_list[self.peer_column_position - 1]
+            self.add_peer_in_matrix(snapshot_id, peer_id)
 
 
