@@ -2,12 +2,15 @@
 
 class Dataset:
 
-    def __init__(self, args):
+    def __init__(self):
 
-        self.feature_window_width = args.width_window
-        self.feature_window_length = args.length_window
+        self.snapshot_column_position = 0
+        self.peer_column_position = 1
+        self.feature_window_width = 256
+        self.feature_window_length = 256
         self.matrix_features = []
         self.number_block_per_samples = 8
+        self.input_file_swarm_sorted = 'S4'
 
     def allocation_matrix(self):
 
@@ -21,6 +24,8 @@ class Dataset:
 
             try:
 
+                if peer_id >= self.feature_window_width*self.number_block_per_samples: break
+
                 self.matrix_features[int(snapshot)*self.number_block_per_samples][int(peer_id)] = 1
 
             except:
@@ -28,7 +33,6 @@ class Dataset:
                 self.allocation_matrix()
                 self.matrix_features[int(snapshot) * self.number_block_per_samples][int(peer_id)] = 1
                 exit()
-
 
     def load_swarm_to_feature(self):
 
@@ -41,4 +45,13 @@ class Dataset:
             peer_id = array_list[self.peer_column_position - 1]
             self.add_peer_in_matrix(snapshot_id, peer_id)
 
+    def show_matrix(self):
 
+        for i in range(len(self.matrix_features)):
+
+            print(self.matrix_features[i])
+
+
+a = Dataset()
+a.load_swarm_to_feature()
+a.show_matrix()
