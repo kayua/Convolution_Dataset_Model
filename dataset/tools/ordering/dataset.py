@@ -9,13 +9,30 @@ class Dataset:
         self.matrix_features = []
         self.number_block_per_samples = 8
 
-    def allocation_matrix(self, length):
+    def allocation_matrix(self):
 
         for i in range(self.number_block_per_samples):
 
-            for j in range(len(self.matrix_features), length + 1):
+            self.matrix_features.append([0 for x in range(self.feature_window_width)])
 
-                self.matrix_features.append([0 for x in range(self.feature_window_width)])
+    def add_peer_in_matrix(self, snapshot, peer_id):
+
+        while True:
+
+            try:
+
+                self.matrix_features[int(snapshot)*self.number_block_per_samples][int(peer_id)] = 1
+
+            except:
+
+                self.allocation_matrix()
+                try:
+
+                    self.matrix_features[int(snapshot)][int(peer_id)] = 1
+
+                except:
+
+                    pass
 
 
 
