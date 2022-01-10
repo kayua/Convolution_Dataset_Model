@@ -74,17 +74,22 @@ class Dataset:
         self.clean_matrix()
         self.cast_list_features_to_numpy()
 
+
+    @staticmethod
+    def reshape(list_matrix):
+
+        for i in range(list_matrix)
+
+
+
+
     def cast_matrix_to_swarm(self):
 
         pointer_file_swarm = open('S4_output.txt', 'w')
-        temporary_matrix = None
         temp_feature = self.feature_input.tolist()
 
         for i in range(0, len(temp_feature), self.number_block_per_samples):
 
-            for j in range(len(temp_feature[i:i+self.number_block_per_samples])):
-
-                b =
 
 
 
