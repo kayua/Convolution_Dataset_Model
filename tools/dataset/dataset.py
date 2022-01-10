@@ -8,7 +8,7 @@ class Dataset:
         self.snapshot_column_position = 0
         self.peer_column_position = 1
         self.feature_window_length = 10
-        self.feature_window_width = 10
+        self.feature_window_width = 16
         self.matrix_features = []
         self.number_block_per_samples = 2
         self.input_file_swarm_sorted = 'S4'
@@ -27,9 +27,8 @@ class Dataset:
 
     def create_features(self):
 
-        for i in range(0, self.feature_window_length, self.number_block_per_samples):
-
-            self.list_features.append(self.matrix_features[i:i+self.feature_window_length])
+        for i in range(self.number_block_per_samples):
+            self.list_features.append(self.matrix_features[i:i+self.feature_window_width])
 
     def add_peer_in_matrix(self, snapshot, peer_id):
 
@@ -50,15 +49,21 @@ class Dataset:
             peer_id = array_list[self.peer_column_position - 1]
             self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
 
-            if snapshot_position % self.feature_window_width == 0:
+            if snapshot_position % self.feature_window_length == 0:
+
+                self.create_features()
+
+                self.show_matrix()
+                exit()
                 pass
 
     def show_matrix(self):
 
-        self.clean_matrix()
-        for i in range(len(self.matrix_features)):
+        for i in range(len(self.list_features)):
 
-            print(self.matrix_features[i])
+            for j in range(len(self.list_features[i])):
+                print(self.list_features[i][j])
+            print('\n')
 
 
 a = Dataset()
