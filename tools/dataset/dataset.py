@@ -51,25 +51,26 @@ class Dataset:
             peer_id = array_list[self.peer_column_position-1]
             self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
 
-            if int(snapshot_id) % self.feature_window_length+1 == 0:
+            if (int(snapshot_id) % self.feature_window_length == 0) and snapshot_id != 1:
 
                 self.create_feature()
                 self.clean_matrix()
 
     def show_features(self):
+
         for i in range(len(self.list_features)):
 
-            self.show_matrix()
-    def show_matrix(self):
+            self.show_matrix(i)
 
-        for i in range(len(self.matrix_features)):
-            print(self.matrix_features[i])
+    def show_matrix(self, position):
+
+        for i in range(len(self.list_features[position])):
+            print(self.list_features[position][i])
 
 
 
 
 
 a = Dataset()
-
 a.load_swarm_to_feature()
-a.show_matrix()
+#a.show_features()
