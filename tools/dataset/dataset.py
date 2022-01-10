@@ -7,14 +7,14 @@ class Dataset:
 
         self.snapshot_column_position = 1
         self.peer_column_position = 2
-        self.feature_window_length = 256
-        self.feature_window_width = 256
+        self.feature_window_length = 12
+        self.feature_window_width = 32
         self.break_point = 1
         self.matrix_features = []
-        self.number_block_per_samples = 32
-        self.input_file_swarm_sorted = 'S4'
+        self.number_block_per_samples = 2
+        self.input_file_swarm_sorted = 'S4_old'
         self.list_features = []
-        self.feature_input = None
+        self.feature_input = []
         self.feature_output = None
 
     def allocation_matrix(self):
@@ -41,33 +41,36 @@ class Dataset:
 
         for i in range(len(self.matrix_features)):
 
-            for j in range(len(self.matrix_features[i])):
+            for j in range(len(self.matrix_features[0])):
 
                 self.matrix_features[i][j] = 0
 
-    def create_feature(self):
+    def insert_in_matrix(self, snapshot_id, peer_id):
 
-        for i in range(self.number_block_per_samples):
+        self.matrix_features[peer_id][(snapshot_id % self.feature_window_length)-1] = 1
 
-            start_feature = i * self.feature_window_width
-            end_feature = (i + 1) * self.feature_window_width
-            feature_matrix = numpy.array(self.matrix_features[start_feature: end_feature])
-            self.list_features.append(feature_matrix)
+    def create_samples(self):
 
-    def add_peer_in_matrix(self, snapshot, peer_id):
+        results = []
 
-        self.matrix_features[peer_id][(snapshot % self.feature_window_length) - 1] = 1
+        for i in range(0, self.feature_window_width*self.number_block_per_samples, self.feature_window_width):
 
-    def cast_list_features_to_numpy(self):
+            results.append(self.matrix_features[i:i+self.feature_window_width])
 
-        self.feature_input = numpy.array(self.list_features, dtype=numpy.float32)
-        self.list_features = None
+
+
+
+
+
+
+
 
     def load_swarm_to_feature(self):
 
         self.allocation_matrix()
         file_pointer_swarm = open(self.input_file_swarm_sorted, 'r')
         line_swarm_file = file_pointer_swarm.readlines()
+        last_snapshot_read = 0
 
         for _, swarm_line in enumerate(line_swarm_file):
 
@@ -75,54 +78,27 @@ class Dataset:
             snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
             peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
 
+            if (snapshot_value % self.feature_window_length == 0) and last_snapshot_read != 0:
 
-            if (snapshot_value % self.feature_window_length == 1) and snapshot_value != self.break_point:
-
-                self.break_point = snapshot_value
-                self.create_feature()
+                last_snapshot_read = snapshot_value
+                self.insert_in_matrix(snapshot_value, peer_value)
+                self.create_samples()
                 self.clean_matrix()
-                self.add_peer_in_matrix(snapshot_value, peer_value)
+
             else:
 
-                self.add_peer_in_matrix(snapshot_value, peer_value)
+                self.insert_in_matrix(snapshot_value, peer_value)
 
-
-        self.create_feature()
+        self.create_samples()
         self.clean_matrix()
-        self.cast_list_features_to_numpy()
 
-    @staticmethod
-    def get_matrix(list_matrix):
+    def show_matrix(self):
 
-        results = []
+        for i in range(len(self.matrix_features)):
 
-        for i in list_matrix:
-            results.extend(i.T)
+            print(self.matrix_features[i])
 
-        return numpy.array(results)
-
-
-    def write_file(self, matrix, pointer, file):
-
-        for i in range(self.feature_window_width*32):
-
-            for j in range(self.feature_window_length):
-
-                if matrix[i][j] > 0.8:
-
-                    file.write('{} {}\n'.format(i+pointer+1, j))
-
-
-
-    def cast_matrix_to_swarm(self):
-
-        pointer_file_swarm = open('S4_output.txt', 'w')
-        for i in range(0, len(self.feature_input), self.number_block_per_samples):
-
-            c = self.get_matrix(self.feature_input[i:i+self.number_block_per_samples])
-            self.write_file(c.tolist(), i, pointer_file_swarm)
-
-
+            print('\n')
 
 
 
@@ -131,4 +107,4 @@ class Dataset:
 
 a = Dataset()
 a.load_swarm_to_feature()
-a.cast_matrix_to_swarm()
+a.show_matrix()
