@@ -16,23 +16,28 @@ class Dataset:
 
     def allocation_matrix(self):
 
-        for i in range(len(self.matrix_features), self.feature_window_width * self.number_block_per_samples):
-            self.matrix_features.append([0 for x in range(self.feature_window_length)])
+        size_matrix_allocation_width = self.feature_window_width * self.number_block_per_samples
+
+        for i in range(len(self.matrix_features), size_matrix_allocation_width):
+            self.matrix_features.append([0 for _ in range(self.feature_window_length)])
 
     def clean_matrix(self):
 
         for i in range(len(self.matrix_features)):
 
             for j in range(len(self.matrix_features[i])):
+
                 self.matrix_features[i][j] = 0
 
     def create_feature(self):
 
         for i in range(self.number_block_per_samples):
-            self.list_features.append(
-                numpy.array(self.matrix_features[i * self.feature_window_width: (i + 1) * self.feature_window_width]))
 
-        self.list_features.append([0, 0, 0])
+            start_feature = i * self.feature_window_width
+            end_feature = (i + 1) * self.feature_window_width
+            feature_matrix = numpy.array(self.matrix_features[start_feature: end_feature])
+            self.list_features.append(feature_matrix)
+
 
     def add_peer_in_matrix(self, snapshot, peer_id):
 
@@ -53,6 +58,7 @@ class Dataset:
             self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
 
             if (int(snapshot_id) % self.feature_window_length == 1) and int(snapshot_id) != break_point:
+
                 break_point = int(snapshot_id)
                 self.create_feature()
                 self.clean_matrix()
