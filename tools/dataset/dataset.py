@@ -102,17 +102,25 @@ class Dataset:
         return numpy.array(results)
 
 
+    def write_file(self, matrix, pointer, file):
+
+        for i in range(self.feature_window_width):
+
+            for j in range(self.feature_window_length):
+
+                if matrix[i][j] > 0.8:
+
+                    file.write('{} {}\n'.format(i+pointer+1, j))
+
+
+
     def cast_matrix_to_swarm(self):
 
         pointer_file_swarm = open('S4_output.txt', 'w')
-        for i in range(0, 64, self.number_block_per_samples):
-            c = self.get_matrix(self.feature_input)
-            c = c.T
+        for i in range(0, len(self.feature_input), self.number_block_per_samples):
+            c = self.get_matrix(self.feature_input[i:i+self.number_block_per_samples])
+            self.write_file(c.tolist(), i, pointer_file_swarm)
 
-            for l in range(130):
-                print(c[l])
-                print('\n')
-            exit()
 
 
 
