@@ -7,11 +7,11 @@ class Dataset:
 
         self.snapshot_column_position = 1
         self.peer_column_position = 2
-        self.feature_window_length = 512
-        self.feature_window_width = 128
+        self.feature_window_length = 256
+        self.feature_window_width = 256
         self.break_point = 1
         self.matrix_features = []
-        self.number_block_per_samples = 8
+        self.number_block_per_samples = 32
         self.input_file_swarm_sorted = 'S4'
         self.list_features = []
         self.feature_input = None
@@ -61,6 +61,7 @@ class Dataset:
     def cast_list_features_to_numpy(self):
 
         self.feature_input = numpy.array(self.list_features, dtype=numpy.float32)
+        self.list_features = None
 
     def load_swarm_to_feature(self):
 
@@ -97,27 +98,30 @@ class Dataset:
 
     def cast_matrix_to_list_swarm(self, matrix, position, file_pointer):
 
+
         for i in range(self.feature_window_length):
 
             for j in range(self.feature_window_width*self.number_block_per_samples):
 
                 if matrix[j][i]:
 
-                    file_pointer.write('{} {}\n'.format(((i+1)*position), j))
+                    exit()
+                    file_pointer.write('{} {}\n'.format((i+position), j))
 
     def cast_matrix_to_swarm(self):
 
         pointer_file_swarm = open('S4_output.txt', 'w')
-        temp_feature = self.feature_output.tolist()
+        temp_feature = self.feature_input.tolist()
         feature_temp = []
 
         for i in range(0, len(temp_feature), self.number_block_per_samples):
 
             feature_temp.append(self.reshape(temp_feature[i:i+self.number_block_per_samples]))
 
+
         for i, j in enumerate(feature_temp):
 
-            self.cast_matrix_to_list_swarm(j, (i*self.feature_window_length)+1, pointer_file_swarm)
+            self.cast_matrix_to_list_swarm(j, (i*self.feature_window_length), pointer_file_swarm)
 
         pointer_file_swarm.close()
 
