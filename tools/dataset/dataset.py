@@ -7,16 +7,16 @@ class Dataset:
 
         self.snapshot_column_position = 0
         self.peer_column_position = 1
-        self.feature_window_length = 32
-        self.feature_window_width = 8
+        self.feature_window_length = 10
+        self.feature_window_width = 5
         self.matrix_features = []
         self.number_block_per_samples = 4
         self.input_file_swarm_sorted = 'S4'
         self.list_features = []
 
-    def allocation_matrix(self, length):
+    def allocation_matrix(self):
 
-        for i in range(len(self.matrix_features), length):
+        for i in range(len(self.matrix_features), self.feature_window_width*self.number_block_per_samples):
             self.matrix_features.append([0 for x in range(self.feature_window_length)])
 
     def clean_matrix(self):
@@ -33,12 +33,13 @@ class Dataset:
 
     def add_peer_in_matrix(self, snapshot, peer_id):
 
-
+        print('Snapshot={}  Peer={}   X= {}  Y= {}'.format(snapshot, peer_id, int(snapshot) % self.feature_window_length, int(peer_id)))
         self.matrix_features[int(snapshot) % self.feature_window_length][int(peer_id)] = 1
 
     def load_swarm_to_feature(self):
 
-        self.allocation_matrix(self.feature_window_width * self.number_block_per_samples)
+        self.allocation_matrix()
+
         file_pointer_swarm = open(self.input_file_swarm_sorted, 'r')
         lines = file_pointer_swarm.readlines()
 
@@ -50,11 +51,10 @@ class Dataset:
             self.add_peer_in_matrix(snapshot_id, peer_id)
 
             if snapshot_position % self.feature_window_width == 0:
-                #self.create_features()
                 pass
 
     def show_matrix(self):
-        self.clean_matrix()
+
 
         for i in range(len(self.matrix_features)):
 
