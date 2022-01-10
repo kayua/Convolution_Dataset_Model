@@ -77,10 +77,17 @@ class Dataset:
     def cast_matrix_to_swarm(self):
 
         pointer_file_swarm = open('S4_output.txt', 'w')
-        temporary_matrix = []
+        temporary_matrix = None
         temp_feature = self.feature_input.tolist()
 
-        for i in temp_feature:
+        for i in range(0, len(temp_feature), self.number_block_per_samples):
+
+            for j in range(len(temp_feature[i:i+self.number_block_per_samples])):
+
+                b =
+
+
+
 
 
 
