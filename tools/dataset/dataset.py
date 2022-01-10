@@ -85,18 +85,16 @@ class Dataset:
         return numpy.array(result)
 
 
-    def cast_matrix_to_list_swarm(self, matrix, position):
+    def cast_matrix_to_list_swarm(self, matrix, position, file_pointer):
 
-        output_swarm = ''
         for i in range(self.feature_window_length):
 
             for j in range(self.feature_window_width*self.number_block_per_samples):
 
                 if matrix[j][i]:
 
-                    output_swarm+= '{} {}\n'.format(i*position, j)
+                    file_pointer.write('{} {}\n'.format(i*position, j))
 
-        return output_swarm
 
 
     def cast_matrix_to_swarm(self):
@@ -109,11 +107,11 @@ class Dataset:
 
             feature_temp.append(self.reshape(temp_feature[i:i+self.number_block_per_samples]))
 
-        for i in feature_temp:
+        for i, j in enumerate(feature_temp):
 
-            pointer_file_swarm.write('{} {}\n'.format(i))
+            self.cast_matrix_to_list_swarm(j, i, pointer_file_swarm)
 
-
+        pointer_file_swarm.close()
 
 
 
