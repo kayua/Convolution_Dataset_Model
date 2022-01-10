@@ -21,8 +21,15 @@ class Dataset:
         if self.feature_window_length % 2:
             print('Erro: Use um numero de base binaria para de comprimento')
             exit(-1)
-        if self.number_block_per_samples % 2: print('Erro: Use um numero de base binaria para de blocos')
-        if self.feature_window_width % 2: print('Erro: Use um numero de base binaria para de largura')
+
+        if self.number_block_per_samples % 2:
+            print('Erro: Use um numero de base binaria para de blocos')
+            exit(-1)
+
+        if self.feature_window_width % 2:
+            print('Erro: Use um numero de base binaria para de largura')
+            exit(-1)
+
         size_matrix_allocation_width = self.feature_window_width * self.number_block_per_samples
 
         for i in range(len(self.matrix_features), size_matrix_allocation_width):
