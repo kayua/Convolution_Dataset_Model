@@ -33,7 +33,6 @@ class Dataset:
 
             self.list_features.append(self.matrix_features[i*self.feature_window_width: (i+1)*self.feature_window_width])
 
-
     def add_peer_in_matrix(self, snapshot, peer_id):
 
         self.matrix_features[peer_id][(snapshot % self.feature_window_length)-1] = 1
@@ -53,10 +52,14 @@ class Dataset:
             self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
 
             if int(snapshot_id) % self.feature_window_length+1 == 0:
+
                 self.create_feature()
                 self.clean_matrix()
 
+    def show_features(self):
+        for i in range(len(self.list_features)):
 
+            self.show_matrix()
     def show_matrix(self):
 
         for i in range(len(self.matrix_features)):
