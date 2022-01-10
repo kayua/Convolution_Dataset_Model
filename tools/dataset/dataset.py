@@ -7,17 +7,22 @@ class Dataset:
 
         self.snapshot_column_position = 1
         self.peer_column_position = 2
-        self.feature_window_length = 10
-        self.feature_window_width = 12
+        self.feature_window_length = 512
+        self.feature_window_width = 128
         self.break_point = 1
         self.matrix_features = []
-        self.number_block_per_samples = 2
+        self.number_block_per_samples = 8
         self.input_file_swarm_sorted = 'S4'
         self.list_features = []
         self.feature_input = None
 
     def allocation_matrix(self):
 
+        if self.feature_window_length % 2:
+            print('Erro: Use um numero de base binaria para de comprimento')
+            exit(-1)
+        if self.number_block_per_samples % 2: print('Erro: Use um numero de base binaria para de blocos')
+        if self.feature_window_width % 2: print('Erro: Use um numero de base binaria para de largura')
         size_matrix_allocation_width = self.feature_window_width * self.number_block_per_samples
 
         for i in range(len(self.matrix_features), size_matrix_allocation_width):
