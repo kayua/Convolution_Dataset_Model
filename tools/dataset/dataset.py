@@ -1,4 +1,3 @@
-import numpy
 
 
 class Dataset:
@@ -17,13 +16,27 @@ class Dataset:
     def allocation_matrix(self):
 
         for i in range(len(self.matrix_features), self.feature_window_width*self.number_block_per_samples):
+
             self.matrix_features.append([0 for x in range(self.feature_window_length)])
 
     def clean_matrix(self):
 
         for i in range(len(self.matrix_features)):
+
             for j in range(len(self.matrix_features[i])):
+
                 self.matrix_features[i][j] = 0
+
+    def create_feature(self):
+
+        for i in range(self.number_block_per_samples):
+
+            self.list_features.append(self.matrix_features[i*self.feature_window_width: (i+1)*self.feature_window_width])
+
+
+        self.list_features.append(self.)
+
+
 
     def add_peer_in_matrix(self, snapshot, peer_id):
 
@@ -42,12 +55,10 @@ class Dataset:
             snapshot_id = array_list[self.snapshot_column_position-1]
             peer_id = array_list[self.peer_column_position-1]
             self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
+
             if int(snapshot_id) % self.feature_window_length+1 == 0:
                 self.show_matrix()
                 exit()
-
-        self.show_matrix()
-        exit()
         pass
 
     def show_matrix(self):
