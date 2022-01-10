@@ -27,7 +27,7 @@ class Dataset:
 
     def add_peer_in_matrix(self, snapshot, peer_id):
 
-        self.matrix_features[peer_id][snapshot % self.feature_window_length] = 1
+        self.matrix_features[peer_id][(snapshot % self.feature_window_length)-1] = 1
 
     def load_swarm_to_feature(self):
 
@@ -42,9 +42,9 @@ class Dataset:
             snapshot_id = array_list[self.snapshot_column_position-1]
             peer_id = array_list[self.peer_column_position-1]
             self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
-            if int(snapshot_id) > self.feature_window_length:
+            if int(snapshot_id) % self.feature_window_length+1 == 0:
                 self.show_matrix()
-                break
+                exit()
 
         self.show_matrix()
         exit()
@@ -60,5 +60,6 @@ class Dataset:
 
 
 a = Dataset()
+
 a.load_swarm_to_feature()
 a.show_matrix()
