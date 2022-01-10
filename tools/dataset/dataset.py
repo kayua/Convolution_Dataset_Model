@@ -49,7 +49,6 @@ class Dataset:
 
         self.feature_input = numpy.array(self.list_features, dtype=numpy.float32)
 
-
     def load_swarm_to_feature(self):
 
         self.allocation_matrix()
@@ -74,7 +73,6 @@ class Dataset:
         self.clean_matrix()
         self.cast_list_features_to_numpy()
 
-
     @staticmethod
     def reshape(list_matrix):
 
@@ -84,17 +82,15 @@ class Dataset:
 
         return numpy.array(result)
 
-
     def cast_matrix_to_list_swarm(self, matrix, position, file_pointer):
 
         for i in range(self.feature_window_length):
+
             for j in range(self.feature_window_width*self.number_block_per_samples):
 
                 if matrix[j][i]:
 
-                    file_pointer.write('{} {}\n'.format((i*position)+1, j))
-
-
+                    file_pointer.write('{} {}\n'.format(((i+1)*position), j))
 
     def cast_matrix_to_swarm(self):
 
