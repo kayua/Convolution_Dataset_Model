@@ -79,22 +79,39 @@ class Dataset:
     def reshape(list_matrix):
 
         result = []
-        print(numpy.array(list_matrix).shape)
         for i in range(len(list_matrix)):
-            print(i)
             result.extend(numpy.array(list_matrix[i]))
 
-        print(numpy.array(result).shape)
+        return numpy.array(result)
 
 
+    def cast_matrix_to_list_swarm(self, matrix, position):
+
+        output_swarm = ''
+        for i in range(self.feature_window_length):
+
+            for j in range(self.feature_window_width*self.number_block_per_samples):
+
+                if matrix[j][i]:
+
+                    output_swarm+= '{} {}\n'.format(i*position, j)
+
+        return output_swarm
 
 
     def cast_matrix_to_swarm(self):
 
-        #pointer_file_swarm = open('S4_output.txt', 'w')
+        pointer_file_swarm = open('S4_output.txt', 'w')
         temp_feature = self.feature_input.tolist()
+        feature_temp = []
 
-        self.reshape(temp_feature[0:2])
+        for i in range(0, len(temp_feature), self.number_block_per_samples):
+
+            feature_temp.append(self.reshape(temp_feature[i:i+self.number_block_per_samples]))
+
+        for i in feature_temp:
+
+            pointer_file_swarm.write('{} {}\n'.format(i))
 
 
 
