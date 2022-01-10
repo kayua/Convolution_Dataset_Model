@@ -74,7 +74,7 @@ class Dataset:
             swarm_line_in_list = swarm_line.split(' ')
             snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
             peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
-            self.add_peer_in_matrix(snapshot_value, peer_value)
+
 
             if (snapshot_value % self.feature_window_length == 1) and snapshot_value != self.break_point:
 
@@ -82,57 +82,37 @@ class Dataset:
                 self.create_feature()
                 self.clean_matrix()
                 self.add_peer_in_matrix(snapshot_value, peer_value)
+            else:
+
+                self.add_peer_in_matrix(snapshot_value, peer_value)
+
 
         self.create_feature()
         self.clean_matrix()
         self.cast_list_features_to_numpy()
 
     @staticmethod
-    def reshape(list_matrix):
+    def get_matrix(list_matrix):
 
-        result = []
-        for i in range(len(list_matrix)):
-            result.extend(numpy.array(list_matrix[i]))
+        results = []
 
-        return numpy.array(result)
+        for i in list_matrix:
+            results.extend(i.T)
 
-    def cast_matrix_to_list_swarm(self, matrix, position, file_pointer):
+        return numpy.array(results)
 
-
-        for i in range(self.feature_window_length):
-
-            for j in range(self.feature_window_width*self.number_block_per_samples):
-
-                if matrix[j][i]:
-
-                    exit()
-                    file_pointer.write('{} {}\n'.format((i+position), j))
 
     def cast_matrix_to_swarm(self):
 
         pointer_file_swarm = open('S4_output.txt', 'w')
-        temp_feature = self.feature_input.tolist()
-        feature_temp = []
+        for i in range(0, 64, self.number_block_per_samples):
+            c = self.get_matrix(self.feature_input)
+            c = c.T
 
-        for i in range(0, len(temp_feature), self.number_block_per_samples):
-
-            feature_temp.append(self.reshape(temp_feature[i:i+self.number_block_per_samples]))
-
-
-        for i, j in enumerate(feature_temp):
-
-            self.cast_matrix_to_list_swarm(j, (i*self.feature_window_length), pointer_file_swarm)
-
-        pointer_file_swarm.close()
-
-
-
-
-
-
-
-
-
+            for l in range(130):
+                print(c[l])
+                print('\n')
+            exit()
 
 
 
