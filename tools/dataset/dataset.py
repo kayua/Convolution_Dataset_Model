@@ -5,12 +5,12 @@ class Dataset:
 
     def __init__(self):
 
-        self.snapshot_column_position = 0
-        self.peer_column_position = 1
+        self.snapshot_column_position = 1
+        self.peer_column_position = 2
         self.feature_window_length = 10
-        self.feature_window_width = 16
+        self.feature_window_width = 256
         self.matrix_features = []
-        self.number_block_per_samples = 2
+        self.number_block_per_samples = 16
         self.input_file_swarm_sorted = 'S4'
         self.list_features = []
 
@@ -25,11 +25,6 @@ class Dataset:
             for j in range(len(self.matrix_features[i])):
                 self.matrix_features[i][j] = 0
 
-    def create_features(self):
-
-        for i in range(self.number_block_per_samples):
-            self.list_features.append(self.matrix_features[i:i+self.feature_window_width])
-
     def add_peer_in_matrix(self, snapshot, peer_id):
 
         self.matrix_features[peer_id][snapshot % self.feature_window_length] = 1
@@ -37,33 +32,31 @@ class Dataset:
     def load_swarm_to_feature(self):
 
         self.allocation_matrix()
-        self.clean_matrix()
 
         file_pointer_swarm = open(self.input_file_swarm_sorted, 'r')
         lines = file_pointer_swarm.readlines()
 
-        for snapshot_position, line in enumerate(lines):
+        for _, line in enumerate(lines):
 
             array_list = line.split(' ')
-            snapshot_id = array_list[self.snapshot_column_position - 1]
-            peer_id = array_list[self.peer_column_position - 1]
+            snapshot_id = array_list[self.snapshot_column_position-1]
+            peer_id = array_list[self.peer_column_position-1]
             self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
-
-            if snapshot_position % self.feature_window_length == 0:
-
-                self.create_features()
-
+            if int(snapshot_id) > self.feature_window_length:
                 self.show_matrix()
-                exit()
-                pass
+                break
+
+        self.show_matrix()
+        exit()
+        pass
 
     def show_matrix(self):
 
-        for i in range(len(self.list_features)):
+        for i in range(len(self.matrix_features)):
+            print(self.matrix_features[i])
 
-            for j in range(len(self.list_features[i])):
-                print(self.list_features[i][j])
-            print('\n')
+
+
 
 
 a = Dataset()
