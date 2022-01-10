@@ -15,6 +15,7 @@ class Dataset:
         self.input_file_swarm_sorted = 'S4'
         self.list_features = []
         self.feature_input = None
+        self.feature_output = None
 
     def allocation_matrix(self):
 
@@ -107,7 +108,7 @@ class Dataset:
     def cast_matrix_to_swarm(self):
 
         pointer_file_swarm = open('S4_output.txt', 'w')
-        temp_feature = self.feature_input.tolist()
+        temp_feature = self.feature_output.tolist()
         feature_temp = []
 
         for i in range(0, len(temp_feature), self.number_block_per_samples):
