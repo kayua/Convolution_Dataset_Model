@@ -1,3 +1,4 @@
+import numpy
 
 
 class Dataset:
@@ -7,9 +8,9 @@ class Dataset:
         self.snapshot_column_position = 1
         self.peer_column_position = 2
         self.feature_window_length = 10
-        self.feature_window_width = 256
+        self.feature_window_width = 12
         self.matrix_features = []
-        self.number_block_per_samples = 16
+        self.number_block_per_samples = 2
         self.input_file_swarm_sorted = 'S4'
         self.list_features = []
 
@@ -31,8 +32,9 @@ class Dataset:
 
         for i in range(self.number_block_per_samples):
 
-            self.list_features.append(self.matrix_features[i*self.feature_window_width: (i+1)*self.feature_window_width])
+            self.list_features.append(numpy.array(self.matrix_features[i*self.feature_window_width: (i+1)*self.feature_window_width]))
 
+        self.list_features.append([0, 0, 0])
     def add_peer_in_matrix(self, snapshot, peer_id):
 
         self.matrix_features[peer_id][(snapshot % self.feature_window_length)-1] = 1
@@ -40,9 +42,9 @@ class Dataset:
     def load_swarm_to_feature(self):
 
         self.allocation_matrix()
-
         file_pointer_swarm = open(self.input_file_swarm_sorted, 'r')
         lines = file_pointer_swarm.readlines()
+        break_point = 1
 
         for _, line in enumerate(lines):
 
@@ -51,16 +53,21 @@ class Dataset:
             peer_id = array_list[self.peer_column_position-1]
             self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
 
-            if (int(snapshot_id) % self.feature_window_length == 0) and snapshot_id != 1:
-
+            if (int(snapshot_id) % self.feature_window_length == 1) and int(snapshot_id) != break_point:
+                break_point = int(snapshot_id)
                 self.create_feature()
                 self.clean_matrix()
+                self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
+
+        self.create_feature()
+        self.clean_matrix()
 
     def show_features(self):
 
         for i in range(len(self.list_features)):
 
             self.show_matrix(i)
+            print('\n')
 
     def show_matrix(self, position):
 
@@ -73,4 +80,4 @@ class Dataset:
 
 a = Dataset()
 a.load_swarm_to_feature()
-#a.show_features()
+a.show_features()
