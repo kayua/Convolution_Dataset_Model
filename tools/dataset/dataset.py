@@ -9,16 +9,19 @@ class Dataset:
         self.peer_column_position = 2
         self.feature_window_length = 10
         self.feature_window_width = 12
+        self.break_point = 1
         self.matrix_features = []
         self.number_block_per_samples = 2
         self.input_file_swarm_sorted = 'S4'
         self.list_features = []
+        self.feature_input = None
 
     def allocation_matrix(self):
 
         size_matrix_allocation_width = self.feature_window_width * self.number_block_per_samples
 
         for i in range(len(self.matrix_features), size_matrix_allocation_width):
+
             self.matrix_features.append([0 for _ in range(self.feature_window_length)])
 
     def clean_matrix(self):
@@ -38,47 +41,60 @@ class Dataset:
             feature_matrix = numpy.array(self.matrix_features[start_feature: end_feature])
             self.list_features.append(feature_matrix)
 
-
     def add_peer_in_matrix(self, snapshot, peer_id):
 
         self.matrix_features[peer_id][(snapshot % self.feature_window_length) - 1] = 1
+
+    def cast_list_features_to_numpy(self):
+
+        self.feature_input = numpy.array(self.list_features, dtype=numpy.float32)
+
 
     def load_swarm_to_feature(self):
 
         self.allocation_matrix()
         file_pointer_swarm = open(self.input_file_swarm_sorted, 'r')
-        lines = file_pointer_swarm.readlines()
-        break_point = 1
+        line_swarm_file = file_pointer_swarm.readlines()
 
-        for _, line in enumerate(lines):
+        for _, swarm_line in enumerate(line_swarm_file):
 
-            array_list = line.split(' ')
-            snapshot_id = array_list[self.snapshot_column_position - 1]
-            peer_id = array_list[self.peer_column_position - 1]
-            self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
+            swarm_line_in_list = swarm_line.split(' ')
+            snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
+            peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
+            self.add_peer_in_matrix(snapshot_value, peer_value)
 
-            if (int(snapshot_id) % self.feature_window_length == 1) and int(snapshot_id) != break_point:
+            if (snapshot_value % self.feature_window_length == 1) and snapshot_value != self.break_point:
 
-                break_point = int(snapshot_id)
+                self.break_point = snapshot_value
                 self.create_feature()
                 self.clean_matrix()
-                self.add_peer_in_matrix(int(snapshot_id), int(peer_id))
+                self.add_peer_in_matrix(snapshot_value, peer_value)
 
         self.create_feature()
         self.clean_matrix()
+        self.cast_list_features_to_numpy()
 
-    def show_features(self):
+    def cast_matrix_to_swarm(self):
 
-        for i in range(len(self.list_features)):
-            self.show_matrix(i)
-            print('\n')
+        pointer_file_swarm = open('S4_output.txt', 'w')
+        temporary_matrix = []
+        temp_feature = self.feature_input.tolist()
 
-    def show_matrix(self, position):
+        for i in temp_feature:
 
-        for i in range(len(self.list_features[position])):
-            print(self.list_features[position][i])
+
+
+
+
+
+
+
+
+
+
+
 
 
 a = Dataset()
 a.load_swarm_to_feature()
-a.show_features()
+a.cast_matrix_to_swarm()
