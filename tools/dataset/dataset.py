@@ -1,3 +1,5 @@
+from subprocess import Popen, PIPE
+
 import numpy
 
 
@@ -106,24 +108,27 @@ class Dataset:
 
         ouput = open('saida.txt', 'w')
         result = []
+
         for i in range(0, len(self.feature_input), self.number_block_per_samples):
             result.append(self.concatenate(self.feature_input[i:i+self.number_block_per_samples]))
 
+        snapshot_id = 0
         x = numpy.array(result)
+        print(numpy.array(x).shape)
 
         for i in range(len(x)):
 
-            for j in range(len(x[0])):
+            for j in range(len(x[0])):  # <-  Peer ID
 
-                for l in range(len(x[0][0])):
+                for k in range(len(x[0][0])):
 
-                    ouput.write('{} {}\n'.format(j, l+(i*)))
+                    if x[i][j][k] == 1:
 
-                print('\n')
+                        ouput.write('{} {}\n'.format(k+snapshot_id, j))
 
-            print('\n\n')
+            snapshot_id = snapshot_id + self.feature_window_length
 
-        exit()
+
 
     def show_matrix(self):
 
@@ -136,6 +141,14 @@ class Dataset:
 
             print('\n')
 
+    def sort_output(self):
+
+        sequence_commands = 'sort -n -k{},{} '.format(self.snapshot_column_position, self.snapshot_column_position)
+        sequence_commands += '-k{},{} '.format(self.peer_column_position, self.peer_column_position)
+        sequence_commands += '{} -o {}'.format('saida.txt', 'saida_sorted.txt')
+        external_process = Popen(sequence_commands.split(' '), stdout=PIPE, stderr=PIPE)
+        command_stdout, command_stderr = external_process.communicate()
+
 
 
 
@@ -144,3 +157,4 @@ class Dataset:
 a = Dataset()
 a.load_swarm_to_feature()
 a.cast_feature_to_swarm()
+a.sort_output()
