@@ -47,8 +47,14 @@ class Dataset:
 
     def insert_in_matrix(self, snapshot_id, peer_id):
 
-        print('{} {} '.format(peer_id, (snapshot_id % self.feature_window_length)))
-        self.matrix_features[peer_id][(snapshot_id % self.feature_window_length)] = 1
+        if (snapshot_id % self.feature_window_length) != 0:
+            self.matrix_features[peer_id][(snapshot_id % self.feature_window_length)-1] = 1
+            print('{} {} '.format((snapshot_id % self.feature_window_length)-1, peer_id))
+
+        else:
+            print('{} {} '.format(self.feature_window_length-1, peer_id))
+            self.matrix_features[peer_id][self.feature_window_length-1] = 1
+
 
     def create_samples(self):
 
@@ -76,14 +82,12 @@ class Dataset:
             if i == 0:
                 break_point = snapshot_value
 
+            if ((snapshot_value % self.feature_window_length) == 1) and break_point != snapshot_value:
 
-            print('Verificar como resolver o problema do zero no Hash')
-            exit(-1)
-            if (snapshot_value % self.feature_window_length+1 == (self.feature_window_length)) and break_point !=snapshot_value:
 
-                self.insert_in_matrix(snapshot_value, peer_value)
                 self.create_samples()
                 self.clean_matrix()
+                self.insert_in_matrix(snapshot_value, peer_value)
                 break_point = snapshot_value
 
             else:
