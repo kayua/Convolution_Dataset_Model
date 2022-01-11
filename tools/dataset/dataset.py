@@ -14,7 +14,7 @@ class Dataset:
         self.break_point = 1
         self.matrix_features = []
         self.number_block_per_samples = 2
-        self.input_file_swarm_sorted = 'S4_old'
+        self.input_file_swarm_sorted = 'S4'
         self.list_features = []
         self.feature_input = []
         self.feature_output = None
