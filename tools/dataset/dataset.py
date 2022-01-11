@@ -9,11 +9,11 @@ class Dataset:
 
         self.snapshot_column_position = 1
         self.peer_column_position = 2
-        self.feature_window_length = 4
-        self.feature_window_width = 32
+        self.feature_window_length = 256
+        self.feature_window_width = 256
         self.break_point = 1
         self.matrix_features = []
-        self.number_block_per_samples = 2
+        self.number_block_per_samples = 64
         self.input_file_swarm_sorted = 'S4_old'
         self.list_features = []
         self.feature_input = []
@@ -53,6 +53,7 @@ class Dataset:
             self.matrix_features[peer_id][(snapshot_id % self.feature_window_length)-1] = 1
 
         else:
+
             self.matrix_features[peer_id][self.feature_window_length-1] = 1
 
     def create_samples(self):
@@ -78,6 +79,7 @@ class Dataset:
             swarm_line_in_list = swarm_line.split(' ')
             snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
             peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
+
             if i == 0:
                 break_point = snapshot_value
 
@@ -95,6 +97,8 @@ class Dataset:
 
         self.create_samples()
         self.clean_matrix()
+
+
     @staticmethod
     def concatenate(list_matrix):
 
@@ -110,8 +114,7 @@ class Dataset:
 
         ouput = open('saida.txt', 'w')
         result = []
-
-
+        print(numpy.array(self.feature_input).shape)
         for i in range(0, len(self.feature_input), self.number_block_per_samples):
 
             result.append(self.concatenate(self.feature_input[i:i+self.number_block_per_samples]))
@@ -161,5 +164,4 @@ a = Dataset()
 a.load_swarm_to_feature()
 
 a.cast_feature_to_swarm()
-exit()
 a.sort_output()
