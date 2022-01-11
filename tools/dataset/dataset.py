@@ -14,7 +14,7 @@ class Dataset:
         self.break_point = 1
         self.matrix_features = []
         self.number_block_per_samples = 64
-        self.input_file_swarm_sorted = 'S4_8000_snapshots'
+        self.input_file_swarm_sorted = 'S4_with_fault'
         self.list_features = []
         self.feature_input = []
         self.feature_output = None
@@ -98,6 +98,9 @@ class Dataset:
         self.create_samples()
         self.clean_matrix()
 
+        while len(self.feature_input) < 2048:
+            self.create_samples()
+            self.clean_matrix()
 
     @staticmethod
     def concatenate(list_matrix):
@@ -114,7 +117,7 @@ class Dataset:
 
         ouput = open('saida.txt', 'w')
         result = []
-        print(numpy.array(self.feature_input).shape)
+
         for i in range(0, len(self.feature_input), self.number_block_per_samples):
 
             result.append(self.concatenate(self.feature_input[i:i+self.number_block_per_samples]))
@@ -135,7 +138,6 @@ class Dataset:
             snapshot_id = snapshot_id + self.feature_window_length
         ouput.close()
 
-
     def show_matrix(self):
 
 
@@ -147,7 +149,7 @@ class Dataset:
 
             print('\n')
 
-    def sort_output(self):
+    def sort(self):
 
         sequence_commands = 'sort -n -k{},{} '.format(self.snapshot_column_position, self.snapshot_column_position)
         sequence_commands += '-k{},{} '.format(self.peer_column_position, self.peer_column_position)
@@ -156,12 +158,8 @@ class Dataset:
         command_stdout, command_stderr = external_process.communicate()
 
 
-
-
-
-
 a = Dataset()
 a.load_swarm_to_feature()
 
 a.cast_feature_to_swarm()
-a.sort_output()
+a.sort()
