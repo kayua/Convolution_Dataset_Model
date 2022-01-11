@@ -14,7 +14,7 @@ class Dataset:
         self.break_point = 1
         self.matrix_features = []
         self.number_block_per_samples = 2
-        self.input_file_swarm_sorted = 'S4'
+        self.input_file_swarm_sorted = 'S4_old'
         self.list_features = []
         self.feature_input = []
         self.feature_output = None
@@ -110,7 +110,10 @@ class Dataset:
 
         ouput = open('saida.txt', 'w')
         result = []
+
+
         for i in range(0, len(self.feature_input), self.number_block_per_samples):
+
             result.append(self.concatenate(self.feature_input[i:i+self.number_block_per_samples]))
 
         snapshot_id = 0
@@ -124,10 +127,10 @@ class Dataset:
 
                     if x[i][j][k] == 1:
 
-                        ouput.write('{} {}\n'.format(k+snapshot_id, j))
+                        ouput.write('{} {}\n'.format(k+snapshot_id+1, j))
 
             snapshot_id = snapshot_id + self.feature_window_length
-
+        ouput.close()
 
 
     def show_matrix(self):
@@ -156,5 +159,7 @@ class Dataset:
 
 a = Dataset()
 a.load_swarm_to_feature()
+
 a.cast_feature_to_swarm()
+exit()
 a.sort_output()
