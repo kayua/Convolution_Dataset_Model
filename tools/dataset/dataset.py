@@ -49,12 +49,9 @@ class Dataset:
 
         if (snapshot_id % self.feature_window_length) != 0:
             self.matrix_features[peer_id][(snapshot_id % self.feature_window_length)-1] = 1
-            print('{} {} '.format((snapshot_id % self.feature_window_length)-1, peer_id))
 
         else:
-            print('{} {} '.format(self.feature_window_length-1, peer_id))
             self.matrix_features[peer_id][self.feature_window_length-1] = 1
-
 
     def create_samples(self):
 
@@ -106,6 +103,8 @@ class Dataset:
         return numpy.array(results)
 
     def cast_feature_to_swarm(self):
+
+        ouput = open('saida.txt', 'w')
         result = []
         for i in range(0, len(self.feature_input), self.number_block_per_samples):
             result.append(self.concatenate(self.feature_input[i:i+self.number_block_per_samples]))
@@ -116,9 +115,15 @@ class Dataset:
 
             for j in range(len(x[0])):
 
-                print(x[i][j])
+                for l in range(len(x[0][0])):
 
-            print('\n')
+                    ouput.write('{} {}\n'.format(j, l+(i*)))
+
+                print('\n')
+
+            print('\n\n')
+
+        exit()
 
     def show_matrix(self):
 
