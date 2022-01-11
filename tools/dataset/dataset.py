@@ -93,6 +93,8 @@ class Dataset:
 
                 self.insert_in_matrix(snapshot_value, peer_value)
 
+        self.create_samples()
+        self.clean_matrix()
     @staticmethod
     def concatenate(list_matrix):
 
@@ -108,17 +110,15 @@ class Dataset:
 
         ouput = open('saida.txt', 'w')
         result = []
-
         for i in range(0, len(self.feature_input), self.number_block_per_samples):
             result.append(self.concatenate(self.feature_input[i:i+self.number_block_per_samples]))
 
         snapshot_id = 0
         x = numpy.array(result)
-        print(numpy.array(x).shape)
 
         for i in range(len(x)):
 
-            for j in range(len(x[0])):  # <-  Peer ID
+            for j in range(len(x[0])):
 
                 for k in range(len(x[0][0])):
 
