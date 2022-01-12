@@ -9,6 +9,16 @@ DEFAULT_NUMBER_BLOCK_PER_SAMPLES = 32
 DEFAULT_INPUT_FILE_SWARM_SORTED = 'S4'
 DEFAULT_OUTPUT_FILE_SWARM_SORTED = 'S4_output.txt'
 
+DEFAULT_TRAINING_EPOCHS = 10
+DEFAULT_TRAINING_METRICS = 'mse'
+DEFAULT_TRAINING_LOSS = 'mse'
+DEFAULT_TRAINING_OPTIMIZER = 'adam'
+DEFAULT_TRAINING_BATCH_SIZE = 32
+DEFAULT_SAVE_MODEL_FILE = 'models_saved/model'
+DEFAULT_LOAD_MODEL_FILE = 'models_saved/model'
+DEFAULT_ADVERSARIAL_MODEL = False
+DEFAULT_VERBOSITY = 1
+
 
 def add_arguments(parser):
 
@@ -33,6 +43,26 @@ def add_arguments(parser):
 
     help_msg = 'Output swarm file (Default {})'.format(DEFAULT_OUTPUT_FILE_SWARM_SORTED)
     parser.add_argument("--output_swarm", type=str, help=help_msg, default=DEFAULT_OUTPUT_FILE_SWARM_SORTED)
+
+    DEFAULT_SAVE_MODEL_FILE = 'models_saved/model'
+    DEFAULT_LOAD_MODEL_FILE = 'models_saved/model'
+    DEFAULT_ADVERSARIAL_MODEL = False
+    DEFAULT_VERBOSITY = 1
+
+    help_msg = 'Training epochs (Default {})'.format(DEFAULT_TRAINING_EPOCHS)
+    parser.add_argument("--epochs", type=int, help=help_msg, default=DEFAULT_TRAINING_EPOCHS)
+
+    help_msg = 'Training metrics (Default {})'.format(DEFAULT_TRAINING_METRICS)
+    parser.add_argument("--metrics", type=str, help=help_msg, default=DEFAULT_TRAINING_METRICS)
+
+    help_msg = 'Training loss (Default {})'.format(DEFAULT_TRAINING_LOSS)
+    parser.add_argument("--loss", type=str, help=help_msg, default=DEFAULT_TRAINING_LOSS)
+
+    help_msg = 'Training optimizer (Default {})'.format(DEFAULT_TRAINING_OPTIMIZER)
+    parser.add_argument("--optimizer", type=str, help=help_msg, default=DEFAULT_TRAINING_LOSS)
+
+    help_msg = 'Training size batch (Default {})'.format(DEFAULT_TRAINING_BATCH_SIZE)
+    parser.add_argument("--size_batch", type=str, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
 
     return parser
 

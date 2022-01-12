@@ -16,7 +16,6 @@ import cv2
 from tensorflow.keras import Input, activations, Model, Sequential
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.layers import AveragePooling2D
 from tensorflow.keras.layers import ZeroPadding2D
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dense
