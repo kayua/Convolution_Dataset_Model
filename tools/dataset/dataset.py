@@ -10,7 +10,6 @@ class Dataset:
         self.peer_column_position = 2
         self.feature_window_length = 256
         self.feature_window_width = 256
-        self.break_point = 1
         self.matrix_features = []
         self.number_block_per_samples = 32
         self.input_file_swarm_sorted = 'S4'
