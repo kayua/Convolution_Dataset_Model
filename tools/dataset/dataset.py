@@ -8,16 +8,16 @@ class Dataset:
 
         self.snapshot_column_position = 1
         self.peer_column_position = 2
-        self.feature_window_length = 256
-        self.feature_window_width = 2048
+        self.feature_window_length = 4
+        self.feature_window_width = 16
         self.break_point = 1
         self.matrix_features = []
-        self.number_block_per_samples = 4
+        self.number_block_per_samples = 2
         self.input_file_swarm_sorted = 'test'
         self.list_features = []
         self.feature_input = []
         self.feature_output = None
-        self.snapshot_id = 0
+        self.snapshot_id = self.feature_window_length
 
     def allocation_matrix(self):
 
@@ -39,8 +39,8 @@ class Dataset:
 
         if snapshot_id > self.snapshot_id:
 
-            self.snapshot_id = snapshot_id
-            self.feature_input.append(self.matrix_features.copy())
+            self.snapshot_id = self.snapshot_id + self.feature_window_length
+            self.feature_input.append(numpy.array(self.matrix_features))
             self.clean_matrix()
 
         if (snapshot_id % self.feature_window_length) != 0:
@@ -64,46 +64,11 @@ class Dataset:
             peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
             self.insert_in_matrix(snapshot_value, peer_value)
 
-        self.feature_input.append(self.matrix_features.copy())
+        self.feature_input.append(numpy.array(self.matrix_features))
+        self.clean_matrix()
 
-    @staticmethod
-    def concatenate(list_matrix):
-
-        results = []
-
-        for i in list_matrix:
-
-            results.extend(i)
-
-        return numpy.array(results)
-
-    def cast_feature_to_swarm(self):
-
-        ouput = open('saida.txt', 'w')
-        result = []
-
-        for i in range(0, len(self.feature_input), self.number_block_per_samples):
-
-            result.append(self.concatenate(self.feature_input[i:i+self.number_block_per_samples]))
-
-        snapshot_id = 0
-        x = numpy.array(result)
-
-        for i in range(len(x)):
-
-            for j in range(len(x[0])):
-
-                for k in range(len(x[0][0])):
-
-                    if x[i][j][k] == 1:
-
-                        ouput.write('{} {}\n'.format(k+snapshot_id+1, j))
-
-            snapshot_id = snapshot_id + self.feature_window_length
-        ouput.close()
 
     def show_matrix(self):
-
 
         for i in range(len(self.feature_input)):
 
@@ -124,6 +89,5 @@ class Dataset:
 
 a = Dataset()
 a.load_swarm_to_feature()
+a.show_matrix()
 exit()
-a.cast_feature_to_swarm()
-a.sort()
