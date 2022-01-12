@@ -20,6 +20,11 @@ DEFAULT_LOAD_MODEL_FILE = 'models_saved/model'
 DEFAULT_ADVERSARIAL_MODEL = False
 DEFAULT_VERBOSITY = 1
 
+DEFAULT_FILE_SAVE_SAMPLES =
+DEFAULT_TRAINING_METRICS = 'mse'
+self.save_file_samples = args.save_file_samples
+self.load_file_samples = args.load_file_samples
+
 
 def add_arguments(parser):
 
@@ -69,8 +74,16 @@ def add_arguments(parser):
     help_msg = 'Adversarial Model (Default {})'.format(DEFAULT_ADVERSARIAL_MODEL)
     parser.add_argument("--adversarial_model", type=bool, help=help_msg, default=DEFAULT_ADVERSARIAL_MODEL)
 
-    help_msg = 'Adversarial Model (Default {})'.format(DEFAULT_ADVERSARIAL_MODEL)
+    help_msg = 'Verbosity level (Default {})'.format(logging.INFO)
     parser.add_argument("--verbosity", type=int, help=help_msg, default=logging.INFO)
+
+
+    help_msg = 'Save file neural model (Default {})'.format(DEFAULT_SAVE_MODEL_FILE)
+    parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_SAVE_MODEL_FILE)
+
+    help_msg = 'Load file neural model (Default {})'.format(DEFAULT_LOAD_MODEL_FILE)
+    parser.add_argument("--load_model", type=str, help=help_msg, default=DEFAULT_LOAD_MODEL_FILE)
+
 
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
     parser.add_argument('cmd', choices=cmd_choices)

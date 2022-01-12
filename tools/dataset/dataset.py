@@ -137,7 +137,7 @@ class Dataset:
         try:
 
             dataset_file = numpy.load('{}.npz'.format(self.load_file_samples), "r")
-            self.file_input_feature = dataset_file['arr_0']
+            self.features = dataset_file['arr_0']
 
         except FileNotFoundError:
 
