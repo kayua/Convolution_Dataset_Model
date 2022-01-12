@@ -105,8 +105,8 @@ class Dataset:
     def cast_all_features_to_swarm(self):
 
         output = open('output_saida.txt', 'w')
-        for i in range(0, len(self.features), self.number_block_per_samples):
-            self.cast_feature_to_swarm(self.features[i:i+self.number_block_per_samples], i*self.feature_window_length, output)
+        for i, j in enumerate(range(0, len(self.features), self.number_block_per_samples)):
+            self.cast_feature_to_swarm(self.features[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
 
 
 
