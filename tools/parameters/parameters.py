@@ -44,7 +44,6 @@ def add_arguments(parser):
     help_msg = 'Output swarm file (Default {})'.format(DEFAULT_OUTPUT_FILE_SWARM_SORTED)
     parser.add_argument("--output_swarm", type=str, help=help_msg, default=DEFAULT_OUTPUT_FILE_SWARM_SORTED)
 
-    DEFAULT_SAVE_MODEL_FILE = 'models_saved/model'
     DEFAULT_LOAD_MODEL_FILE = 'models_saved/model'
     DEFAULT_ADVERSARIAL_MODEL = False
     DEFAULT_VERBOSITY = 1
@@ -63,6 +62,13 @@ def add_arguments(parser):
 
     help_msg = 'Training size batch (Default {})'.format(DEFAULT_TRAINING_BATCH_SIZE)
     parser.add_argument("--size_batch", type=str, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
+
+    help_msg = 'Save file neural model (Default {})'.format(DEFAULT_SAVE_MODEL_FILE)
+    parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_SAVE_MODEL_FILE)
+
+    help_msg = 'Load file neural model (Default {})'.format(DEFAULT_LOAD_MODEL_FILE)
+    parser.add_argument("--load_model", type=str, help=help_msg, default=DEFAULT_LOAD_MODEL_FILE)
+
 
     return parser
 
