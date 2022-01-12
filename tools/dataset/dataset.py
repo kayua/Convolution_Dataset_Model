@@ -8,12 +8,12 @@ class Dataset:
 
         self.snapshot_column_position = 1
         self.peer_column_position = 2
-        self.feature_window_length = 4
-        self.feature_window_width = 16
+        self.feature_window_length = 256
+        self.feature_window_width = 256
         self.break_point = 1
         self.matrix_features = []
-        self.number_block_per_samples = 2
-        self.input_file_swarm_sorted = 'test'
+        self.number_block_per_samples = 32
+        self.input_file_swarm_sorted = 'S4'
         self.features = []
         self.input_feature = []
         self.feature_input = []
