@@ -30,7 +30,7 @@ from tqdm import tqdm
 from models.neural_models.neural_model import NeuralModel
 
 
-class ModelsV1a(NeuralModel):
+class ModelsV1(NeuralModel):
 
     def __init__(self, args):
 
