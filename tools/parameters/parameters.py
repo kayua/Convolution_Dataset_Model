@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
+import logging
 
 DEFAULT_SNAPSHOT_COLUMN_POSITION = 1
 DEFAULT_PEER_COLUMN_POSITION = 2
@@ -69,9 +70,7 @@ def add_arguments(parser):
     parser.add_argument("--adversarial_model", type=bool, help=help_msg, default=DEFAULT_ADVERSARIAL_MODEL)
 
     help_msg = 'Adversarial Model (Default {})'.format(DEFAULT_ADVERSARIAL_MODEL)
-    parser.add_argument("--verbosity", type=bool, help=help_msg, default=DEFAULT_ADVERSARIAL_MODEL)
-    args.verbosity
-
+    parser.add_argument("--verbosity", type=int, help=help_msg, default=logging.INFO)
 
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
     parser.add_argument('cmd', choices=cmd_choices)
