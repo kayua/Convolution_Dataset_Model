@@ -1,3 +1,4 @@
+import logging
 from subprocess import Popen, PIPE
 import numpy
 
@@ -14,6 +15,8 @@ class Dataset:
         self.input_file_swarm_sorted = args.input_swarm
         self.output_file_swarm_sorted = args.output_swarm
         self.snapshot_id = self.feature_window_length
+        self.save_file_samples = args.save_file_samples
+        self.load_file_samples = args.load_file_samples
 
         self.features = []
         self.input_feature = []
@@ -119,6 +122,26 @@ class Dataset:
         external_process = Popen(sequence_commands.split(' '), stdout=PIPE, stderr=PIPE)
         external_process.communicate()
 
+    def save_file_samples(self):
+
+        try:
+
+            numpy.savez(self.save_file_samples, self.features)
+
+        except FileNotFoundError:
+
+            logging.error('Error: File not found error')
+
+    def load_file_samples(self):
+
+        try:
+
+            dataset_file = numpy.load('{}.npz'.format(self.load_file_samples), "r")
+            self.file_input_feature = dataset_file['arr_0']
+
+        except FileNotFoundError:
+
+            logging.error('Error: File not found error')
 
 a = Dataset()
 a.load_swarm_to_feature()

@@ -7,6 +7,7 @@ def calibration_neural_model(args):
     neural_network_instance = create_classifier_model(args)
     neural_network_instance.calibration_neural_network()
 
+
 def create_classifier_model(args):
 
     neural_model = Neural(args)
@@ -14,7 +15,7 @@ def create_classifier_model(args):
     if args.file_load_model != '':
         neural_model.load_model()
 
-    if args.neural_model == "model_v1a":
+    if args.neural_model == "model_v1":
         neural_model.create_neural_network(ModelsV1(args))
 
     return neural_model
