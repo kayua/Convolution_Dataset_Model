@@ -16,7 +16,6 @@ class Dataset:
         self.input_file_swarm_sorted = 'test'
         self.list_features = []
         self.feature_input = []
-        self.feature_output = None
         self.snapshot_id = self.feature_window_length
 
     def allocation_matrix(self):
@@ -66,6 +65,13 @@ class Dataset:
 
         self.feature_input.append(numpy.array(self.matrix_features))
         self.clean_matrix()
+
+    def cut_features(self):
+
+        for i in self.feature_input:
+
+            for j in range(0, self.feature_window_width*self.number_block_per_samples, )
+
 
 
     def show_matrix(self):
