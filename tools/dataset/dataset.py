@@ -14,7 +14,8 @@ class Dataset:
         self.matrix_features = []
         self.number_block_per_samples = 2
         self.input_file_swarm_sorted = 'test'
-        self.list_features = []
+        self.features = []
+        self.input_feature = []
         self.feature_input = []
         self.snapshot_id = self.feature_window_length
 
@@ -66,21 +67,61 @@ class Dataset:
         self.feature_input.append(numpy.array(self.matrix_features))
         self.clean_matrix()
 
+
     def cut_features(self):
+
+        results = []
 
         for i in self.feature_input:
 
-            for j in range(0, self.feature_window_width*self.number_block_per_samples, )
+            for j in range(0, self.feature_window_width*self.number_block_per_samples, self.feature_window_width):
+
+                results.append(i[j:j+self.feature_window_width])
+
+        self.features = results
+
+    def restore_matrix(self, matrix):
+
+        matrix_results = []
+
+        for i in matrix:
+
+            matrix_results.extend(i)
+        return matrix_results
+
+    def cast_feature_to_swarm(self, feature, position, pointer):
+
+        results = self.restore_matrix(feature)
+
+        for i in range(len(results)):
+
+            for j in range(len(results[0])):
+
+                if results[i][j]:
+
+                    pointer.write('{} {}\n'.format(j+position+1, i))
+
+
+    def cast_all_features_to_swarm(self):
+
+        output = open('output_saida.txt', 'w')
+        for i in range(0, len(self.features), self.number_block_per_samples):
+            self.cast_feature_to_swarm(self.features[i:i+self.number_block_per_samples], i*self.feature_window_length, output)
+
+
+
+
+
 
 
 
     def show_matrix(self):
 
-        for i in range(len(self.feature_input)):
+        for i in range(len(self.features)):
 
-            for j in range(len(self.feature_input[0])):
+            for j in range(len(self.features[0])):
 
-                print(self.feature_input[i][j])
+                print(self.features[i][j])
 
             print('\n')
 
@@ -88,12 +129,14 @@ class Dataset:
 
         sequence_commands = 'sort -n -k{},{} '.format(self.snapshot_column_position, self.snapshot_column_position)
         sequence_commands += '-k{},{} '.format(self.peer_column_position, self.peer_column_position)
-        sequence_commands += '{} -o {}'.format('saida.txt', 'saida_sorted.txt')
+        sequence_commands += '{} -o {}'.format('output_saida.txt', 'saida_sorted.txt')
         external_process = Popen(sequence_commands.split(' '), stdout=PIPE, stderr=PIPE)
         command_stdout, command_stderr = external_process.communicate()
 
 
 a = Dataset()
 a.load_swarm_to_feature()
-a.show_matrix()
+a.cut_features()
+a.cast_all_features_to_swarm()
+a.sort()
 exit()
