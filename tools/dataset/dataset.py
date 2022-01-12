@@ -14,6 +14,7 @@ class Dataset:
         self.matrix_features = []
         self.number_block_per_samples = 32
         self.input_file_swarm_sorted = 'S4'
+        self.output_file_swarm_sorted = 'S4_output.txt'
         self.features = []
         self.input_feature = []
         self.feature_input = []
@@ -68,7 +69,7 @@ class Dataset:
         self.clean_matrix()
         self.cut_features()
         self.cast_all_features_to_swarm()
-
+        self.sort()
 
     def cut_features(self):
 
@@ -106,7 +107,7 @@ class Dataset:
 
     def cast_all_features_to_swarm(self):
 
-        output = open('output_saida.txt', 'w')
+        output = open(self.output_file_swarm_sorted, 'w')
         for i, j in enumerate(range(0, len(self.features), self.number_block_per_samples)):
             self.cast_feature_to_swarm(self.features[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
 
@@ -114,14 +115,10 @@ class Dataset:
 
         sequence_commands = 'sort -n -k{},{} '.format(self.snapshot_column_position, self.snapshot_column_position)
         sequence_commands += '-k{},{} '.format(self.peer_column_position, self.peer_column_position)
-        sequence_commands += '{} -o {}'.format('output_saida.txt', 'saida_sorted.txt')
+        sequence_commands += '{} -o {}'.format(self.output_file_swarm_sorted, self.output_file_swarm_sorted)
         external_process = Popen(sequence_commands.split(' '), stdout=PIPE, stderr=PIPE)
         external_process.communicate()
 
 
 a = Dataset()
 a.load_swarm_to_feature()
-a.
-a.
-a.sort()
-exit()
