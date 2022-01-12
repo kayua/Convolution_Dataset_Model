@@ -53,7 +53,7 @@ class Dataset:
             self.matrix_features[peer_id][self.feature_window_length-1] = 1
 
     def load_swarm_to_feature(self):
-
+        self.sort(self.input_file_swarm_sorted, self.input_file_swarm_sorted)
         self.allocation_matrix()
         file_pointer_swarm = open(self.input_file_swarm_sorted, 'r')
         line_swarm_file = file_pointer_swarm.readlines()
@@ -69,7 +69,7 @@ class Dataset:
         self.clean_matrix()
         self.cut_features()
         self.cast_all_features_to_swarm()
-        self.sort()
+        self.sort(self.output_file_swarm_sorted, self.output_file_swarm_sorted)
 
     def cut_features(self):
 
@@ -111,11 +111,11 @@ class Dataset:
         for i, j in enumerate(range(0, len(self.features), self.number_block_per_samples)):
             self.cast_feature_to_swarm(self.features[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
 
-    def sort(self):
+    def sort(self, input_file, output_file):
 
         sequence_commands = 'sort -n -k{},{} '.format(self.snapshot_column_position, self.snapshot_column_position)
         sequence_commands += '-k{},{} '.format(self.peer_column_position, self.peer_column_position)
-        sequence_commands += '{} -o {}'.format(self.output_file_swarm_sorted, self.output_file_swarm_sorted)
+        sequence_commands += '{} -o {}'.format(input_file, output_file)
         external_process = Popen(sequence_commands.split(' '), stdout=PIPE, stderr=PIPE)
         external_process.communicate()
 
