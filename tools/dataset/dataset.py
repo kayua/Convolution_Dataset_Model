@@ -66,6 +66,8 @@ class Dataset:
 
         self.feature_input.append(numpy.array(self.matrix_features))
         self.clean_matrix()
+        self.cut_features()
+        self.cast_all_features_to_swarm()
 
 
     def cut_features(self):
@@ -102,7 +104,6 @@ class Dataset:
 
                     pointer.write('{} {}\n'.format(j+position+1, i))
 
-
     def cast_all_features_to_swarm(self):
 
         output = open('output_saida.txt', 'w')
@@ -115,12 +116,12 @@ class Dataset:
         sequence_commands += '-k{},{} '.format(self.peer_column_position, self.peer_column_position)
         sequence_commands += '{} -o {}'.format('output_saida.txt', 'saida_sorted.txt')
         external_process = Popen(sequence_commands.split(' '), stdout=PIPE, stderr=PIPE)
-        command_stdout, command_stderr = external_process.communicate()
+        external_process.communicate()
 
 
 a = Dataset()
 a.load_swarm_to_feature()
-a.cut_features()
-a.cast_all_features_to_swarm()
+a.
+a.
 a.sort()
 exit()
