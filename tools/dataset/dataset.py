@@ -80,7 +80,8 @@ class Dataset:
 
         self.features = results
 
-    def restore_matrix(self, matrix):
+    @staticmethod
+    def restore_matrix(matrix):
 
         matrix_results = []
 
@@ -107,23 +108,6 @@ class Dataset:
         output = open('output_saida.txt', 'w')
         for i, j in enumerate(range(0, len(self.features), self.number_block_per_samples)):
             self.cast_feature_to_swarm(self.features[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
-
-
-
-
-
-
-
-
-    def show_matrix(self):
-
-        for i in range(len(self.features)):
-
-            for j in range(len(self.features[0])):
-
-                print(self.features[i][j])
-
-            print('\n')
 
     def sort(self):
 
