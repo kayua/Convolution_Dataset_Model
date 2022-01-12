@@ -20,10 +20,9 @@ DEFAULT_LOAD_MODEL_FILE = 'models_saved/model'
 DEFAULT_ADVERSARIAL_MODEL = False
 DEFAULT_VERBOSITY = 1
 
-DEFAULT_FILE_SAVE_SAMPLES =
-DEFAULT_TRAINING_METRICS = 'mse'
-self.save_file_samples = args.save_file_samples
-self.load_file_samples = args.load_file_samples
+DEFAULT_FILE_SAVE_SAMPLES = 'samples_saved/samples'
+DEFAULT_FILE_LOAD_SAMPLES = 'samples_saved/samples'
+
 
 
 def add_arguments(parser):
