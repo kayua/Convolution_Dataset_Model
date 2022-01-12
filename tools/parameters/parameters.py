@@ -68,6 +68,11 @@ def add_arguments(parser):
     help_msg = 'Adversarial Model (Default {})'.format(DEFAULT_ADVERSARIAL_MODEL)
     parser.add_argument("--adversarial_model", type=bool, help=help_msg, default=DEFAULT_ADVERSARIAL_MODEL)
 
+    help_msg = 'Adversarial Model (Default {})'.format(DEFAULT_ADVERSARIAL_MODEL)
+    parser.add_argument("--verbosity", type=bool, help=help_msg, default=DEFAULT_ADVERSARIAL_MODEL)
+    args.verbosity
+
+
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
     parser.add_argument('cmd', choices=cmd_choices)
     return parser

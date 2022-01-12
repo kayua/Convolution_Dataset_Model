@@ -2,6 +2,11 @@ from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
 
 
+def calibration_neural_model(args):
+
+    neural_network_instance = create_classifier_model(args)
+    neural_network_instance.calibration_neural_network()
+
 def create_classifier_model(args):
 
     neural_model = Neural(args)
