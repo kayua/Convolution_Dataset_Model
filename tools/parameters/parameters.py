@@ -76,12 +76,11 @@ def add_arguments(parser):
     help_msg = 'Verbosity level (Default {})'.format(logging.INFO)
     parser.add_argument("--verbosity", type=int, help=help_msg, default=logging.INFO)
 
+    help_msg = 'Save file neural model (Default {})'.format(DEFAULT_FILE_SAVE_SAMPLES)
+    parser.add_argument("--save_samples", type=str, help=help_msg, default=DEFAULT_FILE_SAVE_SAMPLES)
 
-    help_msg = 'Save file neural model (Default {})'.format(DEFAULT_SAVE_MODEL_FILE)
-    parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_SAVE_MODEL_FILE)
-
-    help_msg = 'Load file neural model (Default {})'.format(DEFAULT_LOAD_MODEL_FILE)
-    parser.add_argument("--load_model", type=str, help=help_msg, default=DEFAULT_LOAD_MODEL_FILE)
+    help_msg = 'Load file neural model (Default {})'.format(DEFAULT_FILE_LOAD_SAMPLES)
+    parser.add_argument("--load_samples", type=str, help=help_msg, default=DEFAULT_FILE_LOAD_SAMPLES)
 
 
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
