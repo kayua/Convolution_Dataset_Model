@@ -4,20 +4,21 @@ import numpy
 
 class Dataset:
 
-    def __init__(self):
+    def __init__(self, args):
 
-        self.snapshot_column_position = 1
-        self.peer_column_position = 2
-        self.feature_window_length = 256
-        self.feature_window_width = 256
-        self.matrix_features = []
-        self.number_block_per_samples = 32
-        self.input_file_swarm_sorted = 'S4'
-        self.output_file_swarm_sorted = 'S4_output.txt'
+        self.snapshot_column_position = args.column_snapshot
+        self.peer_column_position = args.column_peer
+        self.feature_window_length = args.window_length
+        self.feature_window_width = args.window_width
+        self.number_block_per_samples = args.number_block
+        self.input_file_swarm_sorted = args.input_swarm
+        self.output_file_swarm_sorted = args.output_swarm
+        self.snapshot_id = self.feature_window_length
+
         self.features = []
         self.input_feature = []
         self.feature_input = []
-        self.snapshot_id = self.feature_window_length
+        self.matrix_features = []
 
     def allocation_matrix(self):
 
