@@ -2,8 +2,6 @@ import logging
 from argparse import ArgumentParser
 from sys import argv
 
-import numpy
-
 from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
 from tools.analyse.analyse import Analyse
@@ -45,6 +43,7 @@ def predict_neural_model(args):
 
     training_input_samples = dataset_instance_input.get_features()
     features_predicted = neural_network.predict(training_input_samples)
+    print(features_predicted.shape)
     dataset_instance_input.cast_all_features_to_swarm(features_predicted)
 
 

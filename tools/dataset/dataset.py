@@ -71,8 +71,7 @@ class Dataset:
         self.feature_input.append(numpy.array(self.matrix_features))
         self.clean_matrix()
         self.cut_features()
-        #self.cast_all_features_to_swarm()
-        #self.sort(self.output_file_swarm, self.output_file_swarm)
+
 
     def cut_features(self):
 
@@ -104,7 +103,7 @@ class Dataset:
 
             for j in range(len(results[0])):
 
-                if results[i][j]>self.threshold:
+                if results[i][j] > 0:
 
                     pointer.write('{} {}\n'.format(j+position+1, i))
 
@@ -113,6 +112,8 @@ class Dataset:
         output = open(self.output_file_swarm, 'w')
         for i, j in enumerate(range(0, len(features_predicted), self.number_block_per_samples)):
             self.cast_feature_to_swarm(features_predicted[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
+        output.close()
+        self.sort(self.output_file_swarm, self.output_file_swarm)
 
     def sort(self, input_file, output_file):
 
