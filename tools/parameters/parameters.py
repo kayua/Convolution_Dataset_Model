@@ -19,6 +19,9 @@ DEFAULT_TRAINING_LOSS = 'mse'
 DEFAULT_TRAINING_OPTIMIZER = 'adam'
 DEFAULT_TRAINING_BATCH_SIZE = 32
 DEFAULT_TRAINING_SAVE_MODEL_FILE = 'models_saved/model'
+DEFAULT_TRAINING_THRESHOLD = 1.0
+DEFAULT_TRAINING_SEED = 0
+DEFAULT_TRAINING_PIF = 0
 
 DEFAULT_PREDICT_LOAD_MODEL_FILE = 'models_saved/model'
 DEFAULT_PREDICT_INPUT_SWARM_FILE = ''
@@ -109,11 +112,9 @@ def add_arguments(parser):
     help_msg = 'File analyse file (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
     parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
 
-    help_msg = 'File analyse file (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
+    help_msg = 'Threshold (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
     parser.add_argument("--threshold", type=float, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
-    self.threshold = 1
-    self.seed = 0
-    self.pif = 0
+
 
 
 
