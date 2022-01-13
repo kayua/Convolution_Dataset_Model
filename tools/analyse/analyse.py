@@ -222,6 +222,3 @@ class Analyse:
         analyse_results.write('\n\n\n')
         analyse_results.close()
 
-
-
-

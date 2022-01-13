@@ -17,6 +17,7 @@ class Dataset:
         self.snapshot_id = self.feature_window_length
         self.save_file_samples = args.save_file_samples
         self.load_file_samples = args.load_file_samples
+        self.threshold = args.threshold
 
         self.features = []
         self.input_feature = []
@@ -104,7 +105,7 @@ class Dataset:
 
             for j in range(len(results[0])):
 
-                if results[i][j]:
+                if results[i][j]>self.threshold:
 
                     pointer.write('{} {}\n'.format(j+position+1, i))
 

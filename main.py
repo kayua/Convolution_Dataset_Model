@@ -80,7 +80,6 @@ def evaluation(args):
     evaluation_model.write_results_analyse()
 
 
-
 def arguments_cmd_choice(args):
 
     if args.cmd == 'Calibration': calibration_neural_model(args)
