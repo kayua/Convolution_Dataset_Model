@@ -84,6 +84,39 @@ def add_arguments(parser):
     parser.add_argument("--load_samples", type=str, help=help_msg, default=DEFAULT_FILE_LOAD_SAMPLES)
 
 
+
+
+    self.corrected_swarm_file = ''
+    self.failed_swarm_file = ''
+    self.original_swarm_file = ''
+    self.topology = 'ModelV1'
+    self.analyse_file_mode = 'a+'
+    self.analyse_file = 'results.txt'
+    self.trace_found_in_original_and_failed = 0
+    self.trace_found_in_original_and_corrected = 0
+    self.trace_found_in_original_and_failed_and_corrected = 0
+    self.threshold = 1
+    self.seed = 0
+    self.pif = 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
     parser.add_argument('cmd', choices=cmd_choices)
     return parser

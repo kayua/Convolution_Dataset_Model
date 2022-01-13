@@ -4,6 +4,7 @@ from sys import argv
 
 from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
+from tools.analyse.analyse import Analyse
 from tools.dataset.dataset import Dataset
 from tools.parameters.parameters import add_arguments, TIME_FORMAT
 
@@ -72,13 +73,19 @@ def create_classifier_model(args):
     return neural_model
 
 
+def evaluation(args):
+
+    evaluation_model = Analyse(args)
+
+
+
 def arguments_cmd_choice(args):
 
     if args.cmd == 'Calibration': calibration_neural_model(args)
     if args.cmd == 'CreateSamples': create_samples(args)
     if args.cmd == 'Training': training_neural_model(args)
     if args.cmd == 'Predict': predict_neural_model(args)
-    # if args.cmd == 'Analyse': evaluation(args)
+    if args.cmd == 'Analyse': evaluation(args)
 
 
 def main():
