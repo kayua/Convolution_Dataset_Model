@@ -7,18 +7,17 @@ class Dataset:
 
     def __init__(self, args):
 
-        self.snapshot_column_position = args.column_snapshot
-        self.peer_column_position = args.column_peer
+        self.snapshot_column_position = args.snapshot_column
+        self.peer_column_position = args.peer_column
         self.feature_window_length = args.window_length
         self.feature_window_width = args.window_width
-        self.number_block_per_samples = args.number_block
-        self.input_file_swarm_sorted = args.input_swarm
-        self.output_file_swarm_sorted = args.output_swarm
+        self.number_block_per_samples = args.number_blocks
+        self.input_file_swarm = args.input_file_in
+        self.output_file_swarm = args.input_file_out
         self.snapshot_id = self.feature_window_length
         self.save_file_samples = args.save_file_samples
         self.load_file_samples = args.load_file_samples
         self.threshold = args.threshold
-
         self.features = []
         self.input_feature = []
         self.feature_input = []
@@ -57,9 +56,9 @@ class Dataset:
             self.matrix_features[peer_id][self.feature_window_length-1] = 1
 
     def load_swarm_to_feature(self):
-        self.sort(self.input_file_swarm_sorted, self.input_file_swarm_sorted)
+        self.sort(self.input_file_swarm, self.input_file_swarm)
         self.allocation_matrix()
-        file_pointer_swarm = open(self.input_file_swarm_sorted, 'r')
+        file_pointer_swarm = open(self.input_file_swarm, 'r')
         line_swarm_file = file_pointer_swarm.readlines()
 
         for i, swarm_line in enumerate(line_swarm_file):
@@ -73,7 +72,7 @@ class Dataset:
         self.clean_matrix()
         self.cut_features()
         self.cast_all_features_to_swarm()
-        self.sort(self.output_file_swarm_sorted, self.output_file_swarm_sorted)
+        self.sort(self.output_file_swarm, self.output_file_swarm)
 
     def cut_features(self):
 
@@ -111,7 +110,7 @@ class Dataset:
 
     def cast_all_features_to_swarm(self):
 
-        output = open(self.output_file_swarm_sorted, 'w')
+        output = open(self.output_file_swarm, 'w')
         for i, j in enumerate(range(0, len(self.features), self.number_block_per_samples)):
             self.cast_feature_to_swarm(self.features[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
 
