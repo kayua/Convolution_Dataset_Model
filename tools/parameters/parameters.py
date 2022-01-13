@@ -63,10 +63,10 @@ def add_arguments(parser):
     parser.add_argument("--verbosity", type=int, help=help_msg, default=DEFAULT_VERBOSITY)
 
     help_msg = 'Input file create samples (INPUT NEURAL) (Default {})'.format(DEFAULT_CREATE_INPUT_FILE_SWARM_IN)
-    parser.add_argument("--input_file_in", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_IN)
+    parser.add_argument("--input_file_swarm", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_IN)
 
     help_msg = 'Input file create samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
-    parser.add_argument("--input_file_out", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
+    parser.add_argument("--file_save_samples", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
 
     help_msg = 'Define number epochs (Default {})'.format(DEFAULT_TRAINING_EPOCHS)
     parser.add_argument("--epochs", type=str, help=help_msg, default=DEFAULT_TRAINING_EPOCHS)
@@ -81,7 +81,7 @@ def add_arguments(parser):
     parser.add_argument("--optimizer", type=str, help=help_msg, default=DEFAULT_TRAINING_OPTIMIZER)
 
     help_msg = 'Define batch size (Default {})'.format(DEFAULT_TRAINING_BATCH_SIZE)
-    parser.add_argument("--optimizer", type=str, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
+    parser.add_argument("--steps_per_epochs", type=str, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
 
     help_msg = 'File save model (Default {})'.format(DEFAULT_TRAINING_SAVE_MODEL_FILE)
     parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_TRAINING_SAVE_MODEL_FILE)

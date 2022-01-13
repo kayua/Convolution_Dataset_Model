@@ -12,8 +12,8 @@ class Dataset:
         self.feature_window_length = args.window_length
         self.feature_window_width = args.window_width
         self.number_block_per_samples = args.number_blocks
-        self.input_file_swarm = args.input_file_in
-        self.output_file_swarm = args.input_file_out
+        self.input_file_swarm = args.input_file_swarm
+        self.output_file_swarm = args.output_file_swarm
         self.snapshot_id = self.feature_window_length
         self.save_file_samples = args.save_file_samples
         self.load_file_samples = args.load_file_samples
