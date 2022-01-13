@@ -18,8 +18,8 @@ from tqdm import tqdm
 class NeuralModel:
 
     def __init__(self, args):
+
         self.model = None
-        self.generator_model = None
         self.steps_per_epochs = args.steps_per_epoch
         self.epochs = args.epochs
         self.loss = args.loss

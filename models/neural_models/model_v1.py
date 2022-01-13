@@ -7,12 +7,9 @@ __version__ = '{2}.{0}.{1}'
 __data__ = '2021/11/21'
 __credits__ = ['All']
 
-from glob import glob
 from random import randint
 
 import numpy
-import tensorflow
-import cv2
 from tensorflow.keras import Input, activations, Model
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import MaxPooling2D
@@ -21,8 +18,6 @@ from tensorflow.keras.layers import Add
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import UpSampling2D
 from tensorflow.keras.layers import BatchNormalization
-
-from tqdm import tqdm
 
 from models.neural_models.neural_model import NeuralModel
 
@@ -124,7 +119,7 @@ class ModelsV1(NeuralModel):
         convolution_model_block = Conv2D(1, (1, 1))(interpolation)
         convolution_model_block = Conv2D(1, (1, 1))(convolution_model_block)
         convolution_model_block = Model(input_layer_block, convolution_model_block)
-        convolution_model_block.compile(loss='mse', optimizer='adam', metrics='binary_crossentropy')
+        convolution_model_block.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
         convolution_model_block.summary()
         self.model = convolution_model_block
 
@@ -136,13 +131,7 @@ class ModelsV1(NeuralModel):
             random_array_feature = self.get_random_batch(x_training)
             samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
             samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            self.generator_model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
-
-            print('Epoch: %d  Discriminator: %.2f Generator: %.2f' % (i + 1, generator_loss, generator_loss))
-
-            if (i + 1) % 50 == 0:
-                fake_images, _ = self.get_fake_sample(samples_batch_training_in)
-                self.save_image_feature(fake_images, samples_batch_training_in, i)
+            self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
 
         return 0
 
