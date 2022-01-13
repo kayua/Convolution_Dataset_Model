@@ -25,15 +25,14 @@ class Neural:
         self.loss = args.loss
         self.optimizer = args.optimizer
         self.steps_per_epoch = args.steps_per_epoch
-        self.saved_models = args.saved_models
-        self.file_load_model = args.file_load_model
+        self.file_save_models = args.save_model
+        self.file_load_model = args.load_model
         self.neural_network = None
         self.args = args
-        self.adversarial_model = args.adversarial_model
+        self.adversarial_model = args.adversarial
         self.verbosity = args.verbosity
-
-        self.feature_window_width = args.width_window
-        self.feature_window_length = args.length_window
+        self.feature_window_width = args.window_width
+        self.feature_window_length = args.window_length
 
     def create_neural_network(self, model_instance):
 
@@ -75,7 +74,7 @@ class Neural:
 
     def save_network(self):
 
-        if self.saved_models is None:
+        if self.file_save_models is None:
             return
 
         try:
@@ -89,23 +88,23 @@ class Neural:
 
                 model_architecture_json = self.neural_network.model.to_json()
 
-            with open('{}.json'.format(self.saved_models), "w") as json_file:
+            with open('{}.json'.format(self.file_save_models), "w") as json_file:
 
-                logging.debug('Write file {}.json'.format(self.saved_models))
+                logging.debug('Write file {}.json'.format(self.file_save_models))
                 json_file.write(model_architecture_json)
 
-                logging.debug('Write file {}.h5'.format(self.saved_models))
+                logging.debug('Write file {}.h5'.format(self.file_save_models))
 
                 if self.adversarial_model:
 
-                    self.neural_network.generator_model.save_weights('{}.h5'.format(self.saved_models))
+                    self.neural_network.generator_model.save_weights('{}.h5'.format(self.file_save_models))
                 else:
 
-                    self.neural_network.model.save_weights('{}.h5'.format(self.saved_models))
+                    self.neural_network.model.save_weights('{}.h5'.format(self.file_save_models))
 
         except FileNotFoundError:
 
-            logging.error('Path not found: Path {}'.format(self.saved_models.split('/')[:-1]))
+            logging.error('Path not found: Path {}'.format(self.file_save_models.split('/')[:-1]))
             exit(-1)
 
     def training(self, training_set, evaluation_set=None):
