@@ -112,11 +112,14 @@ def add_arguments(parser):
     help_msg = 'File analyse file (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
     parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
 
-    help_msg = 'Threshold (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
-    parser.add_argument("--threshold", type=float, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
+    help_msg = 'Threshold (Default {})'.format(DEFAULT_TRAINING_THRESHOLD)
+    parser.add_argument("--threshold", type=float, help=help_msg, default=DEFAULT_TRAINING_THRESHOLD)
 
+    help_msg = 'Seed (Default {})'.format(DEFAULT_TRAINING_SEED)
+    parser.add_argument("--seed", type=int, help=help_msg, default=DEFAULT_TRAINING_SEED)
 
-
+    help_msg = 'PIF (Default {})'.format(DEFAULT_TRAINING_PIF)
+    parser.add_argument("--pfi", type=int, help=help_msg, default=DEFAULT_TRAINING_PIF)
 
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
     parser.add_argument('cmd', choices=cmd_choices)
