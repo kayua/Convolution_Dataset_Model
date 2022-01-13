@@ -9,6 +9,7 @@ from tools.parameters.parameters import add_arguments, TIME_FORMAT
 
 
 def calibration_neural_model(args):
+
     neural_network_instance = create_classifier_model(args)
     neural_network_instance.calibration_neural_network()
 
@@ -26,10 +27,15 @@ def training_neural_network(args):
     dataset_instance_output = Dataset(args)
     dataset_instance_output.load_file_samples()
     neural_network = Neural(args)
+    training_input_samples = dataset_instance_input.get_features()
+    training_output_samples = dataset_instance_output.get_features()
+    neural_network.training(training_input_samples, training_output_samples)
+    neural_network.save_network()
 
 
 
 def show_config(args):
+
     logging.info('Command:\n\t{0}\n'.format(' '.join([x for x in argv])))
     logging.info('Settings:')
     lengths = [len(x) for x in vars(args).keys()]

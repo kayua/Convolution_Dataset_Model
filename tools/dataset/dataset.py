@@ -143,5 +143,6 @@ class Dataset:
 
             logging.error('Error: File not found error')
 
-a = Dataset()
-a.load_swarm_to_feature()
+    def get_features(self):
+
+        return numpy.array(self.features)

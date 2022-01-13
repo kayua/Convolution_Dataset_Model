@@ -15,7 +15,6 @@ from tensorflow.keras.layers import Add
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import UpSampling2D
 from tensorflow.keras.layers import BatchNormalization
-
 from models.neural_models.neural_model import NeuralModel
 
 
