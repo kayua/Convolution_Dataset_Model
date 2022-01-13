@@ -15,8 +15,18 @@ def calibration_neural_model(args):
 
 def create_samples(args):
     dataset_instance = Dataset(args)
-    dataset_instance.load_file_samples()
+    dataset_instance.load_swarm_to_feature()
     dataset_instance.save_file_samples()
+
+
+def training_neural_network(args):
+
+    dataset_instance_input = Dataset(args)
+    dataset_instance_input.load_file_samples()
+    dataset_instance_output = Dataset(args)
+    dataset_instance_output.load_file_samples()
+    neural_network = Neural(args)
+
 
 
 def show_config(args):

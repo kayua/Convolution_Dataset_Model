@@ -13,10 +13,12 @@ from random import randint
 import numpy
 import tensorflow
 import cv2
-from tensorflow.keras import Input, activations, Model
+from tensorflow.keras import Input, activations, Model, Sequential
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import ZeroPadding2D
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Add
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import UpSampling2D
@@ -32,12 +34,30 @@ class ModelsV1(NeuralModel):
     def __init__(self, args):
 
         super().__init__(args)
+        self.discriminator_model = None
+        self.extractor_model = None
+        self.results_predicted = None
         self.create_neural_network()
 
     def create_neural_network(self):
 
-        input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
-        first_convolution_block = Conv2D(180, (3, 3))(input_layer_block)
+        input_layer_discriminator = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
+        input_layer_generator = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
+        self.discriminator_model = self.create_block_discriminator(input_layer_discriminator)
+        self.extractor_model = self.create_block_extractor_feature(input_layer_generator)
+        self.generator_model = self.create_block_generator(input_layer_generator, self.extractor_model)
+        self.neural_network = self.create_generative_adversarial_model(self.generator_model, self.discriminator_model)
+        self.model = self.neural_network
+
+    @staticmethod
+    def create_block_extractor_feature(input_layer):
+
+        return input_layer
+
+    @staticmethod
+    def create_block_generator(input_layer, extractor_block):
+
+        first_convolution_block = Conv2D(180, (3, 3))(input_layer)
         first_convolution_block = Activation(activations.relu)(first_convolution_block)
         first_convolution_block = ZeroPadding2D((1, 1))(first_convolution_block)
         first_convolution_block = MaxPooling2D((2, 2))(first_convolution_block)
@@ -119,14 +139,58 @@ class ModelsV1(NeuralModel):
         sixth_convolution_block = UpSampling2D((2, 2))(sixth_convolution_block)
         sixth_convolution_block = BatchNormalization()(sixth_convolution_block)
 
-        interpolation = Add()([input_layer_block, sixth_convolution_block])
+        interpolation = Add()([input_layer, sixth_convolution_block])
 
-        convolution_model_block = Conv2D(1, (1, 1))(interpolation)
-        convolution_model_block = Conv2D(1, (1, 1))(convolution_model_block)
-        convolution_model_block = Model(input_layer_block, convolution_model_block)
-        convolution_model_block.compile(loss='mse', optimizer='adam', metrics='binary_crossentropy')
-        convolution_model_block.summary()
-        self.model = convolution_model_block
+        model_block_generative = Conv2D(1, (1, 1))(interpolation)
+        model_block_generative = Conv2D(1, (1, 1))(model_block_generative)
+        model_block_generative = Model(input_layer, model_block_generative)
+        model_block_generative.compile(loss='mse', optimizer='adam', metrics='binary_crossentropy')
+        model_block_generative.summary()
+
+        return model_block_generative
+
+    @staticmethod
+    def create_block_discriminator(input_layer):
+
+        model_block_discriminator = Conv2D(32, (3, 3))(input_layer)
+        model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
+        model_block_discriminator = MaxPooling2D((2, 2))(model_block_discriminator)
+
+        model_block_discriminator = Conv2D(32, (3, 3))(model_block_discriminator)
+        model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
+        model_block_discriminator = MaxPooling2D((2, 2))(model_block_discriminator)
+
+        model_block_discriminator = Conv2D(32, (3, 3))(model_block_discriminator)
+        model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
+        model_block_discriminator = MaxPooling2D((2, 2))(model_block_discriminator)
+
+        model_block_discriminator = Conv2D(32, (3, 3))(model_block_discriminator)
+        model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
+        model_block_discriminator = MaxPooling2D((2, 2))(model_block_discriminator)
+
+        model_block_discriminator = Flatten()(model_block_discriminator)
+
+        model_block_discriminator = Dense(16)(model_block_discriminator)
+        model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
+
+        model_block_discriminator = Dense(1)(model_block_discriminator)
+        model_block_discriminator = Activation(activations.softmax)(model_block_discriminator)
+
+        model_block_discriminator = Model(input_layer, model_block_discriminator)
+        model_block_discriminator.compile(loss='binary_crossentropy', optimizer='adam')
+
+        return model_block_discriminator
+
+    @staticmethod
+    def create_generative_adversarial_model(generative_model, discriminator_model):
+
+        discriminator_model.trainable = False
+        model = Sequential()
+        model.add(generative_model)
+        model.add(discriminator_model)
+        model.compile(loss='binary_crossentropy', optimizer='adam')
+        model.summary()
+        return model
 
     def get_real_sample(self, x_training):
 
