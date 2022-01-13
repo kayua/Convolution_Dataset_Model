@@ -2,6 +2,8 @@ import logging
 from argparse import ArgumentParser
 from sys import argv
 
+import numpy
+
 from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
 from tools.analyse.analyse import Analyse
@@ -28,7 +30,7 @@ def training_neural_model(args):
     dataset_instance_input.load_file_samples(args.load_samples_training_in)
     dataset_instance_output = Dataset(args)
     dataset_instance_output.load_file_samples(args.load_samples_training_out)
-    neural_network = Neural(args)
+    neural_network = create_classifier_model(args)
     training_input_samples = dataset_instance_input.get_features()
     training_output_samples = dataset_instance_output.get_features()
     neural_network.training(training_input_samples, training_output_samples)
@@ -65,10 +67,12 @@ def create_classifier_model(args):
 
     neural_model = Neural(args)
 
-    if args.file_load_model != '':
+    if args.load_model != '':
+
         neural_model.load_model()
 
-    if args.neural_model == "model_v1":
+    if args.topology == "model_v1":
+        print('MODEL')
         neural_model.create_neural_network(ModelsV1(args))
 
     return neural_model

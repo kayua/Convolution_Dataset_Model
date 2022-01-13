@@ -6,7 +6,7 @@ DEFAULT_PEER_COLUMN_POSITION = 2
 DEFAULT_FEATURE_WINDOW_LENGTH = 256
 DEFAULT_FEATURE_WINDOW_WIDTH = 256
 DEFAULT_NUMBER_BLOCK_PER_SAMPLES = 32
-DEFAULT_NEURAL_TOPOLOGY = 'ModelV1'
+DEFAULT_NEURAL_TOPOLOGY = 'model_v1'
 DEFAULT_ADVERSARIAL_MODEL = False
 DEFAULT_VERBOSITY = 1
 TIME_FORMAT = '%Y-%m-%d,%H:%M:%S'
@@ -24,7 +24,7 @@ DEFAULT_TRAINING_THRESHOLD = 1.0
 DEFAULT_TRAINING_SEED = 0
 DEFAULT_TRAINING_PIF = 0
 
-DEFAULT_PREDICT_LOAD_MODEL_FILE = 'models_saved/model'
+DEFAULT_PREDICT_LOAD_MODEL_FILE = ''
 DEFAULT_PREDICT_INPUT_SWARM_FILE = ''
 DEFAULT_PREDICT_OUTPUT_SWARM_FILE = ''
 
@@ -87,7 +87,7 @@ def add_arguments(parser):
     parser.add_argument("--optimizer", type=str, help=help_msg, default=DEFAULT_TRAINING_OPTIMIZER)
 
     help_msg = 'Define batch size (Default {})'.format(DEFAULT_TRAINING_BATCH_SIZE)
-    parser.add_argument("--steps_per_epochs", type=str, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
+    parser.add_argument("--steps_per_epoch", type=str, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
 
     help_msg = 'File save model (Default {})'.format(DEFAULT_TRAINING_SAVE_MODEL_FILE)
     parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_TRAINING_SAVE_MODEL_FILE)

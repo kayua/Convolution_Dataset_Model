@@ -26,8 +26,8 @@ class NeuralModel:
         self.loss = args.loss
         self.optimizer = args.optimizer
         self.metrics = args.metrics
-        self.feature_window_width = args.width_window
-        self.feature_window_length = args.length_window
+        self.feature_window_width = args.window_width
+        self.feature_window_length = args.window_length
 
     def create_neural_network(self):
         pass

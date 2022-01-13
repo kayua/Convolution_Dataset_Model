@@ -11,4 +11,4 @@ python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_TRAINING_IN --sa
 python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_TRAINING_OUT --save_file_samples $OUTPUT_DATASET_TRAINING_OUT
 python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_PREDICT_IN --save_file_samples $OUTPUT_DATASET_PREDICT_OUT
 
-python3 main.py Training --
+python3 main.py Training --load_samples_training_in $OUTPUT_DATASET_TRAINING_IN --load_samples_training_out $OUTPUT_DATASET_TRAINING_OUT
