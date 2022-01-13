@@ -82,6 +82,7 @@ def arguments_cmd_choice(args):
 
 
 def main():
+
     parser = ArgumentParser(description='Correct trace adversarial model')
     parser = add_arguments(parser)
     args = parser.parse_args()
