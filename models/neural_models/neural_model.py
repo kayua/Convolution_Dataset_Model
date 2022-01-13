@@ -7,7 +7,12 @@ __version__ = '{2}.{0}.{1}'
 __data__ = '2021/11/21'
 __credits__ = ['All']
 
+from glob import glob
+
+import cv2
 import numpy
+import tensorflow
+from tqdm import tqdm
 
 
 class NeuralModel:
@@ -43,3 +48,31 @@ class NeuralModel:
     def training(self, x_training, y_training, evaluation_set):
 
         pass
+
+    def parse_image(self, filename):
+
+        image = tensorflow.io.read_file(filename)
+        image = tensorflow.image.decode_png(image, channels=1)
+        image = tensorflow.image.convert_image_dtype(image, tensorflow.float32)
+        image = tensorflow.image.resize(image, [self.feature_window_width, self.feature_window_length])
+        return image
+
+    def load_images_test(self, path_images):
+
+        list_samples_training = glob(path_images + "/*")
+        list_samples_training.sort()
+
+        list_samples_training = list_samples_training[:512]
+        list_features_image_gray_scale = []
+
+        for i in tqdm(list_samples_training, desc="Loading training set"):
+            gray_scale_feature = self.parse_image(i)
+
+            list_features_image_gray_scale.append(gray_scale_feature)
+        return list_features_image_gray_scale
+
+    @staticmethod
+    def save_image_feature(examples, examples_a, epoch):
+
+        cv2.imwrite('images/noise_{}.png'.format(epoch), numpy.array(examples_a[0] * 255))
+        cv2.imwrite('images/{}.png'.format(epoch), examples[0] * 255)

@@ -128,23 +128,15 @@ class ModelsV1(NeuralModel):
         convolution_model_block.summary()
         self.model = convolution_model_block
 
-    def get_real_sample(self, x_training):
-
-        return numpy.array(x_training), numpy.ones(self.steps_per_epochs)
-
-    def get_fake_sample(self, x_training):
-
-        fake_feature_generated = self.generator_model.predict(numpy.array(x_training))
-        return fake_feature_generated, numpy.zeros(self.steps_per_epochs)
 
     def training(self, x_training, y_training, evaluation_set):
 
         for i in range(self.epochs):
 
-            random_array_feature = [randint(0, len(x_training) - 1) for i in range(self.steps_per_epochs)]
+            random_array_feature =
 
-            samples_batch_training_in = numpy.array(
-                [x_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
+            samples_training_in = [x_training[random_array_feature[i]] for i in range(self.steps_per_epochs)]
+            samples_batch_training_in = numpy.array(samples_training_in)
             samples_batch_training_out = numpy.array(
                 [y_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
             generator_loss = self.generator_model.fit(x=samples_batch_training_in, y=samples_batch_training_out,
@@ -158,34 +150,10 @@ class ModelsV1(NeuralModel):
 
         return 0
 
-    def parse_image(self, filename):
 
-        image = tensorflow.io.read_file(filename)
-        image = tensorflow.image.decode_png(image, channels=1)
-        image = tensorflow.image.convert_image_dtype(image, tensorflow.float32)
-        image = tensorflow.image.resize(image, [self.feature_window_width, self.feature_window_length])
-        return image
+    def get_random_batch(self, x_training):
 
-    def load_images_test(self, path_images):
-
-        list_samples_training = glob(path_images + "/*")
-        list_samples_training.sort()
-
-        list_samples_training = list_samples_training[:512]
-        list_features_image_gray_scale = []
-
-        for i in tqdm(list_samples_training, desc="Loading training set"):
-            gray_scale_feature = self.parse_image(i)
-
-            list_features_image_gray_scale.append(gray_scale_feature)
-        return list_features_image_gray_scale
-
-    @staticmethod
-    def save_image_feature(examples, examples_a, epoch):
-
-        cv2.imwrite('images/noise_{}.png'.format(epoch), numpy.array(examples_a[0] * 255))
-        cv2.imwrite('images/{}.png'.format(epoch), examples[0] * 255)
-
+        return [randint(0, len(x_training) - 1) for _ in range(self.steps_per_epochs)]
 
 
 
