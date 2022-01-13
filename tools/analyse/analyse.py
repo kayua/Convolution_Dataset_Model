@@ -17,13 +17,12 @@ class Analyse:
 
         self.snapshot_column_position = args.snapshot_column_position
         self.peer_column_position = args.peer_column_position
-
         self.corrected_swarm_file = args.corrected_swarm_file
         self.failed_swarm_file = args.failed_swarm_file
         self.original_swarm_file = args.original_swarm_file
         self.topology = 'ModelV1'
-        self.analyse_file_mode = 'a+'
-        self.analyse_file = 'results.txt'
+        self.analyse_file_mode = args.analyse_file_mode
+        self.analyse_file_results = args.analyse_file_results
 
         self.trace_found_in_original_and_failed = 0
         self.trace_found_in_original_and_corrected = 0
@@ -141,7 +140,7 @@ class Analyse:
 
     def write_results_analyse(self):
 
-        analyse_results = open(self.analyse_file, self.analyse_file_mode)
+        analyse_results = open(self.analyse_file_results, self.analyse_file_mode)
 
 
         analyse_results.write('\nBEGIN ############################################\n\n')

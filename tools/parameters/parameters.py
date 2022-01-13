@@ -91,7 +91,7 @@ def add_arguments(parser):
     self.original_swarm_file = ''
     self.topology = 'ModelV1'
     self.analyse_file_mode = 'a+'
-    self.analyse_file = 'results.txt'
+    self.analyse_file_results = 'results.txt'
     self.trace_found_in_original_and_failed = 0
     self.trace_found_in_original_and_corrected = 0
     self.trace_found_in_original_and_failed_and_corrected = 0
