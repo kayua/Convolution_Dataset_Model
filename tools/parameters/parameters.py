@@ -50,7 +50,7 @@ def add_arguments(parser):
     parser.add_argument("--number_blocks", type=int, help=help_msg, default=DEFAULT_NUMBER_BLOCK_PER_SAMPLES)
 
     help_msg = 'Neural topology (Default {})'.format(DEFAULT_NEURAL_TOPOLOGY)
-    parser.add_argument("--topology", type=int, help=help_msg, default=DEFAULT_NEURAL_TOPOLOGY)
+    parser.add_argument("--topology", type=str, help=help_msg, default=DEFAULT_NEURAL_TOPOLOGY)
 
     help_msg = 'Adversarial mode (Default {})'.format(DEFAULT_ADVERSARIAL_MODEL)
     parser.add_argument("--adversarial", type=bool, help=help_msg, default=DEFAULT_ADVERSARIAL_MODEL)
@@ -82,22 +82,29 @@ def add_arguments(parser):
     help_msg = 'File save model (Default {})'.format(DEFAULT_TRAINING_SAVE_MODEL_FILE)
     parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_TRAINING_SAVE_MODEL_FILE)
 
+    help_msg = 'File load model (Default {})'.format(DEFAULT_PREDICT_LOAD_MODEL_FILE)
+    parser.add_argument("--load_model", type=str, help=help_msg, default=DEFAULT_PREDICT_LOAD_MODEL_FILE)
 
+    help_msg = 'File input to predict (Default {})'.format(DEFAULT_PREDICT_INPUT_SWARM_FILE)
+    parser.add_argument("--input_predict", type=str, help=help_msg, default=DEFAULT_PREDICT_INPUT_SWARM_FILE)
 
+    help_msg = 'File output to predict (Default {})'.format(DEFAULT_PREDICT_OUTPUT_SWARM_FILE)
+    parser.add_argument("--output_predict", type=str, help=help_msg, default=DEFAULT_PREDICT_OUTPUT_SWARM_FILE)
 
+    help_msg = 'File corrected for evaluation (Default {})'.format(DEFAULT_EVALUATION_CORRECTED_SWARM_FILE)
+    parser.add_argument("--file_corrected", type=str, help=help_msg, default=DEFAULT_EVALUATION_CORRECTED_SWARM_FILE)
 
+    help_msg = 'File failed for evaluation (Default {})'.format(DEFAULT_EVALUATION_FAILED_SWARM_FILE)
+    parser.add_argument("--file_failed", type=str, help=help_msg, default=DEFAULT_EVALUATION_FAILED_SWARM_FILE)
 
+    help_msg = 'File failed for evaluation (Default {})'.format(DEFAULT_EVALUATION_ORIGINAL_SWARM_FILE)
+    parser.add_argument("--file_original", type=str, help=help_msg, default=DEFAULT_EVALUATION_ORIGINAL_SWARM_FILE)
 
+    help_msg = 'File analyse file mode (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_MODE)
+    parser.add_argument("--file_analyse_mode", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_MODE)
 
-
-
-
-
-
-
-
-
-
+    help_msg = 'File analyse file (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
+    parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
 
 
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
