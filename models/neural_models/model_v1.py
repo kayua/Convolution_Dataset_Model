@@ -80,7 +80,7 @@ class ModelsV1(NeuralModel):
 
         interpolation = Add()([fourth_convolution_block, second_upsampling_block])
 
-        third_upsampling_block = Conv2D(128, (3, 3))(interpolation)
+        third_upsampling_block = Conv2D(16, (3, 3))(interpolation)
         third_upsampling_block = Activation(activations.relu)(third_upsampling_block)
         third_upsampling_block = ZeroPadding2D((1, 1))(third_upsampling_block)
         third_upsampling_block = UpSampling2D((2, 2))(third_upsampling_block)
@@ -88,7 +88,7 @@ class ModelsV1(NeuralModel):
 
         interpolation = Add()([third_convolution_block, third_upsampling_block])
 
-        fourth_upsampling_block = Conv2D(128, (3, 3))(interpolation)
+        fourth_upsampling_block = Conv2D(16, (3, 3))(interpolation)
         fourth_upsampling_block = Activation(activations.relu)(fourth_upsampling_block)
         fourth_upsampling_block = ZeroPadding2D((1, 1))(fourth_upsampling_block)
         fourth_upsampling_block = UpSampling2D((2, 2))(fourth_upsampling_block)
@@ -96,7 +96,7 @@ class ModelsV1(NeuralModel):
 
         interpolation = Add()([second_convolution_block, fourth_upsampling_block])
 
-        fifth_upsampling_block = Conv2D(128, (3, 3))(interpolation)
+        fifth_upsampling_block = Conv2D(16, (3, 3))(interpolation)
         fifth_upsampling_block = Activation(activations.relu)(fifth_upsampling_block)
         fifth_upsampling_block = ZeroPadding2D((1, 1))(fifth_upsampling_block)
         fifth_upsampling_block = UpSampling2D((2, 2))(fifth_upsampling_block)
@@ -104,7 +104,7 @@ class ModelsV1(NeuralModel):
 
         interpolation = Add()([first_convolution_block, fifth_upsampling_block])
 
-        sixth_convolution_block = Conv2D(128, (3, 3))(interpolation)
+        sixth_convolution_block = Conv2D(16, (3, 3))(interpolation)
         sixth_convolution_block = Activation(activations.relu)(sixth_convolution_block)
         sixth_convolution_block = ZeroPadding2D((1, 1))(sixth_convolution_block)
         sixth_convolution_block = UpSampling2D((2, 2))(sixth_convolution_block)

@@ -116,7 +116,7 @@ class Neural:
         x_training_set = x_training_set.reshape((int(x_sample.size/int(self.feature_window_width*self.feature_window_length)), self.feature_window_width, self.feature_window_length, 1))
         y_training_set = y_training_set.reshape((int(y_sample.size/int(self.feature_window_width*self.feature_window_length)), self.feature_window_width, self.feature_window_length, 1))
 
-        if (x_eval and y_eval) is not None:
+        if evaluation_set is not None:
 
             x_evaluation_set = numpy.array(x_eval, dtype=numpy.float32)
             evaluation_set_data = [x_evaluation_set, y_eval]
