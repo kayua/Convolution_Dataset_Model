@@ -20,7 +20,7 @@ class Analyse:
         self.corrected_swarm_file = args.corrected_swarm_file
         self.failed_swarm_file = args.failed_swarm_file
         self.original_swarm_file = args.original_swarm_file
-        self.topology = 'ModelV1'
+        self.topology = args.topology
         self.analyse_file_mode = args.analyse_file_mode
         self.analyse_file_results = args.analyse_file_results
 

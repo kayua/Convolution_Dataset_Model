@@ -2,21 +2,29 @@
 # -*- coding: utf-8 -*-
 import logging
 
-DEFAULT_SNAPSHOT_COLUMN_POSITION = 1
-DEFAULT_PEER_COLUMN_POSITION = 2
-DEFAULT_FEATURE_WINDOW_LENGTH = 256
-DEFAULT_FEATURE_WINDOW_WIDTH = 256
-DEFAULT_NUMBER_BLOCK_PER_SAMPLES = 32
-DEFAULT_INPUT_FILE_SWARM_SORTED = 'S4'
-DEFAULT_OUTPUT_FILE_SWARM_SORTED = 'S4_output.txt'
+DEFAULT_EVALUATION_CORRECTED_SWARM_FILE = ''
+DEFAULT_EVALUATION_FAILED_SWARM_FILE = ''
+DEFAULT_EVALUATION_ORIGINAL_SWARM_FILE = ''
+DEFAULT_EVALUATION_FILE_ANALYSE_MODE = '+a'
+DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS = 'results.txt'
 
+DEFAULT_TRAINING_INPUT_FILE_SWARM_IN = ''
+DEFAULT_TRAINING_INPUT_FILE_SWARM_OUT = ''
 DEFAULT_TRAINING_EPOCHS = 10
 DEFAULT_TRAINING_METRICS = 'mse'
 DEFAULT_TRAINING_LOSS = 'mse'
 DEFAULT_TRAINING_OPTIMIZER = 'adam'
 DEFAULT_TRAINING_BATCH_SIZE = 32
-DEFAULT_SAVE_MODEL_FILE = 'models_saved/model'
-DEFAULT_LOAD_MODEL_FILE = 'models_saved/model'
+DEFAULT_TRAINING_SAVE_MODEL_FILE = 'models_saved/model'
+
+DEFAULT_PREDICT_LOAD_MODEL_FILE = 'models_saved/model'
+
+DEFAULT_SNAPSHOT_COLUMN_POSITION = 1
+DEFAULT_PEER_COLUMN_POSITION = 2
+DEFAULT_FEATURE_WINDOW_LENGTH = 256
+DEFAULT_FEATURE_WINDOW_WIDTH = 256
+DEFAULT_NUMBER_BLOCK_PER_SAMPLES = 32
+DEFAULT_NEURAL_TOPOLOGY = 'ModelV1'
 DEFAULT_ADVERSARIAL_MODEL = False
 DEFAULT_VERBOSITY = 1
 TIME_FORMAT = '%Y-%m-%d,%H:%M:%S'
@@ -83,21 +91,6 @@ def add_arguments(parser):
     help_msg = 'Load file neural model (Default {})'.format(DEFAULT_FILE_LOAD_SAMPLES)
     parser.add_argument("--load_samples", type=str, help=help_msg, default=DEFAULT_FILE_LOAD_SAMPLES)
 
-
-
-
-    self.corrected_swarm_file = ''
-    self.failed_swarm_file = ''
-    self.original_swarm_file = ''
-    self.topology = 'ModelV1'
-    self.analyse_file_mode = 'a+'
-    self.analyse_file_results = 'results.txt'
-    self.trace_found_in_original_and_failed = 0
-    self.trace_found_in_original_and_corrected = 0
-    self.trace_found_in_original_and_failed_and_corrected = 0
-    self.threshold = 1
-    self.seed = 0
-    self.pif = 0
 
 
 
