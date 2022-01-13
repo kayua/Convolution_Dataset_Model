@@ -40,7 +40,7 @@ def training_neural_model(args):
 def predict_neural_model(args):
 
     dataset_instance_input = Dataset(args)
-    dataset_instance_input.load_file_samples()
+    dataset_instance_input.load_file_samples(args.input_predict)
     neural_network = Neural(args)
 
     training_input_samples = dataset_instance_input.get_features()
