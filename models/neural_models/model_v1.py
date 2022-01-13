@@ -134,12 +134,3 @@ class ModelsV1(NeuralModel):
             self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
 
         return 0
-
-
-    def get_random_batch(self, samples_training):
-
-        return [randint(0, len(samples_training) - 1) for _ in range(self.steps_per_epochs)]
-
-    def get_feature_batch(self, samples_training, random_array_feature):
-
-        return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])

@@ -8,6 +8,7 @@ __data__ = '2021/11/21'
 __credits__ = ['All']
 
 from glob import glob
+from random import randint
 
 import cv2
 import numpy
@@ -49,6 +50,22 @@ class NeuralModel:
 
         pass
 
+    def calibration(self, x_training, y_training):
+
+        for i in range(self.epochs):
+
+            random_array_feature = self.get_random_batch(x_training)
+            samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
+            samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
+            self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
+
+            if self.epochs % 10:
+
+                artificial_image = self.model.predict(samples_batch_training_in)
+                self.save_image_feature(artificial_image, samples_batch_training_in, i)
+
+        return 0
+
     def parse_image(self, filename):
 
         image = tensorflow.io.read_file(filename)
@@ -65,11 +82,20 @@ class NeuralModel:
         list_samples_training = list_samples_training[:512]
         list_features_image_gray_scale = []
 
-        for i in tqdm(list_samples_training, desc="Loading training set"):
+        for i in tqdm(list_samples_training, desc="Loading dataset calibration"):
             gray_scale_feature = self.parse_image(i)
 
             list_features_image_gray_scale.append(gray_scale_feature)
+
         return list_features_image_gray_scale
+
+    def get_random_batch(self, samples_training):
+
+        return [randint(0, len(samples_training) - 1) for _ in range(self.steps_per_epochs)]
+
+    def get_feature_batch(self, samples_training, random_array_feature):
+
+        return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
 
     @staticmethod
     def save_image_feature(examples, examples_a, epoch):

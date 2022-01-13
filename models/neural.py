@@ -12,6 +12,9 @@ from tensorflow.python.keras.models import model_from_json
 import numpy
 import logging
 
+DEFAULT_FEATURE_INPUT_CALIBRATION = 'dataset/calibration_dataset/failed_image'
+DEFAULT_FEATURE_OUTPUT_CALIBRATION = 'dataset/calibration_dataset/original_image'
+
 
 class Neural:
 
@@ -133,7 +136,6 @@ class Neural:
 
     def calibration_neural_network(self):
 
-        features_in = self.neural_network.load_images_test('dataset/calibration_dataset/failed_image')
-        features_out = self.neural_network.load_images_test('dataset/calibration_dataset/original_image')
-
-        self.neural_network.training(features_in, features_out, None)
+        features_in = self.neural_network.load_images_test(DEFAULT_FEATURE_INPUT_CALIBRATION)
+        features_out = self.neural_network.load_images_test(DEFAULT_FEATURE_OUTPUT_CALIBRATION)
+        self.neural_network.calibration(features_in, features_out)
