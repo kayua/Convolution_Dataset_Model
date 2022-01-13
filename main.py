@@ -44,7 +44,8 @@ def predict_neural_model(args):
     neural_network = Neural(args)
 
     training_input_samples = dataset_instance_input.get_features()
-    neural_network.predict(training_input_samples)
+    features_predicted = neural_network.predict(training_input_samples)
+    dataset_instance_input.cast_all_features_to_swarm(features_predicted)
 
 
 def show_config(args):

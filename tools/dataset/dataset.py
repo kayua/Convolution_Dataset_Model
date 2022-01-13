@@ -108,11 +108,11 @@ class Dataset:
 
                     pointer.write('{} {}\n'.format(j+position+1, i))
 
-    def cast_all_features_to_swarm(self):
+    def cast_all_features_to_swarm(self, features_predicted):
 
         output = open(self.output_file_swarm, 'w')
-        for i, j in enumerate(range(0, len(self.features), self.number_block_per_samples)):
-            self.cast_feature_to_swarm(self.features[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
+        for i, j in enumerate(range(0, len(features_predicted), self.number_block_per_samples)):
+            self.cast_feature_to_swarm(features_predicted[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
 
     def sort(self, input_file, output_file):
 

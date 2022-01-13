@@ -5,6 +5,7 @@ INPUT_DATASET_TRAINING_OUT='dataset/training/original_training/S4'
 OUTPUT_DATASET_TRAINING_OUT='samples_saved/samples_training_out/S4'
 
 INPUT_DATASET_PREDICT_IN='dataset/predict/S4'
+OUTPUT_DATASET_PREDICT_OUT='samples_saved/samples_predict/S4'
 FILE_RESULTS_DATASET_PREDICT='results/results.txt'
 
 SAVE_NEURAL_MODEL='models_saved/model'

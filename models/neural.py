@@ -131,7 +131,7 @@ class Neural:
 
     def predict(self, sample_x):
 
-        return self.neural_network.generator_model.predict(x=sample_x)
+        return self.neural_network.model.predict(x=sample_x)
 
     def calibration_neural_network(self):
 
