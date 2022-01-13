@@ -76,6 +76,8 @@ def create_classifier_model(args):
 def evaluation(args):
 
     evaluation_model = Analyse(args)
+    evaluation_model.get_all_metrics()
+    evaluation_model.write_results_analyse()
 
 
 
