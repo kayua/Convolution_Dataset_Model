@@ -50,12 +50,27 @@ def add_arguments(parser):
     parser.add_argument("--number_blocks", type=int, help=help_msg, default=DEFAULT_NUMBER_BLOCK_PER_SAMPLES)
 
     help_msg = 'Neural topology (Default {})'.format(DEFAULT_NEURAL_TOPOLOGY)
-    parser.add_argument("--number_blocks", type=int, help=help_msg, default=DEFAULT_NEURAL_TOPOLOGY)
+    parser.add_argument("--topology", type=int, help=help_msg, default=DEFAULT_NEURAL_TOPOLOGY)
+
+    help_msg = 'Adversarial mode (Default {})'.format(DEFAULT_ADVERSARIAL_MODEL)
+    parser.add_argument("--adversarial", type=bool, help=help_msg, default=DEFAULT_ADVERSARIAL_MODEL)
+
+    help_msg = 'Verbosity (Default {})'.format(DEFAULT_VERBOSITY)
+    parser.add_argument("--verbosity", type=int, help=help_msg, default=DEFAULT_VERBOSITY)
+
+    help_msg = 'Adversarial mode (Default {})'.format(DEFAULT_NEURAL_TOPOLOGY)
+    parser.add_argument("--topology", type=int, help=help_msg, default=DEFAULT_NEURAL_TOPOLOGY)
+
+    DEFAULT_TRAINING_INPUT_FILE_SWARM_IN = ''
+    DEFAULT_TRAINING_INPUT_FILE_SWARM_OUT = ''
+    DEFAULT_TRAINING_EPOCHS = 10
+    DEFAULT_TRAINING_METRICS = 'mse'
+    DEFAULT_TRAINING_LOSS = 'mse'
+    DEFAULT_TRAINING_OPTIMIZER = 'adam'
+    DEFAULT_TRAINING_BATCH_SIZE = 32
+    DEFAULT_TRAINING_SAVE_MODEL_FILE = 'models_saved/model'
 
 
-    DEFAULT_ADVERSARIAL_MODEL = False
-    DEFAULT_VERBOSITY = 1
-    TIME_FORMAT = '%Y-%m-%d,%H:%M:%S'
 
 
 
