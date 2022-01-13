@@ -19,7 +19,7 @@ def create_samples(args):
 
     dataset_instance = Dataset(args)
     dataset_instance.load_swarm_to_feature()
-    dataset_instance.save_file_samples()
+    dataset_instance.save_file_samples_features()
 
 
 def training_neural_model(args):

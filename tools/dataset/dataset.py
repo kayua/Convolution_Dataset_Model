@@ -13,7 +13,7 @@ class Dataset:
         self.feature_window_width = args.window_width
         self.number_block_per_samples = args.number_blocks
         self.input_file_swarm = args.input_file_swarm
-        self.output_file_swarm = args.output_file_swarm
+        self.output_file_swarm = args.output_predict
         self.snapshot_id = self.feature_window_length
         self.save_file_samples = args.save_file_samples
         self.load_file_samples = args.load_file_samples
@@ -71,8 +71,8 @@ class Dataset:
         self.feature_input.append(numpy.array(self.matrix_features))
         self.clean_matrix()
         self.cut_features()
-        self.cast_all_features_to_swarm()
-        self.sort(self.output_file_swarm, self.output_file_swarm)
+        #self.cast_all_features_to_swarm()
+        #self.sort(self.output_file_swarm, self.output_file_swarm)
 
     def cut_features(self):
 
@@ -122,7 +122,7 @@ class Dataset:
         external_process = Popen(sequence_commands.split(' '), stdout=PIPE, stderr=PIPE)
         external_process.communicate()
 
-    def save_file_samples(self):
+    def save_file_samples_features(self):
 
         try:
 
