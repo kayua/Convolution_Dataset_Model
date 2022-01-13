@@ -11,8 +11,9 @@ DEFAULT_ADVERSARIAL_MODEL = False
 DEFAULT_VERBOSITY = 1
 TIME_FORMAT = '%Y-%m-%d,%H:%M:%S'
 
-DEFAULT_TRAINING_INPUT_FILE_SWARM_IN = ''
-DEFAULT_TRAINING_INPUT_FILE_SWARM_OUT = ''
+DEFAULT_CREATE_INPUT_FILE_SWARM_IN = ''
+DEFAULT_CREATE_INPUT_FILE_SWARM_OUT = ''
+
 DEFAULT_TRAINING_EPOCHS = 10
 DEFAULT_TRAINING_METRICS = 'mse'
 DEFAULT_TRAINING_LOSS = 'mse'
@@ -61,11 +62,11 @@ def add_arguments(parser):
     help_msg = 'Verbosity (Default {})'.format(DEFAULT_VERBOSITY)
     parser.add_argument("--verbosity", type=int, help=help_msg, default=DEFAULT_VERBOSITY)
 
-    help_msg = 'Input file create samples (INPUT NEURAL) (Default {})'.format(DEFAULT_TRAINING_INPUT_FILE_SWARM_IN)
-    parser.add_argument("--input_file_in", type=str, help=help_msg, default=DEFAULT_TRAINING_INPUT_FILE_SWARM_IN)
+    help_msg = 'Input file create samples (INPUT NEURAL) (Default {})'.format(DEFAULT_CREATE_INPUT_FILE_SWARM_IN)
+    parser.add_argument("--input_file_in", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_IN)
 
-    help_msg = 'Input file create samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_TRAINING_INPUT_FILE_SWARM_OUT)
-    parser.add_argument("--input_file_out", type=str, help=help_msg, default=DEFAULT_TRAINING_INPUT_FILE_SWARM_OUT)
+    help_msg = 'Input file create samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
+    parser.add_argument("--input_file_out", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
 
     help_msg = 'Define number epochs (Default {})'.format(DEFAULT_TRAINING_EPOCHS)
     parser.add_argument("--epochs", type=str, help=help_msg, default=DEFAULT_TRAINING_EPOCHS)
