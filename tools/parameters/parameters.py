@@ -69,7 +69,10 @@ def add_arguments(parser):
     parser.add_argument("--save_file_samples", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
 
     help_msg = 'Load file samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
-    parser.add_argument("--load_file_samples", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
+    parser.add_argument("--load_samples_training_in", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
+
+    help_msg = 'Load file samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
+    parser.add_argument("--load_samples_training_out", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
 
     help_msg = 'Define number epochs (Default {})'.format(DEFAULT_TRAINING_EPOCHS)
     parser.add_argument("--epochs", type=str, help=help_msg, default=DEFAULT_TRAINING_EPOCHS)

@@ -16,7 +16,6 @@ class Dataset:
         self.output_file_swarm = args.output_predict
         self.snapshot_id = self.feature_window_length
         self.save_file_samples = args.save_file_samples
-        self.load_file_samples = args.load_file_samples
         self.threshold = args.threshold
         self.features = []
         self.input_feature = []
@@ -56,6 +55,7 @@ class Dataset:
             self.matrix_features[peer_id][self.feature_window_length-1] = 1
 
     def load_swarm_to_feature(self):
+
         self.sort(self.input_file_swarm, self.input_file_swarm)
         self.allocation_matrix()
         file_pointer_swarm = open(self.input_file_swarm, 'r')
@@ -132,11 +132,11 @@ class Dataset:
 
             logging.error('Error: File not found error')
 
-    def load_file_samples(self):
+    def load_file_samples(self, load_file_samples):
 
         try:
 
-            dataset_file = numpy.load('{}.npz'.format(self.load_file_samples), "r")
+            dataset_file = numpy.load('{}.npz'.format(load_file_samples), "r")
             self.features = dataset_file['arr_0']
 
         except FileNotFoundError:

@@ -25,9 +25,9 @@ def create_samples(args):
 def training_neural_model(args):
 
     dataset_instance_input = Dataset(args)
-    dataset_instance_input.load_file_samples()
+    dataset_instance_input.load_file_samples(args.load_samples_training_in)
     dataset_instance_output = Dataset(args)
-    dataset_instance_output.load_file_samples()
+    dataset_instance_output.load_file_samples(args.load_samples_training_out)
     neural_network = Neural(args)
     training_input_samples = dataset_instance_input.get_features()
     training_output_samples = dataset_instance_output.get_features()
