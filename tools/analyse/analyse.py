@@ -23,6 +23,12 @@ class Analyse:
         self.number_original_swarm_lines = 0
         self.number_predicted_swarm_lines = 0
         self.number_failed_swarm_lines = 0
+        self.corrected_swarm_file = ''
+        self.failed_swarm_file = ''
+        self.original_swarm_file = ''
+        self.topology = 'ModelV1'
+        self.analyse_file_mode = 'a+'
+        self.analyse_file = 'results.txt'
         self.trace_found_in_original_and_failed = 0
         self.trace_found_in_original_and_corrected = 0
         self.trace_found_in_original_and_failed_and_corrected = 0
@@ -86,9 +92,9 @@ class Analyse:
 
     def get_all_metrics(self):
 
-        self.dictionary_original_swarm, self.number_original_swarm_lines = self.load_swarm('dic')
-        self.dictionary_predicted_swarm,  self.number_predicted_swarm_lines = self.load_swarm('dic')
-        self.dictionary_failed_swarm, self.number_failed_swarm_lines = self.load_swarm('dic')
+        self.dictionary_original_swarm, self.number_original_swarm_lines = self.load_swarm(self.original_swarm_file)
+        self.dictionary_predicted_swarm,  self.number_predicted_swarm_lines = self.load_swarm(self.corrected_swarm_file)
+        self.dictionary_failed_swarm, self.number_failed_swarm_lines = self.load_swarm(self.failed_swarm_file)
 
         for key_first_dic, value_first_dic in self.dictionary_original_swarm.items():
 
@@ -138,10 +144,10 @@ class Analyse:
         analyse_results.write('\nBEGIN ############################################\n\n')
         analyse_results.write(' RESULTS \n')
         analyse_results.write("  Now      : {}\n".format(datetime.now()))
-        analyse_results.write("  Topology : {}\n".format(topology))
+        analyse_results.write("  Topology : {}\n".format(self.topology))
         analyse_results.write("  Threshold: {}\n".format(self.threshold))
         analyse_results.write("  PIF      : {}%\n".format(int(self.pif * 100)))
-        analyse_results.write("  Dataset  : {}\n".format(self.dataset))
+        analyse_results.write("  Dataset  : {}\n".format(self.original_swarm_file))
         analyse_results.write("  Seed     : {}\n\n".format(self.seed))
 
         analyse_results.write('  Size files:           \n')
@@ -150,10 +156,10 @@ class Analyse:
         analyse_results.write('  Total Traces failed file           : {}\n'.format(self.number_failed_swarm_lines))
         analyse_results.write('  Total Traces corrected file        : {}\n'.format(self.number_predicted_swarm_lines))
 
-        falhas = self.number_original_swarm_lines - self.size_list_failed
+        falhas = self.number_original_swarm_lines - self.number_failed_swarm_lines
         analyse_results.write('  Fails (Original-failed)            : {}\n'.format(falhas))
 
-        modificacoes = self.size_list_corrected - self.size_list_failed
+        modificacoes = self.number_predicted_swarm_lines - self.number_failed_swarm_lines
         analyse_results.write('  Modifications (Original-corrected) : {}\n'.format(modificacoes))
 
         analyse_results.write('------------------------------\n')
@@ -168,18 +174,19 @@ class Analyse:
         analyse_results.write('------------------------------\n')
         analyse_results.write('            Scores:           \n')
         analyse_results.write('------------------------------\n')
-        analyse_results.write('  True positive  (TP): {}\n'.format(tp))
-        analyse_results.write('  False positive (FP): {}\n'.format(fp))
-        analyse_results.write('  False negative (FN): {}\n'.format(fn))
-        analyse_results.write('  True negative  (TN): {}\n'.format(tn))
+        analyse_results.write('  True positive  (TP): {}\n'.format(self.true_positives))
+        analyse_results.write('  False positive (FP): {}\n'.format(self.false_positives))
+        analyse_results.write('  False negative (FN): {}\n'.format(self.false_negatives))
+        analyse_results.write('  True negative  (TN): {}\n'.format(self.true_negatives))
+
 
         linha = "#SUMMARY#"
-        linha += ";{}".format(topology)
-        linha += ";{}".format(self.size_list_original)
+        linha += ";{}".format(self.topology)
+        linha += ";{}".format(self.number_original_swarm_lines)
         linha += ";{}".format(falhas)
         linha += ";{}".format(self.threshold)
         linha += ";{}%".format(int(self.pif * 100))
-        linha += ";{}".format(self.dataset)
+        linha += ";{}".format(self.original_swarm_file)
         linha += ";{}".format(self.threshold)
         linha += ";{}".format(self.seed)
         linha += ";{}".format(self.true_positives)
@@ -190,14 +197,14 @@ class Analyse:
         print(linha)
 
         linha = "#SUMNEW#"
-        linha += ";{}".format(topology)
+        linha += ";{}".format(self.topology)
         linha += ";{}".format(self.threshold)
 
         linha += ";{}%".format(int(self.pif * 100))
-        linha += ";{}".format(self.dataset)
+        linha += ";{}".format(self.original_swarm_file)
         linha += ";{}".format(self.seed)
 
-        linha += ";{}".format(self.size_list_original)
+        linha += ";{}".format(self.number_original_swarm_lines)
         linha += ";{}".format(falhas)
         linha += ";{}".format(modificacoes)
 
