@@ -106,7 +106,6 @@ def add_arguments(parser):
     help_msg = 'File analyse file (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
     parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
 
-
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
     parser.add_argument('cmd', choices=cmd_choices)
     return parser

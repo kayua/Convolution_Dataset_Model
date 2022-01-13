@@ -222,8 +222,6 @@ class Analyse:
         analyse_results.write('\n\n\n')
         analyse_results.close()
 
-a = Analyse()
-a.get_all_metrics()
 
 
 
