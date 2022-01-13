@@ -133,9 +133,9 @@ class ModelsV1(NeuralModel):
 
         for i in range(self.epochs):
 
-            random_array_feature =
+            random_array_feature = self.get_random_batch(x_training)
 
-            samples_training_in = [x_training[random_array_feature[i]] for i in range(self.steps_per_epochs)]
+            samples_training_in = self.get_feature_batch(x_training, random_array_feature)
             samples_batch_training_in = numpy.array(samples_training_in)
             samples_batch_training_out = numpy.array(
                 [y_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
@@ -151,9 +151,10 @@ class ModelsV1(NeuralModel):
         return 0
 
 
-    def get_random_batch(self, x_training):
+    def get_random_batch(self, samples_training):
 
-        return [randint(0, len(x_training) - 1) for _ in range(self.steps_per_epochs)]
+        return [randint(0, len(samples_training) - 1) for _ in range(self.steps_per_epochs)]
 
+    def get_feature_batch(self, samples_training, random_array_feature):
 
-
+        return [samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)]
