@@ -134,13 +134,11 @@ class ModelsV1(NeuralModel):
         for i in range(self.epochs):
 
             random_array_feature = self.get_random_batch(x_training)
-
             samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
-
             samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
             self.generator_model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
 
-            # print('Epoch: %d  Discriminator: %.2f Generator: %.2f' % (i + 1, generator_loss, generator_loss))
+            print('Epoch: %d  Discriminator: %.2f Generator: %.2f' % (i + 1, generator_loss, generator_loss))
 
             if (i + 1) % 50 == 0:
                 fake_images, _ = self.get_fake_sample(samples_batch_training_in)
