@@ -15,14 +15,17 @@ class Analyse:
 
     def __init__(self, args):
 
-        self.snapshot_column_position = args.snapshot_column_position
-        self.peer_column_position = args.peer_column_position
-        self.corrected_swarm_file = args.corrected_swarm_file
-        self.failed_swarm_file = args.failed_swarm_file
-        self.original_swarm_file = args.original_swarm_file
+        self.snapshot_column_position = args.snapshot_column
+        self.peer_column_position = args.peer_column
+        self.corrected_swarm_file = args.file_corrected
+        self.failed_swarm_file = args.file_failed
+        self.original_swarm_file = args.file_original
         self.topology = args.topology
-        self.analyse_file_mode = args.analyse_file_mode
-        self.analyse_file_results = args.analyse_file_results
+        self.analyse_file_mode = args.file_analyse_mode
+        self.analyse_file_results = args.file_analyse
+        self.threshold = args.threshold
+        self.seed = args.seed
+        self.pif = args.pfi
 
         self.trace_found_in_original_and_failed = 0
         self.trace_found_in_original_and_corrected = 0
@@ -30,9 +33,7 @@ class Analyse:
         self.number_original_swarm_lines = 0
         self.number_predicted_swarm_lines = 0
         self.number_failed_swarm_lines = 0
-        self.threshold = 1
-        self.seed = 0
-        self.pif = 0
+
         self.dictionary_original_swarm = {}
         self.dictionary_predicted_swarm = {}
         self.dictionary_failed_swarm = {}

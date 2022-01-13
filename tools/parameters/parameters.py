@@ -109,9 +109,6 @@ def add_arguments(parser):
     help_msg = 'File analyse file (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
     parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
 
-    help_msg = 'File analyse file (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
-    parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
-
     help_msg = 'Threshold (Default {})'.format(DEFAULT_TRAINING_THRESHOLD)
     parser.add_argument("--threshold", type=float, help=help_msg, default=DEFAULT_TRAINING_THRESHOLD)
 
