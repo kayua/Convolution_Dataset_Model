@@ -15,3 +15,4 @@ python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_TRAINING_OUT --s
 python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_PREDICT_IN --save_file_samples $OUTPUT_DATASET_PREDICT_OUT
 python3 main.py Training --load_samples_training_in $OUTPUT_DATASET_TRAINING_IN --load_samples_training_out $OUTPUT_DATASET_TRAINING_OUT --save_model $SAVE_NEURAL_MODEL
 python3 main.py Predict --input_predict $OUTPUT_DATASET_PREDICT_OUT --output_predict $FILE_RESULTS_DATASET_PREDICT --load_model $SAVE_NEURAL_MODEL
+python3 main.py Analyse --
