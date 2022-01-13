@@ -135,12 +135,10 @@ class ModelsV1(NeuralModel):
 
             random_array_feature = self.get_random_batch(x_training)
 
-            samples_training_in = self.get_feature_batch(x_training, random_array_feature)
-            samples_batch_training_in = numpy.array(samples_training_in)
-            samples_batch_training_out = numpy.array(
-                [y_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
-            generator_loss = self.generator_model.fit(x=samples_batch_training_in, y=samples_batch_training_out,
-                                                      verbose=2)
+            samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
+
+            samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
+            self.generator_model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
 
             # print('Epoch: %d  Discriminator: %.2f Generator: %.2f' % (i + 1, generator_loss, generator_loss))
 
@@ -157,4 +155,4 @@ class ModelsV1(NeuralModel):
 
     def get_feature_batch(self, samples_training, random_array_feature):
 
-        return [samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)]
+        return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
