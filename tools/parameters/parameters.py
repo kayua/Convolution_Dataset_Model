@@ -68,13 +68,20 @@ def add_arguments(parser):
     parser.add_argument("--epochs", type=str, help=help_msg, default=DEFAULT_TRAINING_EPOCHS)
 
     help_msg = 'Define metrics (Default {})'.format(DEFAULT_TRAINING_METRICS)
-    parser.add_argument("--metrics", type=str, help=help_msg, default= DEFAULT_TRAINING_METRICS)
+    parser.add_argument("--metrics", type=str, help=help_msg, default=DEFAULT_TRAINING_METRICS)
 
+    help_msg = 'Define loss (Default {})'.format(DEFAULT_TRAINING_LOSS)
+    parser.add_argument("--loss", type=str, help=help_msg, default=DEFAULT_TRAINING_LOSS)
 
-    DEFAULT_TRAINING_LOSS = 'mse'
-    DEFAULT_TRAINING_OPTIMIZER = 'adam'
-    DEFAULT_TRAINING_BATCH_SIZE = 32
-    DEFAULT_TRAINING_SAVE_MODEL_FILE = 'models_saved/model'
+    help_msg = 'Define optimizer (Default {})'.format(DEFAULT_TRAINING_OPTIMIZER)
+    parser.add_argument("--optimizer", type=str, help=help_msg, default=DEFAULT_TRAINING_OPTIMIZER)
+
+    help_msg = 'Define batch size (Default {})'.format(DEFAULT_TRAINING_BATCH_SIZE)
+    parser.add_argument("--optimizer", type=str, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
+
+    help_msg = 'File save model (Default {})'.format(DEFAULT_TRAINING_SAVE_MODEL_FILE)
+    parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_TRAINING_SAVE_MODEL_FILE)
+
 
 
 
