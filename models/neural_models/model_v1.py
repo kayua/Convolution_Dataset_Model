@@ -7,9 +7,6 @@ __version__ = '{2}.{0}.{1}'
 __data__ = '2021/11/21'
 __credits__ = ['All']
 
-from random import randint
-
-import numpy
 from tensorflow.keras import Input, activations, Model
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import MaxPooling2D
