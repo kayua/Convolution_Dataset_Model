@@ -20,7 +20,7 @@ def create_samples(args):
     dataset_instance.save_file_samples()
 
 
-def training_neural_network(args):
+def training_neural_model(args):
 
     dataset_instance_input = Dataset(args)
     dataset_instance_input.load_file_samples()
@@ -31,6 +31,16 @@ def training_neural_network(args):
     training_output_samples = dataset_instance_output.get_features()
     neural_network.training(training_input_samples, training_output_samples)
     neural_network.save_network()
+
+
+def predict_neural_model(args):
+
+    dataset_instance_input = Dataset(args)
+    dataset_instance_input.load_file_samples()
+    neural_network = Neural(args)
+
+    training_input_samples = dataset_instance_input.get_features()
+    neural_network.predict(training_input_samples)
 
 
 
@@ -65,8 +75,8 @@ def create_classifier_model(args):
 def arguments_cmd_choice(args):
     if args.cmd == 'Calibration': calibration_neural_model(args)
     if args.cmd == 'CreateSamples': create_samples(args)
-    # if args.cmd == 'Training': training_neural_model(args)
-    # if args.cmd == 'Predict': predict_neural_model(args)
+    if args.cmd == 'Training': training_neural_model(args)
+    if args.cmd == 'Predict': predict_neural_model(args)
 
 
 # if args.cmd == 'Analyse': evaluation(args)

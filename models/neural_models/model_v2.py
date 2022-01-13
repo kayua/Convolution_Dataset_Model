@@ -155,18 +155,22 @@ class ModelsV1(NeuralModel):
         model_block_discriminator = Conv2D(32, (3, 3))(input_layer)
         model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
         model_block_discriminator = MaxPooling2D((2, 2))(model_block_discriminator)
+        sixth_convolution_block = BatchNormalization()(sixth_convolution_block)
 
         model_block_discriminator = Conv2D(32, (3, 3))(model_block_discriminator)
         model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
         model_block_discriminator = MaxPooling2D((2, 2))(model_block_discriminator)
+        sixth_convolution_block = BatchNormalization()(sixth_convolution_block)
 
         model_block_discriminator = Conv2D(32, (3, 3))(model_block_discriminator)
         model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
         model_block_discriminator = MaxPooling2D((2, 2))(model_block_discriminator)
+        sixth_convolution_block = BatchNormalization()(sixth_convolution_block)
 
         model_block_discriminator = Conv2D(32, (3, 3))(model_block_discriminator)
         model_block_discriminator = Activation(activations.relu)(model_block_discriminator)
         model_block_discriminator = MaxPooling2D((2, 2))(model_block_discriminator)
+        sixth_convolution_block = BatchNormalization()(sixth_convolution_block)
 
         model_block_discriminator = Flatten()(model_block_discriminator)
 
