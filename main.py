@@ -1,6 +1,11 @@
+import logging
+from argparse import ArgumentParser
+from sys import argv
+
 from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
 from tools.dataset.dataset import Dataset
+from tools.parameters.parameters import add_arguments, TIME_FORMAT
 
 
 def calibration_neural_model(args):
@@ -12,6 +17,21 @@ def create_samples(args):
     dataset_instance = Dataset(args)
     dataset_instance.load_file_samples()
     dataset_instance.save_file_samples()
+
+
+def show_config(args):
+    logging.info('Command:\n\t{0}\n'.format(' '.join([x for x in argv])))
+    logging.info('Settings:')
+    lengths = [len(x) for x in vars(args).keys()]
+    max_lengths = max(lengths)
+
+    for parameters, item_args in sorted(vars(args).items()):
+        message = "\t"
+        message += parameters.ljust(max_lengths, ' ')
+        message += ' : {}'.format(item_args)
+        logging.info(message)
+
+    logging.info("")
 
 
 def create_classifier_model(args):
@@ -29,6 +49,28 @@ def create_classifier_model(args):
 def arguments_cmd_choice(args):
     if args.cmd == 'Calibration': calibration_neural_model(args)
     if args.cmd == 'CreateSamples': create_samples(args)
-    if args.cmd == 'Training': training_neural_model(args)
-    if args.cmd == 'Predict': predict_neural_model(args)
-    if args.cmd == 'Analyse': evaluation(args)
+    # if args.cmd == 'Training': training_neural_model(args)
+    # if args.cmd == 'Predict': predict_neural_model(args)
+
+
+# if args.cmd == 'Analyse': evaluation(args)
+
+
+def main():
+    parser = ArgumentParser(description='Correct trace adversarial model')
+    parser = add_arguments(parser)
+    args = parser.parse_args()
+
+    if args.verbosity == logging.DEBUG:
+        logging.basicConfig(format="%(asctime)s %(levelname)s {%(module)s} [%(funcName)s] %(message)s",
+                            datefmt=TIME_FORMAT, level=args.verbosity)
+        show_config(args)
+
+    else:
+        logging.basicConfig(format="%(message)s", datefmt=TIME_FORMAT, level=args.verbosity)
+
+    arguments_cmd_choice(args)
+
+
+if __name__ == '__main__':
+    exit(main())

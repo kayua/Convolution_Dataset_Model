@@ -19,6 +19,7 @@ DEFAULT_SAVE_MODEL_FILE = 'models_saved/model'
 DEFAULT_LOAD_MODEL_FILE = 'models_saved/model'
 DEFAULT_ADVERSARIAL_MODEL = False
 DEFAULT_VERBOSITY = 1
+TIME_FORMAT = '%Y-%m-%d,%H:%M:%S'
 
 DEFAULT_FILE_SAVE_SAMPLES = 'samples_saved/samples'
 DEFAULT_FILE_LOAD_SAMPLES = 'samples_saved/samples'
