@@ -43,7 +43,6 @@ def predict_neural_model(args):
     neural_network.predict(training_input_samples)
 
 
-
 def show_config(args):
 
     logging.info('Command:\n\t{0}\n'.format(' '.join([x for x in argv])))
@@ -61,6 +60,7 @@ def show_config(args):
 
 
 def create_classifier_model(args):
+
     neural_model = Neural(args)
 
     if args.file_load_model != '':
@@ -73,13 +73,12 @@ def create_classifier_model(args):
 
 
 def arguments_cmd_choice(args):
+
     if args.cmd == 'Calibration': calibration_neural_model(args)
     if args.cmd == 'CreateSamples': create_samples(args)
     if args.cmd == 'Training': training_neural_model(args)
     if args.cmd == 'Predict': predict_neural_model(args)
-
-
-# if args.cmd == 'Analyse': evaluation(args)
+    # if args.cmd == 'Analyse': evaluation(args)
 
 
 def main():
