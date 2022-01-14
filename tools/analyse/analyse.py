@@ -70,6 +70,7 @@ class Analyse:
             swarm_line_in_list = swarm_line.split(' ')
             snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
             peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
+
             temporary_dictionary = self.add_value_to_dic(temporary_dictionary, snapshot_value, peer_value)
             number_true_peers += 1
 
@@ -78,20 +79,30 @@ class Analyse:
 
     def comparison_of_results(self, snapshot_id, peer_id):
 
+        try:
 
-        if self.dictionary_failed_swarm[snapshot_id][peer_id]:
-
+            _ = self.dictionary_failed_swarm[snapshot_id][peer_id]
             self.trace_found_in_original_and_failed += 1
 
-        if self.dictionary_predicted_swarm[snapshot_id][peer_id]:
+        except KeyError:
+            pass
 
+        try:
+            _ = self.dictionary_predicted_swarm[snapshot_id][peer_id]
             self.trace_found_in_original_and_corrected += 1
+        except KeyError:
+            pass
 
-        if self.dictionary_failed_swarm[snapshot_id][peer_id]:
+        try:
+            _ = self.dictionary_failed_swarm[snapshot_id][peer_id]
+            _ = self.dictionary_predicted_swarm[snapshot_id][peer_id]
+            self.trace_found_in_original_and_failed_and_corrected += 1
 
-            if self.dictionary_predicted_swarm[snapshot_id][peer_id]:
+        except KeyError:
 
-                self.trace_found_in_original_and_failed_and_corrected += 1
+            pass
+
+
 
     def get_all_metrics(self):
 
