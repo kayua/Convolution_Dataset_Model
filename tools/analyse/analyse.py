@@ -73,8 +73,7 @@ class Analyse:
             temporary_dictionary = self.add_value_to_dic(temporary_dictionary, snapshot_value, peer_value)
             number_true_peers += 1
 
-
-        return temporary_dictionary, number_true_peers
+        return temporary_dictionary.copy(), number_true_peers
 
     def comparison_of_results(self, snapshot_id, peer_id):
 
@@ -85,7 +84,6 @@ class Analyse:
 
         except KeyError:
             pass
-
 
         try:
             _ = self.dictionary_predicted_swarm[snapshot_id][peer_id]
