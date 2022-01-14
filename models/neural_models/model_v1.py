@@ -7,6 +7,7 @@ __version__ = '{2}.{0}.{1}'
 __data__ = '2021/11/21'
 __credits__ = ['All']
 
+import numpy
 from tensorflow.keras import Input, activations, Model
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import MaxPooling2D
@@ -119,6 +120,34 @@ class ModelsV1(NeuralModel):
         convolution_model_block.summary()
         self.model = convolution_model_block
 
+    @staticmethod
+    def check_feature_empty(feature):
+
+        number_true_samples = 0
+
+        for i in range(len(feature)):
+
+            for j in range(len(feature[0])):
+
+                if feature[i][j] > 0.9:
+                    number_true_samples += 1
+
+        if number_true_samples > 0:
+            return 1
+        else:
+            return 0
+
+    def remove_empty_features(self, x_training, y_training):
+
+        x_training_list = []
+        y_training_list = []
+        for i in range(len(x_training)):
+
+            if self.check_feature_empty(x_training[i]):
+                x_training_list.append(x_training[i])
+                y_training_list.append(y_training[i])
+
+        return numpy.array(x_training_list), numpy.array(y_training_list)
 
     def training(self, x_training, y_training, evaluation_set):
 
