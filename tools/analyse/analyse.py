@@ -70,7 +70,6 @@ class Analyse:
             swarm_line_in_list = swarm_line.split(' ')
             snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
             peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
-
             temporary_dictionary = self.add_value_to_dic(temporary_dictionary, snapshot_value, peer_value)
             number_true_peers += 1
 
@@ -87,11 +86,14 @@ class Analyse:
         except KeyError:
             pass
 
+
         try:
             _ = self.dictionary_predicted_swarm[snapshot_id][peer_id]
             self.trace_found_in_original_and_corrected += 1
+
         except KeyError:
             pass
+
 
         try:
             _ = self.dictionary_failed_swarm[snapshot_id][peer_id]
@@ -101,7 +103,6 @@ class Analyse:
         except KeyError:
 
             pass
-
 
 
     def get_all_metrics(self):
