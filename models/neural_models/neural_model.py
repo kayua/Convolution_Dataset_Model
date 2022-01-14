@@ -35,16 +35,16 @@ class NeuralModel:
     @staticmethod
     def adapter_input(training_set, evaluation_set=None):
 
-        label_training_set = numpy.array(training_set[1], dtype=numpy.int32)
+        label_training_set = numpy.array(training_set, dtype=numpy.int32)
 
         if evaluation_set is not None:
 
-            label_evaluation_set = numpy.array(evaluation_set[1], dtype=numpy.int32)
-            return training_set[0], label_training_set, evaluation_set[0], label_evaluation_set
+            label_evaluation_set = numpy.array(evaluation_set, dtype=numpy.int32)
+            return training_set, label_training_set, evaluation_set, label_evaluation_set
 
         else:
 
-            return training_set[0], label_training_set, None, None
+            return training_set, label_training_set, None, None
 
     def training(self, x_training, y_training, evaluation_set):
 

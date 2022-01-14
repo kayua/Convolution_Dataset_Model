@@ -17,6 +17,6 @@ RESULT_METRICS='results/results.txt'
 #python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_TRAINING_IN --save_file_samples $OUTPUT_DATASET_TRAINING_IN
 #python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_TRAINING_OUT --save_file_samples $OUTPUT_DATASET_TRAINING_OUT
 #python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_PREDICT_IN --save_file_samples $OUTPUT_DATASET_PREDICT_OUT
-#python3 main.py Training --load_samples_training_in $OUTPUT_DATASET_TRAINING_IN --load_samples_training_out $OUTPUT_DATASET_TRAINING_OUT --save_model $SAVE_NEURAL_MODEL
+python3 main.py Training --load_samples_training_in $OUTPUT_DATASET_TRAINING_IN --load_samples_training_out $OUTPUT_DATASET_TRAINING_OUT --save_model $SAVE_NEURAL_MODEL
 #python3 main.py Predict --input_predict $OUTPUT_DATASET_PREDICT_OUT --output_predict $INPUT_ANALYSE_CORRECTED --load_model $SAVE_NEURAL_MODEL
 python3 main.py Analyse --file_original $INPUT_ANALYSE_ORIGINAL --file_corrected $INPUT_ANALYSE_CORRECTED --file_failed $INPUT_ANALYSE_FAILED --file_analyse $RESULT_METRICS
