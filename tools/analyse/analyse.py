@@ -116,7 +116,7 @@ class Analyse:
                 self.comparison_of_results(key_first_dic, key_second_dic)
 
         self.true_positives = self.trace_found_in_original_and_corrected - self.trace_found_in_original_and_failed
-        self.false_positives = self.number_original_swarm_lines - self.trace_found_in_original_and_corrected
+        self.false_positives = self.number_predicted_swarm_lines - self.trace_found_in_original_and_corrected
         self.false_negatives = self.number_original_swarm_lines - self.trace_found_in_original_and_corrected
         false_positives_false_negatives = (self.false_positives + self.false_negatives)
         self.true_negatives = self.number_original_swarm_lines - self.true_positives - false_positives_false_negatives
