@@ -9,7 +9,6 @@ __credits__ = ['All']
 
 from models.neural_models.neural_model import NeuralModel
 from tensorflow.python.keras.models import model_from_json
-import numpy
 import logging
 
 DEFAULT_FEATURE_INPUT_CALIBRATION = 'dataset/calibration_dataset/failed_image'
@@ -66,7 +65,6 @@ class Neural:
                 self.neural_network.model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
 
             logging.debug('Loaded file {}.h5'.format(self.file_load_model))
-
             logging.debug('Neural network compiled: {} {} {} '.format(self.loss, self.optimizer, self.metrics))
 
             neural_model_json.close()
@@ -79,6 +77,7 @@ class Neural:
     def save_network(self):
 
         if self.file_save_models is None:
+            logging.warning('Model not saved. Model Empty')
             return
 
         try:
@@ -88,6 +87,7 @@ class Neural:
             if self.adversarial_model:
 
                 model_architecture_json = self.neural_network.model.to_json()
+
             else:
 
                 model_architecture_json = self.neural_network.model.to_json()
