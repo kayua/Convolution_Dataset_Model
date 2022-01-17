@@ -111,9 +111,9 @@ class ModelsV1(NeuralModel):
         return numpy.array(x_training_list), numpy.array(y_training_list)
 
     def training(self, x_training, y_training, evaluation_set):
-        print(x_training.shape)
+
         x_training, y_training = self.remove_empty_features(x_training, y_training)
-        print(x_training.shape)
+
         for i in range(self.epochs):
 
             random_array_feature = self.get_random_batch(x_training)
