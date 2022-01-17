@@ -123,6 +123,6 @@ class ModelsV1(NeuralModel):
 
             if i % 10 == 0:
                 feature_predicted = self.model.predict(batch_training_in[0:10])
-                self.save_image_feature(feature_predicted[0:10], batch_training_out[0:10], batch_training_in[0:10], i)
+                self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
 
         return 0
