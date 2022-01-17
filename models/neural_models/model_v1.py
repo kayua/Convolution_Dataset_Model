@@ -100,9 +100,11 @@ class ModelsV1(NeuralModel):
 
         x_training_list = []
         y_training_list = []
+
         for i in range(len(x_training)):
 
             if self.check_feature_empty(x_training[i]):
+
                 x_training_list.append(x_training[i])
                 y_training_list.append(y_training[i])
 
