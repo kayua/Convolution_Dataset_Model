@@ -71,6 +71,8 @@ class ModelsV1(NeuralModel):
 
         convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(interpolation)
         convolution_model = Activation(activations.relu)(convolution_model)
+        convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(convolution_model)
+        convolution_model = Activation(activations.relu)(convolution_model)
 
         convolution_model = Conv2D(1, (1, 1))(convolution_model)
         convolution_model = Conv2D(1, (1, 1))(convolution_model)
