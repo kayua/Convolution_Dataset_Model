@@ -7,15 +7,13 @@ __version__ = '{2}.{0}.{1}'
 __data__ = '2021/11/21'
 __credits__ = ['All']
 
-from tensorflow.keras import Input, activations, Model
+from tensorflow.keras import Input
+from tensorflow.keras import activations
+from tensorflow.keras import Model
 from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import MaxPooling2D
-from tensorflow.keras.layers import ZeroPadding2D, Conv2DTranspose
-from tensorflow.keras.layers import Add, Dot
-from tensorflow.keras.layers import Flatten, Reshape, Dense
+from tensorflow.keras.layers import Conv2DTranspose
+from tensorflow.keras.layers import Add
 from tensorflow.keras.layers import Activation
-from tensorflow.keras.layers import UpSampling2D
-from tensorflow.keras.layers import BatchNormalization
 from models.neural_models.neural_model import NeuralModel
 import numpy
 
@@ -31,16 +29,16 @@ class ModelsV1(NeuralModel):
 
         input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
 
-        first_convolution_block = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
-        first_convolution_block = Activation(activations.relu)(first_convolution_block)
+        first_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
+        first_convolution = Activation(activations.relu)(first_convolution)
 
-        second_convolution_block = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(first_convolution_block)
-        second_convolution_block = Activation(activations.relu)(second_convolution_block)
+        second_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(first_convolution)
+        second_convolution = Activation(activations.relu)(second_convolution)
 
-        third_convolution_block = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(second_convolution_block)
-        third_convolution_block = Activation(activations.relu)(third_convolution_block)
+        third_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(second_convolution)
+        third_convolution = Activation(activations.relu)(third_convolution)
 
-        fourth_convolution_block = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(third_convolution_block)
+        fourth_convolution_block = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(third_convolution)
         fourth_convolution_block = Activation(activations.relu)(fourth_convolution_block)
 
         fifth_convolution_block = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution_block)
@@ -55,17 +53,17 @@ class ModelsV1(NeuralModel):
         second_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         second_deconvolution_block = Activation(activations.relu)(second_deconvolution_block)
 
-        interpolation = Add()([second_deconvolution_block, third_convolution_block])
+        interpolation = Add()([second_deconvolution_block, third_convolution])
 
         third_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         third_deconvolution_block = Activation(activations.relu)(third_deconvolution_block)
 
-        interpolation = Add()([third_deconvolution_block, second_convolution_block])
+        interpolation = Add()([third_deconvolution_block, second_convolution])
 
         fourth_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         fourth_deconvolution_block = Activation(activations.relu)(fourth_deconvolution_block)
 
-        interpolation = Add()([fourth_deconvolution_block, first_convolution_block])
+        interpolation = Add()([fourth_deconvolution_block, first_convolution])
 
         fifth_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         fifth_deconvolution_block = Activation(activations.relu)(fifth_deconvolution_block)
@@ -92,7 +90,7 @@ class ModelsV1(NeuralModel):
 
             for j in range(len(feature[0])):
 
-                if feature[i][j] > 0.9:
+                if int(feature[i][j]) == 1:
                     number_true_samples += 1
 
         if number_true_samples > 0:
