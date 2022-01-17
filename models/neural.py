@@ -76,11 +76,11 @@ class Neural:
 
     def save_network(self):
 
-        if self.file_save_models is None:
-            logging.warning('Model not saved. Model Empty')
-            return
-
         try:
+
+            if self.file_save_models is None:
+                logging.warning('Model not saved. Model Empty')
+                return
 
             logging.info('Saving neural network model')
 
@@ -94,21 +94,23 @@ class Neural:
                 model_architecture_json = self.neural_network.model.to_json()
                 logging.debug('Saving feedforward model model')
 
-            with open('{}.json'.format('models_saved/model'), "w") as json_file:
+            with open('{}.json'.format(self.file_save_models), "w") as json_file:
 
-                logging.debug('Write file {}.json'.format('models_saved/model'))
                 json_file.write(model_architecture_json)
-
-                logging.debug('Write file {}.h5'.format('models_saved/model'))
+                logging.debug('Write file {}.json'.format(self.file_save_models))
 
                 if self.adversarial_model:
 
-                    self.neural_network.model.save_weights('{}.h5'.format('models_saved/model'))
+                    self.neural_network.model.save_weights('{}.h5'.format(self.file_save_models))
+                    logging.debug('Write file {}.h5'.format(self.file_save_models))
+
                 else:
 
-                    self.neural_network.model.save_weights('{}.h5'.format('models_saved/model'))
+                    self.neural_network.model.save_weights('{}.h5'.format(self.file_save_models))
+                    logging.debug('Write file {}.h5'.format(self.file_save_models))
 
-                print('Rede neural salva')
+            logging.debug('Neural network saved {}'.format(self.file_save_models))
+
         except FileNotFoundError:
 
             logging.error('Path not found: Path {}'.format(self.file_save_models.split('/')[:-1]))
