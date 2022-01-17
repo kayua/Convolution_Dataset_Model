@@ -87,10 +87,12 @@ class Neural:
             if self.adversarial_model:
 
                 model_architecture_json = self.neural_network.model.to_json()
+                logging.debug('Saving adversarial model')
 
             else:
 
                 model_architecture_json = self.neural_network.model.to_json()
+                logging.debug('Saving feedforward model model')
 
             with open('{}.json'.format('models_saved/model'), "w") as json_file:
 
