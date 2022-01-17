@@ -44,9 +44,9 @@ def predict_neural_model(args):
     dataset_instance_input.load_file_samples(args.input_predict)
     neural_network = create_classifier_model(args)
 
-    training_input_samples = dataset_instance_input.get_features()
-    features_predicted = neural_network.predict(training_input_samples)
-    dataset_instance_input.cast_all_features_to_swarm(features_predicted)
+    predict_input_samples = dataset_instance_input.get_features()
+    features_predicted = neural_network.predict(predict_input_samples)
+    dataset_instance_input.cast_all_features_to_swarm(features_predicted, predict_input_samples)
 
 
 def show_config(args):
