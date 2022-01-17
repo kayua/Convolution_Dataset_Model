@@ -103,7 +103,7 @@ class Dataset:
 
             for j in range(len(results[0])):
 
-                if float(results[i][j][0]) > 0.75:
+                if float(results[i][j][0]) > self.threshold:
 
                     pointer.write('{} {}\n'.format(j+position+1, i))
 
