@@ -47,8 +47,8 @@ class Neural:
 
             self.neural_network = NeuralModel(self.args)
             logging.info('Loading neural network model')
-            logging.debug('{Architecture file: {}.json'.format(self.file_load_model))
-            logging.debug('{Architecture file: {}.json'.format(self.file_load_model))
+            logging.debug('Architecture file: {}.json'.format(self.file_load_model))
+            logging.debug('Architecture file: {}.json'.format(self.file_load_model))
             neural_model_json = open('{}.json'.format(self.file_load_model), 'r')
 
             if self.adversarial_model:
