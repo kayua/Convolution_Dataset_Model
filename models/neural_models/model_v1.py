@@ -77,25 +77,24 @@ class ModelsV1(NeuralModel):
 
         convolution_model = Model(input_layer_block, convolution_model)
         convolution_model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
-        convolution_model.summary()
         self.model = convolution_model
 
     @staticmethod
-    def check_feature_empty(feature):
+    def check_feature_empty(list_feature_samples):
 
         number_true_samples = 0
 
-        for i in range(len(feature)):
+        for i in list_feature_samples:
 
-            for j in range(len(feature[0])):
+            for j in i:
 
-                if int(feature[i][j]) == 1:
+                if int(j) == 1:
                     number_true_samples += 1
 
         if number_true_samples > 0:
             return 1
-        else:
-            return 0
+
+        return 0
 
     def remove_empty_features(self, x_training, y_training):
 
