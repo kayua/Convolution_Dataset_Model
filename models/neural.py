@@ -42,15 +42,17 @@ class Neural:
         if self.verbosity == logging.DEBUG:
             self.neural_network.model.summary()
 
+
     def load_model(self):
 
         try:
 
             self.neural_network = NeuralModel(self.args)
             logging.info('Loading neural network model')
+            logging.debug('{Architecture file: {}.json'.format(self.file_load_model))
+            logging.debug('{Architecture file: {}.json'.format(self.file_load_model))
+            neural_model_json = open('{}.json'.format(self.file_load_model), 'r')
 
-            neural_model_json = open('{}.json'.format('models_saved/model'), 'r')
-            logging.debug('Loaded file {}.json'.format('models_saved/model'))
             if self.adversarial_model:
 
                 self.neural_network.generator_model = model_from_json(neural_model_json.read())
