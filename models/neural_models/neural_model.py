@@ -14,6 +14,7 @@ import cv2
 import numpy
 import tensorflow
 from tqdm import tqdm
+DEFAULT_CALIBRATION_PATH_IMAGE = 'images'
 
 
 class NeuralModel:
@@ -94,6 +95,6 @@ class NeuralModel:
     @staticmethod
     def save_image_feature(examples, examples_a, example_b, epoch):
 
-        cv2.imwrite('images/output_{}.png'.format(epoch), numpy.array(examples_a[0] * 255))
-        cv2.imwrite('images/predicted_{}.png'.format(epoch), examples[0] * 255)
-        cv2.imwrite('images/input{}.png'.format(epoch), example_b[0] * 255)
+        cv2.imwrite('{}/output_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), numpy.array(examples_a * 255))
+        cv2.imwrite('{}/predicted_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), examples * 255)
+        cv2.imwrite('{}/input{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), example_b * 255)
