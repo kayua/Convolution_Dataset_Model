@@ -10,14 +10,20 @@ from tools.parameters.parameters import add_arguments, TIME_FORMAT
 
 
 def calibration_neural_model(args):
+
+    logging.info('Starting calibration')
     neural_network_instance = create_classifier_model(args)
+    logging.debug('Neural network instance created')
     neural_network_instance.calibration_neural_network()
+    logging.info('End calibration')
 
 
 def create_samples(args):
+    logging.info('Creating file samples')
     dataset_instance = Dataset(args)
     dataset_instance.load_swarm_to_feature()
     dataset_instance.save_file_samples_features()
+    logging.info('Samples file created')
 
 
 def training_neural_model(args):
