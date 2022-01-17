@@ -92,7 +92,8 @@ class NeuralModel:
         return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
 
     @staticmethod
-    def save_image_feature(examples, examples_a, epoch):
+    def save_image_feature(examples, examples_a, example_b, epoch):
 
-        cv2.imwrite('images/noise_{}.png'.format(epoch), numpy.array(examples_a[0] * 255))
-        cv2.imwrite('images/{}.png'.format(epoch), examples[0] * 255)
+        cv2.imwrite('images/output_{}.png'.format(epoch), numpy.array(examples_a[0] * 255))
+        cv2.imwrite('images/predicted_{}.png'.format(epoch), examples[0] * 255)
+        cv2.imwrite('images/input{}.png'.format(epoch), example_b[0] * 255)
