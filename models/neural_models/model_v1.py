@@ -117,13 +117,12 @@ class ModelsV1(NeuralModel):
         for i in range(self.epochs):
 
             random_array_feature = self.get_random_batch(x_training)
-            samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
-            samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, epochs=1, verbose=1)
+            batch_training_in = self.get_feature_batch(x_training, random_array_feature)
+            batch_training_out = self.get_feature_batch(y_training, random_array_feature)
+            self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1)
 
             if i % 10 == 0:
-                b = self.model.predict(samples_batch_training_in[0:100])
-                self.save_image_feature(b[0:100], samples_batch_training_out[0:100], samples_batch_training_in[0:100],
-                                        i)
+                feature_predicted = self.model.predict(batch_training_in[0:10])
+                self.save_image_feature(feature_predicted[0:10], batch_training_out[0:10], batch_training_in[0:10], i)
 
         return 0
