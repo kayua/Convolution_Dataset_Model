@@ -95,7 +95,7 @@ class Dataset:
             matrix_results.extend(i)
         return matrix_results
 
-    def cast_feature_to_swarm(self, feature, position, pointer):
+    def cast_feature_to_swarm(self, feature, position, pointer, predict_input_samples):
 
         results = self.restore_matrix(feature)
 
@@ -103,15 +103,15 @@ class Dataset:
 
             for j in range(len(results[0])):
 
-                if float(results[i][j][0]) > self.threshold:
+                if (float(results[i][j][0]) > self.threshold) or (float(predict_input_samples[i][j][0]) > self.threshold):
 
                     pointer.write('{} {}\n'.format(j+position+1, i))
 
-    def cast_all_features_to_swarm(self, features_predicted):
+    def cast_all_features_to_swarm(self, features_predicted, predict_input_samples):
 
         output = open(self.output_file_swarm, 'w')
         for i, j in enumerate(range(0, len(features_predicted), self.number_block_per_samples)):
-            self.cast_feature_to_swarm(features_predicted[j:j+self.number_block_per_samples], i*self.feature_window_length, output)
+            self.cast_feature_to_swarm(features_predicted[j:j+self.number_block_per_samples], i*self.feature_window_length, output, predict_input_samples)
         output.close()
         self.sort(self.output_file_swarm, self.output_file_swarm)
 
