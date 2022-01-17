@@ -41,7 +41,6 @@ class Neural:
         if self.verbosity == logging.DEBUG:
             self.neural_network.model.summary()
 
-
     def load_model(self):
 
         try:
