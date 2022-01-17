@@ -56,7 +56,7 @@ class Neural:
             if self.adversarial_model:
 
                 self.neural_network.generator_model = model_from_json(neural_model_json.read())
-                self.neural_network.generator_model.load_weights('{}.h5'.format('models_saved/model'))
+                self.neural_network.generator_model.load_weights('{}.h5'.format(self.file_load_model))
                 self.neural_network.generator_model.compile(loss=self.loss, optimizer=self.optimizer,
                                                             metrics=self.metrics)
             else:
@@ -65,6 +65,7 @@ class Neural:
                 self.neural_network.model.load_weights('{}.h5'.format('models_saved/model'))
                 self.neural_network.model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
                 print('\nRede Neural Carregada ------------------------------------------\n')
+
             logging.debug('Loaded file {}.h5'.format('models_saved/model'))
 
             logging.debug('Neural network compiled: {} {} {} '.format(self.loss, self.optimizer, self.metrics))
