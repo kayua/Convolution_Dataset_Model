@@ -38,48 +38,47 @@ class ModelsV1(NeuralModel):
         third_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(second_convolution)
         third_convolution = Activation(activations.relu)(third_convolution)
 
-        fourth_convolution_block = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(third_convolution)
-        fourth_convolution_block = Activation(activations.relu)(fourth_convolution_block)
+        fourth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(third_convolution)
+        fourth_convolution = Activation(activations.relu)(fourth_convolution)
 
-        fifth_convolution_block = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution_block)
-        fifth_convolution_block = Activation(activations.relu)(fifth_convolution_block)
+        fifth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
+        fifth_convolution = Activation(activations.relu)(fifth_convolution)
 
-        first_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(
-            fifth_convolution_block)
-        first_deconvolution_block = Activation(activations.relu)(first_deconvolution_block)
+        first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
+        first_deconvolution = Activation(activations.relu)(first_deconvolution)
 
-        interpolation = Add()([first_deconvolution_block, fourth_convolution_block])
+        interpolation = Add()([first_deconvolution, fourth_convolution])
 
-        second_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        second_deconvolution_block = Activation(activations.relu)(second_deconvolution_block)
+        second_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        second_deconvolution = Activation(activations.relu)(second_deconvolution)
 
-        interpolation = Add()([second_deconvolution_block, third_convolution])
+        interpolation = Add()([second_deconvolution, third_convolution])
 
-        third_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        third_deconvolution_block = Activation(activations.relu)(third_deconvolution_block)
+        third_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        third_deconvolution = Activation(activations.relu)(third_deconvolution)
 
-        interpolation = Add()([third_deconvolution_block, second_convolution])
+        interpolation = Add()([third_deconvolution, second_convolution])
 
-        fourth_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        fourth_deconvolution_block = Activation(activations.relu)(fourth_deconvolution_block)
+        fourth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        fourth_deconvolution = Activation(activations.relu)(fourth_deconvolution)
 
-        interpolation = Add()([fourth_deconvolution_block, first_convolution])
+        interpolation = Add()([fourth_deconvolution, first_convolution])
 
-        fifth_deconvolution_block = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        fifth_deconvolution_block = Activation(activations.relu)(fifth_deconvolution_block)
+        fifth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        fifth_deconvolution = Activation(activations.relu)(fifth_deconvolution)
 
-        interpolation = Add()([fifth_deconvolution_block, input_layer_block])
+        interpolation = Add()([fifth_deconvolution, input_layer_block])
 
-        convolution_model_block = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(interpolation)
-        convolution_model_block = Activation(activations.relu)(convolution_model_block)
+        convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(interpolation)
+        convolution_model = Activation(activations.relu)(convolution_model)
 
-        convolution_model_block = Conv2D(1, (1, 1))(convolution_model_block)
-        convolution_model_block = Conv2D(1, (1, 1))(convolution_model_block)
+        convolution_model = Conv2D(1, (1, 1))(convolution_model)
+        convolution_model = Conv2D(1, (1, 1))(convolution_model)
 
-        convolution_model_block = Model(input_layer_block, convolution_model_block)
-        convolution_model_block.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
-        convolution_model_block.summary()
-        self.model = convolution_model_block
+        convolution_model = Model(input_layer_block, convolution_model)
+        convolution_model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
+        convolution_model.summary()
+        self.model = convolution_model
 
     @staticmethod
     def check_feature_empty(feature):
