@@ -169,11 +169,11 @@ class Analyse:
         analyse_results.write('  Total Traces failed file           : {}\n'.format(self.number_failed_swarm_lines))
         analyse_results.write('  Total Traces corrected file        : {}\n'.format(self.number_predicted_swarm_lines))
 
-        falhas = self.number_original_swarm_lines - self.number_failed_swarm_lines
-        analyse_results.write('  Fails (Original-failed)            : {}\n'.format(falhas))
+        faults = self.number_original_swarm_lines - self.number_failed_swarm_lines
+        analyse_results.write('  Fails (Original-failed)            : {}\n'.format(faults))
 
-        modificacoes = self.number_predicted_swarm_lines - self.number_failed_swarm_lines
-        analyse_results.write('  Modifications (Original-corrected) : {}\n'.format(modificacoes))
+        changes = self.number_predicted_swarm_lines - self.number_failed_swarm_lines
+        analyse_results.write('  Modifications (Original-corrected) : {}\n'.format(changes))
 
         analyse_results.write('------------------------------\n')
         analyse_results.write('            Analyse:          \n')
@@ -193,41 +193,41 @@ class Analyse:
         analyse_results.write('  True negative  (TN): {}\n'.format(self.true_negatives))
 
 
-        linha = "#SUMMARY#"
-        linha += ";{}".format(self.topology)
-        linha += ";{}".format(self.number_original_swarm_lines)
-        linha += ";{}".format(falhas)
-        linha += ";{}".format(self.threshold)
-        linha += ";{}%".format(int(self.pif * 100))
-        linha += ";{}".format(self.original_swarm_file)
-        linha += ";{}".format(self.threshold)
-        linha += ";{}".format(self.seed)
-        linha += ";{}".format(self.true_positives)
-        linha += ";{}".format(self.false_positives)
-        linha += ";{}".format(self.true_negatives)
-        linha += ";{}".format(self.false_negatives)
-        linha += "\n"
-        print(linha)
+        line_output = "#SUMMARY#"
+        line_output += ";{}".format(self.topology)
+        line_output += ";{}".format(self.number_original_swarm_lines)
+        line_output += ";{}".format(faults)
+        line_output += ";{}".format(self.threshold)
+        line_output += ";{}%".format(int(self.pif * 100))
+        line_output += ";{}".format(self.original_swarm_file)
+        line_output += ";{}".format(self.threshold)
+        line_output += ";{}".format(self.seed)
+        line_output += ";{}".format(self.true_positives)
+        line_output += ";{}".format(self.false_positives)
+        line_output += ";{}".format(self.true_negatives)
+        line_output += ";{}".format(self.false_negatives)
+        line_output += "\n"
+        print(line_output)
 
-        linha = "#SUMNEW#"
-        linha += ";{}".format(self.topology)
-        linha += ";{}".format(self.threshold)
+        line_output = "#SUMNEW#"
+        line_output += ";{}".format(self.topology)
+        line_output += ";{}".format(self.threshold)
 
-        linha += ";{}%".format(int(self.pif * 100))
-        linha += ";{}".format(self.original_swarm_file)
-        linha += ";{}".format(self.seed)
+        line_output += ";{}%".format(int(self.pif * 100))
+        line_output += ";{}".format(self.original_swarm_file)
+        line_output += ";{}".format(self.seed)
 
-        linha += ";{}".format(self.number_original_swarm_lines)
-        linha += ";{}".format(falhas)
-        linha += ";{}".format(modificacoes)
+        line_output += ";{}".format(self.number_original_swarm_lines)
+        line_output += ";{}".format(faults)
+        line_output += ";{}".format(changes)
 
-        linha += ";{}".format(self.true_positives)
-        linha += ";{}".format(self.false_positives)
-        linha += ";{}".format(self.true_negatives)
-        linha += ";{}".format(self.false_negatives)
-        linha += "\n"
-        print(linha)
-        analyse_results.write(linha)
+        line_output += ";{}".format(self.true_positives)
+        line_output += ";{}".format(self.false_positives)
+        line_output += ";{}".format(self.true_negatives)
+        line_output += ";{}".format(self.false_negatives)
+        line_output += "\n"
+        print(line_output)
+        analyse_results.write(line_output)
 
         analyse_results.write('\nEND ############################################\n\n')
         analyse_results.write('\n\n\n')
