@@ -44,37 +44,45 @@ class ModelsV1(NeuralModel):
         fifth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
         fifth_convolution = Activation(activations.relu)(fifth_convolution)
 
-        first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
+        sixth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
+        sixth_convolution = Activation(activations.relu)(sixth_convolution)
+
+        first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(sixth_convolution)
         first_deconvolution = Activation(activations.relu)(first_deconvolution)
 
-        interpolation = Add()([first_deconvolution, fourth_convolution])
+        interpolation = Add()([first_deconvolution, fifth_convolution])
 
         second_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         second_deconvolution = Activation(activations.relu)(second_deconvolution)
 
-        interpolation = Add()([second_deconvolution, third_convolution])
+        interpolation = Add()([second_deconvolution, fourth_convolution])
 
         third_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         third_deconvolution = Activation(activations.relu)(third_deconvolution)
 
-        interpolation = Add()([third_deconvolution, second_convolution])
+        interpolation = Add()([third_deconvolution, third_convolution])
 
         fourth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         fourth_deconvolution = Activation(activations.relu)(fourth_deconvolution)
 
-        interpolation = Add()([fourth_deconvolution, first_convolution])
+        interpolation = Add()([fourth_deconvolution, second_convolution])
 
         fifth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         fifth_deconvolution = Activation(activations.relu)(fifth_deconvolution)
 
-        interpolation = Add()([fifth_deconvolution, input_layer_block])
+        interpolation = Add()([fifth_deconvolution, first_convolution])
+
+        sixth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        sixth_deconvolution = Activation(activations.relu)(sixth_deconvolution)
+
+        interpolation = Add()([sixth_deconvolution, input_layer_block])
 
         convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(interpolation)
         convolution_model = Activation(activations.relu)(convolution_model)
+
         convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(convolution_model)
         convolution_model = Activation(activations.relu)(convolution_model)
 
-        convolution_model = Conv2D(1, (1, 1))(convolution_model)
         convolution_model = Conv2D(1, (1, 1))(convolution_model)
 
         convolution_model = Model(input_layer_block, convolution_model)
@@ -106,7 +114,6 @@ class ModelsV1(NeuralModel):
         for i in range(len(x_training)):
 
             if self.check_feature_empty(x_training[i]):
-
                 x_training_list.append(x_training[i])
                 y_training_list.append(y_training[i])
 
