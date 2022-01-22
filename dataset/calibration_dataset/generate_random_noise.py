@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 DEFAULT_PATH_ORIGINAL_IMAGES = 'original_image/'
 DEFAULT_PATH_FAILED_IMAGES = 'failed_image/'
-DEFAULT_THRESHOLD_NOISE = 75
+DEFAULT_THRESHOLD_NOISE = 25
 
 
 def generate_noise_in_image(file_image):
