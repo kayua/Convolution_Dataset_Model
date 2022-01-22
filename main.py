@@ -10,7 +10,6 @@ from tools.parameters.parameters import add_arguments, TIME_FORMAT
 
 
 def calibration_neural_model(args):
-
     logging.info('Starting calibration')
     neural_network_instance = create_classifier_model(args)
     logging.debug('Neural network instance created')
@@ -19,7 +18,6 @@ def calibration_neural_model(args):
 
 
 def create_samples(args):
-
     logging.info('Creating file samples')
     dataset_instance = Dataset(args)
     dataset_instance.load_swarm_to_feature()
@@ -71,7 +69,7 @@ def create_classifier_model(args):
         neural_model.load_model()
         return neural_model
 
-    if args.cmd == 'Training':
+    if args.cmd == 'Training' or args.cmd == 'Calibration':
         neural_model.create_neural_network(ModelsV1(args))
         return neural_model
 
