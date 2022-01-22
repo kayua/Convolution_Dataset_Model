@@ -47,17 +47,17 @@ class NeuralModel:
 
     def calibration(self, x_training, y_training):
 
-        for i in range(self.epochs):
+        for i in range(1200):
 
             random_array_feature = self.get_random_batch(x_training)
             samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
             samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
             self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
 
-            if self.epochs % 10:
+            if (i % 10)==1:
 
-                artificial_image = self.model.predict(samples_batch_training_in)
-                self.save_image_feature(artificial_image, samples_batch_training_in, i)
+                artificial_image = self.model.predict(samples_batch_training_in[0:10])
+                self.save_image_feature(artificial_image[0], samples_batch_training_in[0], samples_batch_training_out[0], i)
 
         return 0
 
