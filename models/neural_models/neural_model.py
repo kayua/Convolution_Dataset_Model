@@ -13,6 +13,7 @@ from random import randint
 import cv2
 import numpy
 import tensorflow
+from tensorflow import keras
 from tqdm import tqdm
 DEFAULT_CALIBRATION_PATH_IMAGE = 'images'
 
@@ -98,3 +99,17 @@ class NeuralModel:
         cv2.imwrite('{}/output_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), numpy.array(examples_a * 255))
         cv2.imwrite('{}/predicted_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), examples * 255)
         cv2.imwrite('{}/input{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), example_b * 255)
+
+    class ImageGeneratorCallback(keras.callbacks.Callback):
+
+        def __init__(self, latency_points):
+            super().__init__()
+            self.number_latency_points = latency_points
+
+        def on_epoch_end(self, epoch, logs=None):
+            latency_matrix = random.normal(shape=(2, self.number_latency_points))
+            generated_image = self.model.generator(latency_matrix)
+            generated_image = generated_image * 255
+            generated_image.numpy()
+            synthetic_image = keras.preprocessing.image.array_to_img(generated_image[0])
+            synthetic_image.save('generated_img_{}.png'.format(epoch))
