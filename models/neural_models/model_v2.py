@@ -1,21 +1,3 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-__author__ = 'All'
-__email__ = ' @gmail.com, @unipampa.edu.br '
-__version__ = '{2}.{0}.{1}'
-__data__ = '2021/11/21'
-__credits__ = ['All']
-
-from tensorflow.keras import Input
-from tensorflow.keras import activations
-from tensorflow.keras import Model
-from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import Conv2DTranspose
-from tensorflow.keras.layers import Add
-from tensorflow.keras.layers import Activation
-from models.neural_models.neural_model import NeuralModel
-import numpy
 
 import os
 import time
@@ -197,283 +179,161 @@ def discriminator(x, reuse):
         return out, logits
 
 
-
-
-
-
-class ModelsV1(NeuralModel):
-
-    def __init__(self, args):
-
-        super().__init__(args)
-        self.generator_block = None
-        self.discriminator_block = None
-        self.create_neural_network()
-
-    def create_neural_network():
-
-        input_generator_block = Input(shape=(self.length_latency_space))
-        input_discriminator_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
-        self.generator_block = self.create_generator_block(input_generator_block)
-        self.discriminator_block = self.create_discriminator_block(input_discriminator_block)
-        self.discriminator_block.trainable = True
-        self.model = self.create_generative_adversarial_model(self.generator_block, self.discriminator_block)
-
-        @staticmethod
-
-    def create_generative_adversarial_model(generative_model, discriminator_model):
-
-        discriminator_model.trainable = True
-        adversarial_neural_network = Sequential()
-        adversarial_neural_network.add(generative_model)
-        adversarial_neural_network.add(discriminator_model)
-        adversarial_neural_network.compile(loss='binary_crossentropy', optimizer='adam')
-        adversarial_neural_network.summary()
-        return adversarial_neural_network
-
-    def create_generator(self):
-
-        input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
-
-        first_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
-        first_convolution = Activation(activations.relu)(first_convolution)
-
-        second_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(first_convolution)
-        second_convolution = Activation(activations.relu)(second_convolution)
-
-        third_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(second_convolution)
-        third_convolution = Activation(activations.relu)(third_convolution)
-
-        fourth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(third_convolution)
-        fourth_convolution = Activation(activations.relu)(fourth_convolution)
-
-        fifth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
-        fifth_convolution = Activation(activations.relu)(fifth_convolution)
-
-        sixth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
-        sixth_convolution = Activation(activations.relu)(sixth_convolution)
-
-        first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(sixth_convolution)
-        first_deconvolution = Activation(activations.relu)(first_deconvolution)
-
-        interpolation = Add()([first_deconvolution, fifth_convolution])
-
-        second_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        second_deconvolution = Activation(activations.relu)(second_deconvolution)
-
-        interpolation = Add()([second_deconvolution, fourth_convolution])
-
-        third_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        third_deconvolution = Activation(activations.relu)(third_deconvolution)
-
-        interpolation = Add()([third_deconvolution, third_convolution])
-
-        fourth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        fourth_deconvolution = Activation(activations.relu)(fourth_deconvolution)
-
-        interpolation = Add()([fourth_deconvolution, second_convolution])
-
-        fifth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        fifth_deconvolution = Activation(activations.relu)(fifth_deconvolution)
-
-        interpolation = Add()([fifth_deconvolution, first_convolution])
-
-        sixth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        sixth_deconvolution = Activation(activations.relu)(sixth_deconvolution)
-
-        interpolation = Add()([sixth_deconvolution, input_layer_block])
-
-        convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(interpolation)
-        convolution_model = Activation(activations.relu)(convolution_model)
-
-        convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(convolution_model)
-        convolution_model = Activation(activations.relu)(convolution_model)
-
-        convolution_model = Conv2D(1, (1, 1))(convolution_model)
-
-        convolution_model = Model(input_layer_block, convolution_model)
-        convolution_model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
-        self.model = convolution_model
-
-    def create_discriminator_block(self, input_layer_block):
-
-        first_convolution = Conv2D(64, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
-        first_convolution = LeakyReLU()(first_convolution)
-
-        second_convolution = Conv2D(64, (3, 3), strides=(2, 2), padding='same')(first_convolution)
-        second_convolution = LeakyReLU()(second_convolution)
-
-        third_convolution = Conv2D(64, (3, 3), strides=(2, 2), padding='same')(second_convolution)
-        third_convolution = LeakyReLU()(third_convolution)
-
-        fourth_convolution = Conv2D(64, (3, 3), strides=(2, 2), padding='same')(third_convolution)
-        fourth_convolution = LeakyReLU()(fourth_convolution)
-
-        fifth_convolution = Conv2D(64, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
-        fifth_convolution = LeakyReLU()(fifth_convolution)
-
-        neural_discriminator_dense_block = Flatten()(fifth_convolution)
-
-        neural_discriminator_dense_block = Dense(1)(neural_discriminator_dense_block)
-        neural_discriminator_dense_block = Activation(activations.sigmoid)(neural_discriminator_dense_block)
-
-        convolution_model = Model(input_layer_block, neural_discriminator_dense_block)
-        convolution_model.compile(loss='binary_crossentropy', optimizer=self.optimizer, metrics=self.metrics)
-        convolution_model.summary()
-        return convolution_model
-
-    @staticmethod
-    def check_feature_empty(list_feature_samples):
-
-        number_true_samples = 0
-
-        for i in list_feature_samples:
-
-            for j in i:
-
-                if int(j) == 1:
-                    number_true_samples += 1
-
-        if number_true_samples > 0:
-            return 1
-
-        return 0
-
-    def remove_empty_features(self, x_training, y_training):
-
-        x_training_list = []
-        y_training_list = []
-
-        for i in range(len(x_training)):
-
-            if self.check_feature_empty(x_training[i]):
-                x_training_list.append(x_training[i])
-                y_training_list.append(y_training[i])
-
-        return numpy.array(x_training_list), numpy.array(y_training_list)
-
-    def training(self, x_training, y_training, evaluation_set):
-
-        x_training, y_training = self.remove_empty_features(x_training, y_training)
-
-        for i in range(self.epochs):
-
-            random_array_feature = self.get_random_batch(x_training)
-            batch_training_in = self.get_feature_batch(x_training, random_array_feature)
-            batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1)
-
-            if i % 10 == 0:
-                feature_predicted = self.model.predict(batch_training_in[0:10])
-                self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
-
-        return 0
-
-        @staticmethod
-
-    def check_feature_empty(list_feature_samples):
-
-        number_true_samples = 0
-
-        for i in list_feature_samples:
-
-            for j in i:
-
-                if int(j) == 1:
-                    number_true_samples += 1
-
-        if number_true_samples > 0:
-            return 1
-
-        return 0
-
-    def remove_empty_features(self, x_training, y_training=None):
-
-        print('Checking empty feature')
-        x_training_list = []
-        y_training_list = []
-
-        for i in range(len(x_training)):
-
-            if self.check_feature_empty(x_training[i]):
-
-                x_training_list.append(x_training[i])
-
-                if y_training is not None:
-                    y_training_list.append(y_training[i])
-
-        return numpy.array(x_training_list), numpy.array(y_training_list)
-
-    def get_synthetic_sample(self, image_file):
-
-        return self.generator_block.predict(image_file)
-
-    def calibration(self, x_training, y_training):
-
-        # x_training, y_training = self.remove_empty_features(x_training, y_training)
-
-        for i in range(self.epochs):
-
-            random_array_feature = self.get_random_batch(x_training)
-
-            batch_training_in = self.get_feature_batch(x_training, random_array_feature)
-            batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-
-            label_real_image = numpy.ones(len(random_array_feature))
-            label_synthetic_image = numpy.zeros(len(random_array_feature))
-
-            synthetic_image = self.get_synthetic_sample(numpy.array(batch_training_in))
-
-            real_images = batch_training_out
-
-            input_samples_training = numpy.concatenate((synthetic_image, real_images), axis=0)
-
-            output_samples_training = numpy.concatenate((label_synthetic_image, label_real_image), axis=0)
-
-            output_samples_training = numpy.reshape(output_samples_training, (len(output_samples_training), 1))
-
-            loss_disc = self.discriminator_block.train_on_batch(input_samples_training, output_samples_training)
-
-            loss_gen = self.model.train_on_batch(numpy.array(batch_training_in), numpy.array(label_real_image))
-
-            print('Epoch {}  Loss Discriminator {}   Loss Generator {}'.format(i, loss_disc, loss_gen))
-
-            if i % 100 == 0:
-                feature_predicted = self.get_synthetic_sample(numpy.array(batch_training_in[0:2]))
-                self.save_image_feature(feature_predicted[0], feature_predicted[0], feature_predicted[0], i)
-
-        return 0
-
-        def create_latency_noise(self):
-
-            return numpy.array(numpy.random.uniform(size=self.length_latency_space))
-
-
-def training(self, x_training, y_training=None, evaluation_set=None):
-    x_training, y_training = self.remove_empty_features(x_training, y_training)
-
-    for i in range(self.epochs):
-
-        random_array_feature = self.get_random_batch(x_training)
-        batch_training_in = [self.create_latency_noise() for i in range(len(random_array_feature))]
-        batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-
-        label_real_image = ones(len(random_array_feature), 1)
-        label_synthetic_image = zeros(len(random_array_feature), 0)
-
-        synthetic_image = self.get_synthetic_sample(batch_training_in)
-        real_images = batch_training_out
-
-        input_samples_training = synthetic_image + real_images
-        output_samples_training = label_synthetic_image + label_real_image
-        loss_disc = self.discriminator_block.train_on_batch(input_samples_training, output_samples_training)
-        loss_gen = self.model.train_on_batch(batch_training_in, label_real_image)
-        print('Epoch {}  Loss Discriminator {}   Loss Generator {}'.format(i, loss_disc, loss_gen))
-
-        if i % 50 == 0:
-            feature_predicted = self.get_synthetic_sample(batch_training_in[0:2])
-            self.save_image_feature(feature_predicted[0], feature_predicted[0], feature_predicted[0], i)
-
-    return 0
-
-
+def model_loss(input_real, input_z, output_channel_dim):
+    g_model = generator(input_z, output_channel_dim, True)
+
+    noisy_input_real = input_real + tf.random_normal(shape=tf.shape(input_real),
+                                                     mean=0.0,
+                                                     stddev=random.uniform(0.0, 0.1),
+                                                     dtype=tf.float32)
+
+    d_model_real, d_logits_real = discriminator(noisy_input_real, reuse=False)
+    d_model_fake, d_logits_fake = discriminator(g_model, reuse=True)
+
+    d_loss_real = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=d_logits_real,
+                                                                         labels=tf.ones_like(
+                                                                             d_model_real) * random.uniform(0.9, 1.0)))
+    d_loss_fake = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=d_logits_fake,
+                                                                         labels=tf.zeros_like(d_model_fake)))
+    d_loss = tf.reduce_mean(0.5 * (d_loss_real + d_loss_fake))
+    g_loss = tf.reduce_mean(tf.nn.sigmoid_cross_entropy_with_logits(logits=d_logits_fake,
+                                                                    labels=tf.ones_like(d_model_fake)))
+    return d_loss, g_loss
+
+
+def model_optimizers(d_loss, g_loss):
+    t_vars = tf.trainable_variables()
+    g_vars = [var for var in t_vars if var.name.startswith("generator")]
+    d_vars = [var for var in t_vars if var.name.startswith("discriminator")]
+
+    update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)
+    gen_updates = [op for op in update_ops if op.name.startswith('generator')]
+
+    with tf.control_dependencies(gen_updates):
+        d_train_opt = tf.train.AdamOptimizer(learning_rate=LR_D, beta1=BETA1).minimize(d_loss, var_list=d_vars)
+        g_train_opt = tf.train.AdamOptimizer(learning_rate=LR_G, beta1=BETA1).minimize(g_loss, var_list=g_vars)
+    return d_train_opt, g_train_opt
+
+
+def model_inputs(real_dim, z_dim):
+    inputs_real = tf.placeholder(tf.float32, (None, *real_dim), name='inputs_real')
+    inputs_z = tf.placeholder(tf.float32, (None, z_dim), name="input_z")
+    learning_rate_G = tf.placeholder(tf.float32, name="lr_g")
+    learning_rate_D = tf.placeholder(tf.float32, name="lr_d")
+    return inputs_real, inputs_z, learning_rate_G, learning_rate_D
+
+
+def show_samples(sample_images, name, epoch):
+    figure, axes = plt.subplots(1, len(sample_images), figsize=(IMAGE_SIZE, IMAGE_SIZE))
+    for index, axis in enumerate(axes):
+        axis.axis('off')
+        image_array = sample_images[index]
+        axis.imshow(image_array)
+        image = Image.fromarray(image_array)
+        image.save(name + "_" + str(epoch) + "_" + str(index) + ".png")
+    plt.savefig(name + "_" + str(epoch) + ".png", bbox_inches='tight', pad_inches=0)
+    plt.show()
+    plt.close()
+
+
+def test(sess, input_z, out_channel_dim, epoch):
+    example_z = np.random.uniform(-1, 1, size=[SAMPLES_TO_SHOW, input_z.get_shape().as_list()[-1]])
+    samples = sess.run(generator(input_z, out_channel_dim, False), feed_dict={input_z: example_z})
+    sample_images = [((sample + 1.0) * 127.5).astype(np.uint8) for sample in samples]
+    show_samples(sample_images, OUTPUT_DIR + "samples", epoch)
+
+
+def summarize_epoch(epoch, duration, sess, d_losses, g_losses, input_z, data_shape):
+    minibatch_size = int(data_shape[0] // BATCH_SIZE)
+    print("Epoch {}/{}".format(epoch, EPOCHS),
+          "\nDuration: {:.5f}".format(duration),
+          "\nD Loss: {:.5f}".format(np.mean(d_losses[-minibatch_size:])),
+          "\nG Loss: {:.5f}".format(np.mean(g_losses[-minibatch_size:])))
+    fig, ax = plt.subplots()
+    plt.plot(d_losses, label='Discriminator', alpha=0.6)
+    plt.plot(g_losses, label='Generator', alpha=0.6)
+    plt.title("Losses")
+    plt.legend()
+    plt.savefig(OUTPUT_DIR + "losses_" + str(epoch) + ".png")
+    plt.show()
+    plt.close()
+    test(sess, input_z, data_shape[3], epoch)
+
+
+def get_batches(data):
+    batches = []
+    for i in range(int(data.shape[0] // BATCH_SIZE)):
+        batch = data[i * BATCH_SIZE:(i + 1) * BATCH_SIZE]
+        augmented_images = []
+        for img in batch:
+            image = Image.fromarray(img)
+            if random.choice([True, False]):
+                image = image.transpose(Image.FLIP_LEFT_RIGHT)
+            augmented_images.append(np.asarray(image))
+        batch = np.asarray(augmented_images)
+        normalized_batch = (batch / 127.5) - 1.0
+        batches.append(normalized_batch)
+    return batches
+
+
+def train(get_batches, data_shape, checkpoint_to_load=None):
+    input_images, input_z, lr_G, lr_D = model_inputs(data_shape[1:], NOISE_SIZE)
+    d_loss, g_loss = model_loss(input_images, input_z, data_shape[3])
+    d_opt, g_opt = model_optimizers(d_loss, g_loss)
+
+    with tf.Session() as sess:
+        sess.run(tf.global_variables_initializer())
+        epoch = 0
+        iteration = 0
+        d_losses = []
+        g_losses = []
+
+        for epoch in range(EPOCHS):
+            epoch += 1
+            start_time = time.time()
+
+            for batch_images in get_batches:
+                iteration += 1
+                batch_z = np.random.uniform(-1, 1, size=(BATCH_SIZE, NOISE_SIZE))
+                _ = sess.run(d_opt, feed_dict={input_images: batch_images, input_z: batch_z, lr_D: LR_D})
+                _ = sess.run(g_opt, feed_dict={input_images: batch_images, input_z: batch_z, lr_G: LR_G})
+                d_losses.append(d_loss.eval({input_z: batch_z, input_images: batch_images}))
+                g_losses.append(g_loss.eval({input_z: batch_z}))
+
+            summarize_epoch(epoch, time.time() - start_time, sess, d_losses, g_losses, input_z, data_shape)
+
+
+# Paths
+INPUT_DATA_DIR = "drive/MyDrive/peoples/"  # Path to the folder with input images. For more info check simspons_dataset.txt
+OUTPUT_DIR = './{date:%Y-%m-%d_%H:%M:%S}/'.format(date=datetime.datetime.now())
+if not os.path.exists(OUTPUT_DIR):
+    os.makedirs(OUTPUT_DIR)
+
+# Hyperparameters
+IMAGE_SIZE = 128
+NOISE_SIZE = 100
+LR_D = 0.00004
+LR_G = 0.0004
+BATCH_SIZE = 64
+EPOCHS = 300
+BETA1 = 0.5
+WEIGHT_INIT_STDDEV = 0.02
+EPSILON = 0.00005
+SAMPLES_TO_SHOW = 5
+
+from google.colab import drive
+
+drive.mount('/content/drive')
+
+# Training
+input_images = np.asarray(
+    [np.asarray(Image.open(file).resize((IMAGE_SIZE, IMAGE_SIZE))) for file in glob(INPUT_DATA_DIR + '*')])
+print("Input: " + str(input_images.shape))
+
+np.random.shuffle(input_images)
+
+sample_images = random.sample(list(input_images), SAMPLES_TO_SHOW)
+show_samples(sample_images, OUTPUT_DIR + "inputs", 0)
+
+with tf.Graph().as_default():
+    train(get_batches(input_images), input_images.shape)
