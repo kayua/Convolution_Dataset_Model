@@ -222,9 +222,7 @@ class ModelsV1(NeuralModel):
         logging.info('End calibration model')
         return 0
 
-    def create_latency_noise(self):
 
-        return numpy.array(numpy.random.uniform(size=self.length_latency_space))
 
     def training(self, x_training, y_training=None, evaluation_set=None):
 
