@@ -222,13 +222,11 @@ class ModelsV1(NeuralModel):
         logging.info('End calibration model')
         return 0
 
-
-
     def training(self, x_training, y_training=None, evaluation_set=None):
 
         logging.info('Starting training model')
         save_image_callback = self.ImageGeneratorCallback(self.feature_window_width, self.feature_window_length)
-        self.adversarial_block.fit(x_training, epochs=self.epochs, callbacks=[save_image_callback])
+        self.adversarial_block.fit(x_training, y_training, epochs=self.epochs, callbacks=[save_image_callback])
         logging.info('End training model')
         return 0
 
@@ -257,13 +255,11 @@ class AdversarialClass(keras.Model):
 
         return [self.d_loss_metric, self.g_loss_metric]
 
-    def train_step(self, real_images):
+    def train_step(self, real_images, training_input):
 
         number_images_per_batch = tf.shape(real_images)[0]
-        latency_matrix = random.normal(shape=(number_images_per_batch, self.feature_window_width,
-                                              self.feature_window_length))
 
-        synthetic_image_generated = self.generator(latency_matrix)
+        synthetic_image_generated = self.generator(training_input)
         batch_images_input = concat([synthetic_image_generated, real_images], axis=0)
         list_labels = concat([ones((number_images_per_batch, 1)), zeros((number_images_per_batch, 1))], axis=0)
         list_labels += 0.05 * random.uniform(shape(list_labels))
@@ -275,12 +271,10 @@ class AdversarialClass(keras.Model):
         update_gradient_function = gradient_tape.gradient(discriminator_loss, self.discriminator.trainable_weights)
         self.d_optimizer.apply_gradients(zip(update_gradient_function, self.discriminator.trainable_weights))
 
-        latency_matrix = random.normal(shape=(number_images_per_batch, self.feature_window_width,
-                                              self.feature_window_length))
         misleading_labels = zeros((number_images_per_batch, 1))
 
         with GradientTape() as gradient_tape:
-            list_images_predicted = self.discriminator(self.generator(latency_matrix))
+            list_images_predicted = self.discriminator(self.generator(training_input))
             generator_loss = self.loss_fn(misleading_labels, list_images_predicted)
 
         update_gradient_function = gradient_tape.gradient(generator_loss, self.generator.trainable_weights)
