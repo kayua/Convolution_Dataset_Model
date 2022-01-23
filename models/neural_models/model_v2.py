@@ -9,8 +9,6 @@ __credits__ = ['All']
 
 import logging
 
-from keras import activations
-from keras.layers import Add
 from tensorflow.keras.layers import LeakyReLU, Dropout
 from tensorflow.keras.losses import BinaryCrossentropy
 
@@ -24,6 +22,7 @@ from tensorflow import GradientTape
 from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import BatchNormalization
@@ -58,88 +57,38 @@ class ModelsV1(NeuralModel):
 
     def create_generative_adversarial_model(self, generative_model, discriminator_model):
 
-        adversarial_block = AdversarialClass(discriminator_model, generative_model, self.feature_window_width,
-                                             self.feature_window_length)
+        adversarial_block = AdversarialClass(discriminator_model, generative_model, self.length_latency_space)
         adversarial_block.compile(d_optimizer=Adam(learning_rate=0.0001), loss_fn=BinaryCrossentropy(),
                                   g_optimizer=Adam(learning_rate=0.0001), )
         return adversarial_block
 
     def create_generator_block(self):
 
-        input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
+        input_layer_block = Input(shape=(self.length_latency_space,))
+        generator_block_model = Dense(8 * 8 * 128)(input_layer_block)
+        generator_block_model = Reshape((8, 8, 128))(generator_block_model)
 
-        first_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
-        first_convolution = Activation(activations.relu)(first_convolution)
-        first_convolution = BatchNormalization()(first_convolution)
+        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
+        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
+        generator_block_model = BatchNormalization()(generator_block_model)
 
-        second_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(first_convolution)
-        second_convolution = Activation(activations.relu)(second_convolution)
-        second_convolution = BatchNormalization()(second_convolution)
+        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
+        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
+        generator_block_model = BatchNormalization()(generator_block_model)
 
-        third_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(second_convolution)
-        third_convolution = Activation(activations.relu)(third_convolution)
-        third_convolution = BatchNormalization()(third_convolution)
+        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
+        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
+        generator_block_model = BatchNormalization()(generator_block_model)
 
-        fourth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(third_convolution)
-        fourth_convolution = Activation(activations.relu)(fourth_convolution)
-        fourth_convolution = BatchNormalization()(fourth_convolution)
+        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
+        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
+        generator_block_model = BatchNormalization()(generator_block_model)
 
-        fifth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
-        fifth_convolution = Activation(activations.relu)(fifth_convolution)
-        fifth_convolution = BatchNormalization()(fifth_convolution)
+        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
+        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
+        generator_block_model = BatchNormalization()(generator_block_model)
 
-        sixth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
-        sixth_convolution = Activation(activations.relu)(sixth_convolution)
-        sixth_convolution = BatchNormalization()(sixth_convolution)
-
-
-        first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(sixth_convolution)
-        first_deconvolution = Activation(activations.relu)(first_deconvolution)
-        first_deconvolution = BatchNormalization()(first_deconvolution)
-
-        interpolation = Add()([first_deconvolution, fifth_convolution])
-
-        second_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        second_deconvolution = Activation(activations.relu)(second_deconvolution)
-        second_deconvolution = BatchNormalization()(second_deconvolution)
-
-        interpolation = Add()([second_deconvolution, fourth_convolution])
-
-        third_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        third_deconvolution = Activation(activations.relu)(third_deconvolution)
-        third_deconvolution = BatchNormalization()(third_deconvolution)
-
-        interpolation = Add()([third_deconvolution, third_convolution])
-
-        fourth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        fourth_deconvolution = Activation(activations.relu)(fourth_deconvolution)
-        fourth_deconvolution = BatchNormalization()(fourth_deconvolution)
-
-        interpolation = Add()([fourth_deconvolution, second_convolution])
-
-        fifth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        fifth_deconvolution = Activation(activations.relu)(fifth_deconvolution)
-        fifth_deconvolution = BatchNormalization()(fifth_deconvolution)
-
-        interpolation = Add()([fifth_deconvolution, first_convolution])
-
-        sixth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
-        sixth_deconvolution = Activation(activations.relu)(sixth_deconvolution)
-        sixth_deconvolution = BatchNormalization()(sixth_deconvolution)
-
-        interpolation = Add()([sixth_deconvolution, input_layer_block])
-
-        generator_model_block = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(interpolation)
-        generator_model_block = Activation(activations.relu)(generator_model_block)
-
-        generator_model_block = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(generator_model_block)
-        generator_model_block = Activation(activations.relu)(generator_model_block)
-
-        generator_model_block = Conv2D(1, (1, 1))(generator_model_block)
-
-        generator_model_block = Model(input_layer_block, generator_model_block)
-
-        return Model(input_layer_block, generator_model_block, name="generator")
+        return Model(input_layer_block, generator_block_model, name="generator")
 
     @staticmethod
     def create_discriminator_block():
@@ -217,29 +166,32 @@ class ModelsV1(NeuralModel):
     def calibration(self, x_training, y_training):
 
         logging.info('Start calibration model')
-        save_image_callback = self.ImageGeneratorCallback(self.feature_window_width, self.feature_window_length)
+        save_image_callback = self.ImageGeneratorCallback(self.length_latency_space)
         self.adversarial_block.fit(x_training, epochs=self.epochs, callbacks=[save_image_callback])
         logging.info('End calibration model')
         return 0
 
+    def create_latency_noise(self):
+
+        return numpy.array(numpy.random.uniform(size=self.length_latency_space))
+
     def training(self, x_training, y_training=None, evaluation_set=None):
 
         logging.info('Starting training model')
-        save_image_callback = self.ImageGeneratorCallback(self.feature_window_width, self.feature_window_length)
-        self.adversarial_block.fit(x_training, y_training, epochs=self.epochs, callbacks=[save_image_callback])
+        save_image_callback = self.ImageGeneratorCallback(self.length_latency_space)
+        self.adversarial_block.fit(x_training, epochs=self.epochs, callbacks=[save_image_callback])
         logging.info('End training model')
         return 0
 
 
 class AdversarialClass(keras.Model):
 
-    def __init__(self, discriminator, generator, feature_window_width, feature_window_length):
+    def __init__(self, discriminator, generator, number_latency_points):
 
         super(AdversarialClass, self).__init__()
         self.discriminator = discriminator
         self.generator = generator
-        self.feature_window_width = feature_window_width
-        self.feature_window_length = feature_window_length
+        self.latent_dim = number_latency_points
 
     def compile(self, d_optimizer, g_optimizer, loss_fn):
 
@@ -255,11 +207,11 @@ class AdversarialClass(keras.Model):
 
         return [self.d_loss_metric, self.g_loss_metric]
 
-    def train_step(self, real_images, training_input):
+    def train_step(self, real_images):
 
         number_images_per_batch = tf.shape(real_images)[0]
-
-        synthetic_image_generated = self.generator(training_input)
+        latency_matrix = random.normal(shape=(number_images_per_batch, self.latent_dim))
+        synthetic_image_generated = self.generator(latency_matrix)
         batch_images_input = concat([synthetic_image_generated, real_images], axis=0)
         list_labels = concat([ones((number_images_per_batch, 1)), zeros((number_images_per_batch, 1))], axis=0)
         list_labels += 0.05 * random.uniform(shape(list_labels))
@@ -271,10 +223,11 @@ class AdversarialClass(keras.Model):
         update_gradient_function = gradient_tape.gradient(discriminator_loss, self.discriminator.trainable_weights)
         self.d_optimizer.apply_gradients(zip(update_gradient_function, self.discriminator.trainable_weights))
 
+        latency_matrix = random.normal(shape=(number_images_per_batch, self.latent_dim))
         misleading_labels = zeros((number_images_per_batch, 1))
 
         with GradientTape() as gradient_tape:
-            list_images_predicted = self.discriminator(self.generator(training_input))
+            list_images_predicted = self.discriminator(self.generator(latency_matrix))
             generator_loss = self.loss_fn(misleading_labels, list_images_predicted)
 
         update_gradient_function = gradient_tape.gradient(generator_loss, self.generator.trainable_weights)
