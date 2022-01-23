@@ -58,7 +58,8 @@ class ModelsV1(NeuralModel):
 
     def create_generative_adversarial_model(self, generative_model, discriminator_model):
 
-        adversarial_block = AdversarialClass(discriminator_model, generative_model, self.length_latency_space)
+        adversarial_block = AdversarialClass(discriminator_model, generative_model, self.feature_window_width,
+                                             self.feature_window_length)
         adversarial_block.compile(d_optimizer=Adam(learning_rate=0.0001), loss_fn=BinaryCrossentropy(),
                                   g_optimizer=Adam(learning_rate=0.0001), )
         return adversarial_block
@@ -236,12 +237,13 @@ class ModelsV1(NeuralModel):
 
 class AdversarialClass(keras.Model):
 
-    def __init__(self, discriminator, generator, number_latency_points):
+    def __init__(self, discriminator, generator, feature_window_width, feature_window_length):
 
         super(AdversarialClass, self).__init__()
         self.discriminator = discriminator
         self.generator = generator
-        self.latent_dim = number_latency_points
+        self.feature_window_width = feature_window_width
+        self.feature_window_length = feature_window_length
 
     def compile(self, d_optimizer, g_optimizer, loss_fn):
 
