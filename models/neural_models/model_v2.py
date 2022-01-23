@@ -277,7 +277,8 @@ class AdversarialClass(keras.Model):
         update_gradient_function = gradient_tape.gradient(discriminator_loss, self.discriminator.trainable_weights)
         self.d_optimizer.apply_gradients(zip(update_gradient_function, self.discriminator.trainable_weights))
 
-        latency_matrix = random.normal(shape=(number_images_per_batch, self.latent_dim))
+        latency_matrix = random.normal(shape=(number_images_per_batch, self.feature_window_width,
+                                              self.feature_window_length))
         misleading_labels = zeros((number_images_per_batch, 1))
 
         with GradientTape() as gradient_tape:
