@@ -91,33 +91,40 @@ class ModelsV1(NeuralModel):
         sixth_convolution = Activation(activations.relu)(sixth_convolution)
         sixth_convolution = BatchNormalization()(sixth_convolution)
 
+
         first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(sixth_convolution)
         first_deconvolution = Activation(activations.relu)(first_deconvolution)
+        first_deconvolution = BatchNormalization()(first_deconvolution)
 
         interpolation = Add()([first_deconvolution, fifth_convolution])
 
         second_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         second_deconvolution = Activation(activations.relu)(second_deconvolution)
+        second_deconvolution = BatchNormalization()(second_deconvolution)
 
         interpolation = Add()([second_deconvolution, fourth_convolution])
 
         third_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         third_deconvolution = Activation(activations.relu)(third_deconvolution)
+        third_deconvolution = BatchNormalization()(third_deconvolution)
 
         interpolation = Add()([third_deconvolution, third_convolution])
 
         fourth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         fourth_deconvolution = Activation(activations.relu)(fourth_deconvolution)
+        fourth_deconvolution = BatchNormalization()(fourth_deconvolution)
 
         interpolation = Add()([fourth_deconvolution, second_convolution])
 
         fifth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         fifth_deconvolution = Activation(activations.relu)(fifth_deconvolution)
+        fifth_deconvolution = BatchNormalization()(fifth_deconvolution)
 
         interpolation = Add()([fifth_deconvolution, first_convolution])
 
         sixth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
         sixth_deconvolution = Activation(activations.relu)(sixth_deconvolution)
+        sixth_deconvolution = BatchNormalization()(sixth_deconvolution)
 
         interpolation = Add()([sixth_deconvolution, input_layer_block])
 
