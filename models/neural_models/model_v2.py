@@ -71,7 +71,6 @@ class ModelsV1(NeuralModel):
         first_convolution = Activation(activations.relu)(first_convolution)
         first_convolution = BatchNormalization()(first_convolution)
 
-
         second_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(first_convolution)
         second_convolution = Activation(activations.relu)(second_convolution)
         second_convolution = BatchNormalization()(second_convolution)
@@ -86,9 +85,11 @@ class ModelsV1(NeuralModel):
 
         fifth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
         fifth_convolution = Activation(activations.relu)(fifth_convolution)
+        fifth_convolution = BatchNormalization()(fifth_convolution)
 
         sixth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
         sixth_convolution = Activation(activations.relu)(sixth_convolution)
+        sixth_convolution = BatchNormalization()(sixth_convolution)
 
         first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(sixth_convolution)
         first_deconvolution = Activation(activations.relu)(first_deconvolution)
