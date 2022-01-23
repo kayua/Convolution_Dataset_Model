@@ -262,7 +262,9 @@ class AdversarialClass(keras.Model):
     def train_step(self, real_images):
 
         number_images_per_batch = tf.shape(real_images)[0]
-        latency_matrix = random.normal(shape=(number_images_per_batch, self.latent_dim))
+        latency_matrix = random.normal(shape=(number_images_per_batch, self.feature_window_width,
+                                              self.feature_window_length))
+
         synthetic_image_generated = self.generator(latency_matrix)
         batch_images_input = concat([synthetic_image_generated, real_images], axis=0)
         list_labels = concat([ones((number_images_per_batch, 1)), zeros((number_images_per_batch, 1))], axis=0)
