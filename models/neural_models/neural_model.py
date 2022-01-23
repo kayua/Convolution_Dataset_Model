@@ -14,6 +14,7 @@ import cv2
 import numpy
 import tensorflow
 from tensorflow import keras
+from tensorflow import random
 from tqdm import tqdm
 DEFAULT_CALIBRATION_PATH_IMAGE = 'images'
 
