@@ -217,7 +217,7 @@ class ModelsV1(NeuralModel):
     def calibration(self, x_training, y_training):
 
         logging.info('Start calibration model')
-        save_image_callback = self.ImageGeneratorCallback(self.length_latency_space)
+        save_image_callback = self.ImageGeneratorCallback(self.feature_window_width, self.feature_window_length)
         self.adversarial_block.fit(x_training, epochs=self.epochs, callbacks=[save_image_callback])
         logging.info('End calibration model')
         return 0
@@ -229,7 +229,7 @@ class ModelsV1(NeuralModel):
     def training(self, x_training, y_training=None, evaluation_set=None):
 
         logging.info('Starting training model')
-        save_image_callback = self.ImageGeneratorCallback(self.length_latency_space)
+        save_image_callback = self.ImageGeneratorCallback(self.feature_window_width, self.feature_window_length)
         self.adversarial_block.fit(x_training, epochs=self.epochs, callbacks=[save_image_callback])
         logging.info('End training model')
         return 0

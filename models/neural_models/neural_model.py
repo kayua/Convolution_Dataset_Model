@@ -103,12 +103,13 @@ class NeuralModel:
 
     class ImageGeneratorCallback(keras.callbacks.Callback):
 
-        def __init__(self, latency_points):
+        def __init__(self, feature_window_width, feature_window_length):
             super().__init__()
-            self.number_latency_points = latency_points
+            self.feature_window_width = feature_window_width
+            self.feature_window_length = feature_window_length
 
         def on_epoch_end(self, epoch, logs=None):
-            latency_matrix = random.normal(shape=(2, self.number_latency_points))
+            latency_matrix = random.normal(shape=(2, self.feature_window_width, self.feature_window_length))
             generated_image = self.model.generator(latency_matrix)
             generated_image = generated_image * 255
             generated_image.numpy()
