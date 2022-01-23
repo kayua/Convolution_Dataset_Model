@@ -9,6 +9,8 @@ __credits__ = ['All']
 
 import logging
 
+from keras import activations
+from keras.layers import Add
 from tensorflow.keras.layers import LeakyReLU, Dropout
 from tensorflow.keras.losses import BinaryCrossentropy
 
@@ -22,7 +24,6 @@ from tensorflow import GradientTape
 from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import BatchNormalization
@@ -64,31 +65,72 @@ class ModelsV1(NeuralModel):
 
     def create_generator_block(self):
 
-        input_layer_block = Input(shape=(self.length_latency_space,))
-        generator_block_model = Dense(8 * 8 * 128)(input_layer_block)
-        generator_block_model = Reshape((8, 8, 128))(generator_block_model)
+        input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
 
-        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
-        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
-        generator_block_model = BatchNormalization()(generator_block_model)
+        first_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
+        first_convolution = Activation(activations.relu)(first_convolution)
+        first_convolution = BatchNormalization()(first_convolution)
 
-        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
-        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
-        generator_block_model = BatchNormalization()(generator_block_model)
 
-        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
-        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
-        generator_block_model = BatchNormalization()(generator_block_model)
+        second_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(first_convolution)
+        second_convolution = Activation(activations.relu)(second_convolution)
+        second_convolution = BatchNormalization()(second_convolution)
 
-        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
-        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
-        generator_block_model = BatchNormalization()(generator_block_model)
+        third_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(second_convolution)
+        third_convolution = Activation(activations.relu)(third_convolution)
+        third_convolution = BatchNormalization()(third_convolution)
 
-        generator_block_model = Conv2DTranspose(128, kernel_size=4, strides=2, padding="same")(generator_block_model)
-        generator_block_model = LeakyReLU(alpha=0.2)(generator_block_model)
-        generator_block_model = BatchNormalization()(generator_block_model)
+        fourth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(third_convolution)
+        fourth_convolution = Activation(activations.relu)(fourth_convolution)
+        fourth_convolution = BatchNormalization()(fourth_convolution)
 
-        return Model(input_layer_block, generator_block_model, name="generator")
+        fifth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
+        fifth_convolution = Activation(activations.relu)(fifth_convolution)
+
+        sixth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
+        sixth_convolution = Activation(activations.relu)(sixth_convolution)
+
+        first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(sixth_convolution)
+        first_deconvolution = Activation(activations.relu)(first_deconvolution)
+
+        interpolation = Add()([first_deconvolution, fifth_convolution])
+
+        second_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        second_deconvolution = Activation(activations.relu)(second_deconvolution)
+
+        interpolation = Add()([second_deconvolution, fourth_convolution])
+
+        third_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        third_deconvolution = Activation(activations.relu)(third_deconvolution)
+
+        interpolation = Add()([third_deconvolution, third_convolution])
+
+        fourth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        fourth_deconvolution = Activation(activations.relu)(fourth_deconvolution)
+
+        interpolation = Add()([fourth_deconvolution, second_convolution])
+
+        fifth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        fifth_deconvolution = Activation(activations.relu)(fifth_deconvolution)
+
+        interpolation = Add()([fifth_deconvolution, first_convolution])
+
+        sixth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        sixth_deconvolution = Activation(activations.relu)(sixth_deconvolution)
+
+        interpolation = Add()([sixth_deconvolution, input_layer_block])
+
+        generator_model_block = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(interpolation)
+        generator_model_block = Activation(activations.relu)(generator_model_block)
+
+        generator_model_block = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(generator_model_block)
+        generator_model_block = Activation(activations.relu)(generator_model_block)
+
+        generator_model_block = Conv2D(1, (1, 1))(generator_model_block)
+
+        generator_model_block = Model(input_layer_block, generator_model_block)
+
+        return Model(input_layer_block, generator_model_block, name="generator")
 
     @staticmethod
     def create_discriminator_block():
