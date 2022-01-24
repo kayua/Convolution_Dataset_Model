@@ -14,8 +14,8 @@ import cv2
 import numpy
 import tensorflow
 from tensorflow import keras
-from tensorflow import random
 from tqdm import tqdm
+
 DEFAULT_CALIBRATION_PATH_IMAGE = 'images'
 
 
@@ -29,6 +29,7 @@ class NeuralModel:
         self.loss = args.loss
         self.optimizer = args.optimizer
         self.metrics = args.metrics
+        self.length_latency_space = 100
         self.feature_window_width = args.window_width
         self.feature_window_length = args.window_length
 
@@ -56,10 +57,10 @@ class NeuralModel:
             samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
             self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
 
-            if (i % 10)==1:
-
+            if (i % 10) == 1:
                 artificial_image = self.model.predict(samples_batch_training_in[0:10])
-                self.save_image_feature(artificial_image[0], samples_batch_training_in[0], samples_batch_training_out[0], i)
+                self.save_image_feature(artificial_image[0], samples_batch_training_in[0],
+                                        samples_batch_training_out[0], i)
 
         return 0
 
@@ -94,24 +95,23 @@ class NeuralModel:
 
         return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
 
+    class ImageGeneratorCallback(keras.callbacks.Callback):
+
+        def __init__(self, latency_points):
+            super().__init__()
+            self.number_latency_points = latency_points
+
+        def on_epoch_end(self, epoch, logs=None):
+            latency_matrix = random.normal(shape=(2, self.number_latency_points))
+            generated_image = self.model.generator(latency_matrix)
+            generated_image = generated_image * 255
+            generated_image.numpy()
+            synthetic_image = keras.preprocessing.image.array_to_img(generated_image[0])
+            synthetic_image.save('generated_img_{}.png'.format(epoch))
+
     @staticmethod
     def save_image_feature(examples, examples_a, example_b, epoch):
 
         cv2.imwrite('{}/output_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), numpy.array(examples_a * 255))
         cv2.imwrite('{}/predicted_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), examples * 255)
         cv2.imwrite('{}/input{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), example_b * 255)
-
-    class ImageGeneratorCallback(keras.callbacks.Callback):
-
-        def __init__(self, feature_window_width, feature_window_length):
-            super().__init__()
-            self.feature_window_width = feature_window_width
-            self.feature_window_length = feature_window_length
-
-        def on_epoch_end(self, epoch, logs=None):
-            latency_matrix = random.normal(shape=(2, self.feature_window_width, self.feature_window_length))
-            generated_image = self.model.generator(latency_matrix)
-            generated_image = generated_image * 255
-            generated_image.numpy()
-            synthetic_image = keras.preprocessing.image.array_to_img(generated_image[0])
-            synthetic_image.save('generated_img_{}.png'.format(epoch))
