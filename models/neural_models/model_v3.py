@@ -7,111 +7,131 @@ __version__ = '{2}.{0}.{1}'
 __data__ = '2021/11/21'
 __credits__ = ['All']
 
-from glob import glob
-from random import randint
-
-import cv2
+from tensorflow.keras import Input
+from tensorflow.keras import activations
+from tensorflow.keras import Model
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Conv2DTranspose
+from tensorflow.keras.layers import Add
+from tensorflow.keras.layers import Activation
+from models.neural_models.neural_model import NeuralModel
 import numpy
-import tensorflow
-from tensorflow import keras
-from tqdm import tqdm
-
-DEFAULT_CALIBRATION_PATH_IMAGE = 'images'
 
 
-class NeuralModel:
+class ModelsV1(NeuralModel):
 
     def __init__(self, args):
 
-        self.model = None
-        self.steps_per_epochs = args.steps_per_epoch
-        self.epochs = args.epochs
-        self.loss = args.loss
-        self.optimizer = args.optimizer
-        self.metrics = args.metrics
-        self.length_latency_space = 100
-        self.feature_window_width = args.window_width
-        self.feature_window_length = args.window_length
+        super().__init__(args)
+        self.create_neural_network()
 
     def create_neural_network(self):
-        pass
+
+        input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
+
+        first_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
+        first_convolution = Activation(activations.relu)(first_convolution)
+
+        second_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(first_convolution)
+        second_convolution = Activation(activations.relu)(second_convolution)
+
+        third_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(second_convolution)
+        third_convolution = Activation(activations.relu)(third_convolution)
+
+        fourth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(third_convolution)
+        fourth_convolution = Activation(activations.relu)(fourth_convolution)
+
+        fifth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
+        fifth_convolution = Activation(activations.relu)(fifth_convolution)
+
+        sixth_convolution = Conv2D(180, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
+        sixth_convolution = Activation(activations.relu)(sixth_convolution)
+
+        first_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(sixth_convolution)
+        first_deconvolution = Activation(activations.relu)(first_deconvolution)
+
+        interpolation = Add()([first_deconvolution, fifth_convolution])
+
+        second_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        second_deconvolution = Activation(activations.relu)(second_deconvolution)
+
+        interpolation = Add()([second_deconvolution, fourth_convolution])
+
+        third_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        third_deconvolution = Activation(activations.relu)(third_deconvolution)
+
+        interpolation = Add()([third_deconvolution, third_convolution])
+
+        fourth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        fourth_deconvolution = Activation(activations.relu)(fourth_deconvolution)
+
+        interpolation = Add()([fourth_deconvolution, second_convolution])
+
+        fifth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        fifth_deconvolution = Activation(activations.relu)(fifth_deconvolution)
+
+        interpolation = Add()([fifth_deconvolution, first_convolution])
+
+        sixth_deconvolution = Conv2DTranspose(180, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        sixth_deconvolution = Activation(activations.relu)(sixth_deconvolution)
+
+        interpolation = Add()([sixth_deconvolution, input_layer_block])
+
+        convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(interpolation)
+        convolution_model = Activation(activations.relu)(convolution_model)
+
+        convolution_model = Conv2DTranspose(180, (3, 3), strides=(1, 1), padding='same')(convolution_model)
+        convolution_model = Activation(activations.relu)(convolution_model)
+
+        convolution_model = Conv2D(1, (1, 1))(convolution_model)
+
+        convolution_model = Model(input_layer_block, convolution_model)
+        convolution_model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
+        self.model = convolution_model
 
     @staticmethod
-    def adapter_input(training_set_in, training_set_out):
+    def check_feature_empty(list_feature_samples):
 
-        in_training_set = numpy.array(training_set_in, dtype=numpy.int32)
-        out_training_set = numpy.array(training_set_out, dtype=numpy.int32)
+        number_true_samples = 0
 
-        return in_training_set, out_training_set
+        for i in list_feature_samples:
 
-    def training(self, x_training, y_training, evaluation_set):
+            for j in i:
 
-        pass
+                if int(j) == 1:
+                    number_true_samples += 1
 
-    def calibration(self, x_training, y_training):
-
-        for i in range(1200):
-
-            random_array_feature = self.get_random_batch(x_training)
-            samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
-            samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
-
-            if (i % 10) == 1:
-                artificial_image = self.model.predict(samples_batch_training_in[0:10])
-                self.save_image_feature(artificial_image[0], samples_batch_training_in[0],
-                                        samples_batch_training_out[0], i)
+        if number_true_samples > 0:
+            return 1
 
         return 0
 
-    def parse_image(self, filename):
+    def remove_empty_features(self, x_training, y_training):
 
-        image = tensorflow.io.read_file(filename)
-        image = tensorflow.image.decode_png(image, channels=1)
-        image = tensorflow.image.convert_image_dtype(image, tensorflow.float32)
-        image = tensorflow.image.resize(image, [self.feature_window_width, self.feature_window_length])
-        return image
+        x_training_list = []
+        y_training_list = []
 
-    def load_images_test(self, path_images):
+        for i in range(len(x_training)):
 
-        list_samples_training = glob(path_images + "/*")
-        list_samples_training.sort()
+            if self.check_feature_empty(x_training[i]):
+                x_training_list.append(x_training[i])
+                y_training_list.append(y_training[i])
 
-        list_samples_training = list_samples_training[:512]
-        list_features_image_gray_scale = []
+        return numpy.array(x_training_list), numpy.array(y_training_list)
 
-        for i in tqdm(list_samples_training, desc="Loading dataset calibration"):
-            gray_scale_feature = self.parse_image(i)
+    def training(self, x_training, y_training, evaluation_set):
 
-            list_features_image_gray_scale.append(gray_scale_feature)
+        x_training, y_training = self.remove_empty_features(x_training, y_training)
 
-        return list_features_image_gray_scale
+        for i in range(self.epochs):
 
-    def get_random_batch(self, samples_training):
+            random_array_feature = self.get_random_batch(x_training)
+            batch_training_in = self.get_feature_batch(x_training, random_array_feature)
+            batch_training_out = self.get_feature_batch(y_training, random_array_feature)
+            self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1)
 
-        return [randint(0, len(samples_training) - 1) for _ in range(self.steps_per_epochs)]
+            if i % 10 == 0:
+                feature_predicted = self.model.predict(batch_training_in[0:10])
+                self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
 
-    def get_feature_batch(self, samples_training, random_array_feature):
-
-        return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
-
-    class ImageGeneratorCallback(keras.callbacks.Callback):
-
-        def __init__(self, latency_points):
-            super().__init__()
-            self.number_latency_points = latency_points
-
-        def on_epoch_end(self, epoch, logs=None):
-            latency_matrix = random.normal(shape=(2, self.number_latency_points))
-            generated_image = self.model.generator(latency_matrix)
-            generated_image = generated_image * 255
-            generated_image.numpy()
-            synthetic_image = keras.preprocessing.image.array_to_img(generated_image[0])
-            synthetic_image.save('generated_img_{}.png'.format(epoch))
-
-    @staticmethod
-    def save_image_feature(examples, examples_a, example_b, epoch):
-
-        cv2.imwrite('{}/output_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), numpy.array(examples_a * 255))
-        cv2.imwrite('{}/predicted_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), examples * 255)
-        cv2.imwrite('{}/input{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch), example_b * 255)
+        return 0
