@@ -5,7 +5,7 @@ from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
 from tools.analyse.analyse import Analyse
 from tools.dataset.dataset import Dataset
-from tools.parameters.parameters import add_arguments
+from tools.parameters.parameters import add_arguments, show_config
 from tools.parameters.parameters import TIME_FORMAT
 
 
@@ -74,9 +74,11 @@ def create_classifier_model(args):
 
 def evaluation(args):
 
+    logging.info('Start evaluation neural network model')
     evaluation_model = Analyse(args)
     evaluation_model.get_all_metrics()
     evaluation_model.write_results_analyse()
+    logging.info('End evaluation neural network model')
 
 
 def arguments_cmd_choice(args):
