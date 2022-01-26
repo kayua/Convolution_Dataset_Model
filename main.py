@@ -4,7 +4,6 @@ from sys import argv
 
 from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
-from models.neural_models.model_v2 import ModelsV2
 from tools.analyse.analyse import Analyse
 from tools.dataset.dataset import Dataset
 from tools.parameters.parameters import add_arguments, TIME_FORMAT
@@ -71,7 +70,7 @@ def create_classifier_model(args):
         return neural_model
 
     if args.cmd == 'Training' or args.cmd == 'Calibration':
-        neural_model.create_neural_network(ModelsV2(args))
+        neural_model.create_neural_network(ModelsV1(args))
         return neural_model
 
 
