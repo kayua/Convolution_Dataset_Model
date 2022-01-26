@@ -58,16 +58,16 @@ def show_config(args):
 
 def dataset_arguments(parser):
 
-    help_msg = 'Input file create samples (INPUT NEURAL) (Default {})'.format(DEFAULT_INPUT_FILE_SWARM)
+    help_msg = 'Input file swarm (Default {})'.format(DEFAULT_INPUT_FILE_SWARM)
     parser.add_argument("--input_file_swarm", type=str, help=help_msg, default=DEFAULT_INPUT_FILE_SWARM)
 
-    help_msg = 'Input file create samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_SAVE_FILE_SWARM)
+    help_msg = 'Save file samples (Default {})'.format(DEFAULT_SAVE_FILE_SWARM)
     parser.add_argument("--save_file_samples", type=str, help=help_msg, default=DEFAULT_SAVE_FILE_SWARM)
 
-    help_msg = 'Load file samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_LOAD_SAMPLES_TRAINING_IN)
+    help_msg = 'Load file samples in (Default {})'.format(DEFAULT_LOAD_SAMPLES_TRAINING_IN)
     parser.add_argument("--load_samples_in", type=str, help=help_msg, default=DEFAULT_LOAD_SAMPLES_TRAINING_IN)
 
-    help_msg = 'Load file samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_LOAD_SAMPLES_FITTING_OUT)
+    help_msg = 'Load file samples out (Default {})'.format(DEFAULT_LOAD_SAMPLES_FITTING_OUT)
     parser.add_argument("--load_samples_out", type=str, help=help_msg, default=DEFAULT_LOAD_SAMPLES_FITTING_OUT)
 
     help_msg = 'File save model (Default {})'.format(DEFAULT_SAVE_MODEL_FILE)
