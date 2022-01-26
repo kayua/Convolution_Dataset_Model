@@ -6,10 +6,12 @@ from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
 from tools.analyse.analyse import Analyse
 from tools.dataset.dataset import Dataset
-from tools.parameters.parameters import add_arguments, TIME_FORMAT
+from tools.parameters.parameters import add_arguments
+from tools.parameters.parameters import TIME_FORMAT
 
 
 def calibration_neural_model(args):
+
     logging.info('Starting calibration')
     neural_network_instance = create_classifier_model(args)
     logging.debug('Neural network instance created')
@@ -18,6 +20,7 @@ def calibration_neural_model(args):
 
 
 def create_samples(args):
+
     logging.info('Creating file samples')
     dataset_instance = Dataset(args)
     dataset_instance.load_swarm_to_feature()
@@ -26,6 +29,7 @@ def create_samples(args):
 
 
 def training_neural_model(args):
+
     dataset_instance_input = Dataset(args)
     dataset_instance_input.load_file_samples(args.load_samples_training_in)
     dataset_instance_output = Dataset(args)
@@ -38,6 +42,7 @@ def training_neural_model(args):
 
 
 def predict_neural_model(args):
+
     dataset_instance_input = Dataset(args)
     dataset_instance_input.load_file_samples(args.input_predict)
     neural_network = create_classifier_model(args)
@@ -48,6 +53,7 @@ def predict_neural_model(args):
 
 
 def show_config(args):
+
     logging.info('Command:\n\t{0}\n'.format(' '.join([x for x in argv])))
     logging.info('Settings:')
     lengths = [len(x) for x in vars(args).keys()]
@@ -63,6 +69,7 @@ def show_config(args):
 
 
 def create_classifier_model(args):
+
     neural_model = Neural(args)
 
     if args.cmd == 'Predict':
@@ -75,12 +82,14 @@ def create_classifier_model(args):
 
 
 def evaluation(args):
+
     evaluation_model = Analyse(args)
     evaluation_model.get_all_metrics()
     evaluation_model.write_results_analyse()
 
 
 def arguments_cmd_choice(args):
+
     if args.cmd == 'Calibration': calibration_neural_model(args)
     if args.cmd == 'CreateSamples': create_samples(args)
     if args.cmd == 'Training': training_neural_model(args)
@@ -89,6 +98,7 @@ def arguments_cmd_choice(args):
 
 
 def main():
+
     parser = ArgumentParser(description='Correct trace adversarial model')
     parser = add_arguments(parser)
     args = parser.parse_args()
