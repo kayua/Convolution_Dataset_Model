@@ -17,7 +17,7 @@ DEFAULT_INPUT_FILE_SWARM = ''
 DEFAULT_SAVE_FILE_SWARM = ''
 
 DEFAULT_LOAD_SAMPLES_TRAINING_IN = ''
-DEFAULT_LOAD_SAMPLES_FITTING_OUT = ''
+DEFAULT_LOAD_SAMPLES_OUT = ''
 
 DEFAULT_TRAINING_EPOCHS = 120
 DEFAULT_TRAINING_METRICS = 'mse'
@@ -67,8 +67,8 @@ def dataset_arguments(parser):
     help_msg = 'Load file samples in (Default {})'.format(DEFAULT_LOAD_SAMPLES_TRAINING_IN)
     parser.add_argument("--load_samples_in", type=str, help=help_msg, default=DEFAULT_LOAD_SAMPLES_TRAINING_IN)
 
-    help_msg = 'Load file samples out (Default {})'.format(DEFAULT_LOAD_SAMPLES_FITTING_OUT)
-    parser.add_argument("--load_samples_out", type=str, help=help_msg, default=DEFAULT_LOAD_SAMPLES_FITTING_OUT)
+    help_msg = 'Load file samples out (Default {})'.format(DEFAULT_LOAD_SAMPLES_OUT)
+    parser.add_argument("--load_samples_out", type=str, help=help_msg, default=DEFAULT_LOAD_SAMPLES_OUT)
 
     help_msg = 'File save model (Default {})'.format(DEFAULT_SAVE_MODEL_FILE)
     parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_SAVE_MODEL_FILE)
@@ -119,9 +119,6 @@ def dataset_parameters(parser):
 
     help_msg = 'Neural topology (Default {})'.format(DEFAULT_NEURAL_TOPOLOGY)
     parser.add_argument("--topology", type=str, help=help_msg, default=DEFAULT_NEURAL_TOPOLOGY)
-
-    help_msg = 'Adversarial mode (Default {})'.format(DEFAULT_ADVERSARIAL_MODEL)
-    parser.add_argument("--adversarial", type=bool, help=help_msg, default=DEFAULT_ADVERSARIAL_MODEL)
 
     help_msg = 'Verbosity (Default {})'.format(DEFAULT_VERBOSITY)
     parser.add_argument("--verbosity", type=int, help=help_msg, default=DEFAULT_VERBOSITY)
