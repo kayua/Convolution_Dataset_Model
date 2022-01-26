@@ -99,9 +99,11 @@ class ModelsV1(NeuralModel):
             for j in i:
 
                 if int(j) == 1:
+
                     number_true_samples += 1
 
         if number_true_samples > 0:
+
             return 1
 
         return 0
