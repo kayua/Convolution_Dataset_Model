@@ -1,6 +1,5 @@
 import logging
 from argparse import ArgumentParser
-from sys import argv
 
 from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
@@ -53,6 +52,7 @@ def predict_neural_model(args):
     dataset_instance_input.cast_all_features_to_swarm(features_predicted, predict_input_samples)
     logging.info('End prediction neural network model')
 
+
 def create_classifier_model(args):
 
     neural_model = Neural(args)
@@ -62,6 +62,8 @@ def create_classifier_model(args):
         return neural_model
 
     if args.cmd == 'Training' or args.cmd == 'Calibration':
+
+        if
         neural_model.create_neural_network(ModelsV1(args))
         return neural_model
 
