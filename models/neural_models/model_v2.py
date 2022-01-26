@@ -18,7 +18,7 @@ from models.neural_models.neural_model import NeuralModel
 import numpy
 
 
-class ModelsV1(NeuralModel):
+class ModelsV2(NeuralModel):
 
     def __init__(self, args):
 
