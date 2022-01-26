@@ -63,8 +63,12 @@ def create_classifier_model(args):
 
     if args.cmd == 'Training' or args.cmd == 'Calibration':
 
-        if
-        neural_model.create_neural_network(ModelsV1(args))
+        if args.topology == 'model_v1':
+            neural_model.create_neural_network(ModelsV1(args))
+
+        if args.topology == 'model_v2':
+            neural_model.create_neural_network(ModelsV1(args))
+
         return neural_model
 
 
