@@ -92,19 +92,20 @@ def arguments_cmd_choice(args):
 
 def main():
 
-    parser = ArgumentParser(description='Correct trace adversarial model')
-    parser = add_arguments(parser)
-    args = parser.parse_args()
+    argument_parser = ArgumentParser(description='Regenerating Datasets With Convolutional Network')
+    argument_parser = add_arguments(argument_parser)
+    arguments = argument_parser.parse_args()
 
-    if args.verbosity == logging.DEBUG:
+    if arguments.verbosity == logging.DEBUG:
         logging.basicConfig(format="%(asctime)s %(levelname)s {%(module)s} [%(funcName)s] %(message)s",
-                            datefmt=TIME_FORMAT, level=args.verbosity)
-        show_config(args)
+                            datefmt=TIME_FORMAT, level=arguments.verbosity)
+        show_config(arguments)
 
     else:
-        logging.basicConfig(format="%(message)s", datefmt=TIME_FORMAT, level=args.verbosity)
 
-    arguments_cmd_choice(args)
+        logging.basicConfig(format="%(message)s", datefmt=TIME_FORMAT, level=arguments.verbosity)
+
+    arguments_cmd_choice(arguments)
 
 
 if __name__ == '__main__':
