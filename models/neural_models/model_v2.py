@@ -130,7 +130,7 @@ class ModelsV2(NeuralModel):
             random_array_feature = self.get_random_batch(x_training)
             batch_training_in = self.get_feature_batch(x_training, random_array_feature)
             batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1)
+            self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1, steps_per_epoch=32)
 
             if i % 10 == 0:
                 feature_predicted = self.model.predict(batch_training_in[0:10])
