@@ -14,6 +14,7 @@ INPUT_ANALYSE_CORRECTED='dataset/corrected/S1m07_80.sort_u_1n_4n_corrected'
 INPUT_ANALYSE_FAILED='dataset/failed/S1m07_80.sort_u_1n_4n'
 RESULT_METRICS='results/results.txt'
 
+
 python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_TRAINING_IN --save_file_samples $OUTPUT_DATASET_TRAINING_IN
 python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_TRAINING_OUT --save_file_samples $OUTPUT_DATASET_TRAINING_OUT
 python3 main.py CreateSamples --input_file_swarm $INPUT_DATASET_PREDICT_IN --save_file_samples $OUTPUT_DATASET_PREDICT_OUT

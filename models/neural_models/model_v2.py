@@ -8,11 +8,9 @@ __data__ = '2021/11/21'
 __credits__ = ['All']
 
 import logging
-import tensorflow.keras
 from tensorflow.keras import activations
-from tensorflow.keras.layers import LeakyReLU, Dropout
+from tensorflow.keras.layers import LeakyReLU
 from tensorflow.keras.losses import BinaryCrossentropy
-from tensorflow import keras
 from tensorflow import random
 from tensorflow import concat
 from tensorflow import zeros
@@ -23,10 +21,8 @@ from tensorflow import GradientTape
 from tensorflow.keras import Input
 from tensorflow.keras import Model
 from tensorflow.keras.layers import Dense
-from tensorflow.keras.layers import Reshape
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Conv2D
-from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.layers import Conv2DTranspose
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import Add
@@ -234,6 +230,7 @@ class AdversarialClass(keras.Model):
         self.latent_dim = number_latency_points
 
     def compile(self, d_optimizer, g_optimizer, loss_fn):
+
         super(AdversarialClass, self).compile()
         self.d_optimizer = d_optimizer
         self.g_optimizer = g_optimizer
