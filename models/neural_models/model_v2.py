@@ -119,7 +119,7 @@ class ModelsV1(NeuralModel):
 
         return numpy.array(x_training_list), numpy.array(y_training_list)
 
-    def training(self, x_training, y_training, evaluation_set):
+    def training(self, x_training, y_training):
 
         x_training, y_training = self.remove_empty_features(x_training, y_training)
 
