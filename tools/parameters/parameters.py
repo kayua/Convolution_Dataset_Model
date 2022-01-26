@@ -128,4 +128,3 @@ def add_arguments(parser):
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
     parser.add_argument('cmd', choices=cmd_choices)
     return parser
-
