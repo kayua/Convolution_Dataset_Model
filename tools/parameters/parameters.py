@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 import logging
+from sys import argv
+
 DEFAULT_SNAPSHOT_COLUMN_POSITION = 1
 DEFAULT_PEER_COLUMN_POSITION = 2
 DEFAULT_FEATURE_WINDOW_LENGTH = 256
@@ -35,9 +37,23 @@ DEFAULT_EVALUATION_FILE_ANALYSE_MODE = '+a'
 DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS = 'results.txt'
 
 
+def show_config(args):
+
+    logging.info('Command:\n\t{0}\n'.format(' '.join([x for x in argv])))
+    logging.info('Settings:')
+    lengths = [len(x) for x in vars(args).keys()]
+    max_lengths = max(lengths)
+
+    for parameters, item_args in sorted(vars(args).items()):
+        message = "\t"
+        message += parameters.ljust(max_lengths, ' ')
+        message += ' : {}'.format(item_args)
+        logging.info(message)
+
+    logging.info("")
+
+
 def add_arguments(parser):
-
-
     help_msg = 'Snapshot column position (Default {})'.format(DEFAULT_SNAPSHOT_COLUMN_POSITION)
     parser.add_argument("--snapshot_column", type=int, help=help_msg, default=DEFAULT_SNAPSHOT_COLUMN_POSITION)
 
@@ -69,10 +85,12 @@ def add_arguments(parser):
     parser.add_argument("--save_file_samples", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
 
     help_msg = 'Load file samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
-    parser.add_argument("--load_samples_training_in", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
+    parser.add_argument("--load_samples_training_in", type=str, help=help_msg,
+                        default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
 
     help_msg = 'Load file samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
-    parser.add_argument("--load_samples_training_out", type=str, help=help_msg, default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
+    parser.add_argument("--load_samples_training_out", type=str, help=help_msg,
+                        default=DEFAULT_CREATE_INPUT_FILE_SWARM_OUT)
 
     help_msg = 'Define number epochs (Default {})'.format(DEFAULT_TRAINING_EPOCHS)
     parser.add_argument("--epochs", type=str, help=help_msg, default=DEFAULT_TRAINING_EPOCHS)

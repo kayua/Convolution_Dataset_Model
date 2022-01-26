@@ -53,23 +53,6 @@ def predict_neural_model(args):
     dataset_instance_input.cast_all_features_to_swarm(features_predicted, predict_input_samples)
     logging.info('End prediction neural network model')
 
-
-def show_config(args):
-
-    logging.info('Command:\n\t{0}\n'.format(' '.join([x for x in argv])))
-    logging.info('Settings:')
-    lengths = [len(x) for x in vars(args).keys()]
-    max_lengths = max(lengths)
-
-    for parameters, item_args in sorted(vars(args).items()):
-        message = "\t"
-        message += parameters.ljust(max_lengths, ' ')
-        message += ' : {}'.format(item_args)
-        logging.info(message)
-
-    logging.info("")
-
-
 def create_classifier_model(args):
 
     neural_model = Neural(args)
