@@ -32,7 +32,6 @@ class NeuralModel:
         self.feature_window_width = args.window_width
         self.feature_window_length = args.window_length
 
-
     @staticmethod
     def adapter_input(training_set_in, training_set_out):
 
@@ -40,7 +39,6 @@ class NeuralModel:
         out_training_set = numpy.array(training_set_out, dtype=numpy.int32)
 
         return in_training_set, out_training_set
-
 
     def calibration(self, x_training, y_training):
 
