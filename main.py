@@ -1,8 +1,12 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import logging
 from argparse import ArgumentParser
-
 from models.neural import Neural
 from models.neural_models.model_v1 import ModelsV1
+from models.neural_models.model_v2 import ModelsV2
+from models.neural_models.model_v3 import ModelsV3
 from tools.analyse.analyse import Analyse
 from tools.dataset.dataset import Dataset
 from tools.parameters.parameters import add_arguments, show_config
@@ -67,7 +71,10 @@ def create_classifier_model(args):
             neural_model.create_neural_network(ModelsV1(args))
 
         if args.topology == 'model_v2':
-            neural_model.create_neural_network(ModelsV1(args))
+            neural_model.create_neural_network(ModelsV2(args))
+
+        if args.topology == 'model_v3':
+            neural_model.create_neural_network(ModelsV3(args))
 
         return neural_model
 
