@@ -47,6 +47,7 @@ class ModelsV2(NeuralModel):
         self.generator_block = None
         self.discriminator_block = None
         self.adversarial_block = None
+        self.learning_rate = args.learning_rate
         self.create_neural_network()
 
     def create_neural_network(self):
@@ -61,8 +62,8 @@ class ModelsV2(NeuralModel):
     def create_generative_adversarial_model(self, generative_model, discriminator_model):
 
         adversarial_block = AdversarialClass(discriminator_model, generative_model)
-        adversarial_block.compile(d_optimizer=Adam(learning_rate=0.0001), loss_fn=BinaryCrossentropy(),
-                                  g_optimizer=Adam(learning_rate=0.0001), )
+        adversarial_block.compile(d_optimizer=Adam(learning_rate=self.learning_rate), loss_fn=BinaryCrossentropy(),
+                                  g_optimizer=Adam(learning_rate=self.learning_rate), )
         return adversarial_block
 
     def create_generator_block(self):
