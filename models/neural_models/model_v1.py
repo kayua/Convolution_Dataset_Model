@@ -99,9 +99,11 @@ class ModelsV1(NeuralModel):
             for j in i:
 
                 if int(j) == 1:
+
                     number_true_samples += 1
 
         if number_true_samples > 0:
+
             return 1
 
         return 0
@@ -119,7 +121,7 @@ class ModelsV1(NeuralModel):
 
         return numpy.array(x_training_list), numpy.array(y_training_list)
 
-    def training(self, x_training, y_training, evaluation_set):
+    def training(self, x_training, y_training):
 
         x_training, y_training = self.remove_empty_features(x_training, y_training)
 
