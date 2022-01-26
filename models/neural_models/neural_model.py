@@ -13,7 +13,6 @@ from random import randint
 import cv2
 import numpy
 import tensorflow
-from tensorflow import keras
 from tqdm import tqdm
 
 DEFAULT_CALIBRATION_PATH_IMAGE = 'images'
@@ -27,14 +26,12 @@ class NeuralModel:
         self.steps_per_epochs = args.steps_per_epoch
         self.epochs = args.epochs
         self.loss = args.loss
+        self.steps_per_epoch = args.steps_per_epoch
         self.optimizer = args.optimizer
         self.metrics = args.metrics
-        self.length_latency_space = 100
         self.feature_window_width = args.window_width
         self.feature_window_length = args.window_length
 
-    def create_neural_network(self):
-        pass
 
     @staticmethod
     def adapter_input(training_set_in, training_set_out):
@@ -44,20 +41,17 @@ class NeuralModel:
 
         return in_training_set, out_training_set
 
-    def training(self, x_training, y_training, evaluation_set):
-
-        pass
 
     def calibration(self, x_training, y_training):
 
-        for i in range(1200):
+        for i in range(self.epochs):
 
             random_array_feature = self.get_random_batch(x_training)
             samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
             samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
             self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
 
-            if (i % 10) == 1:
+            if (i % 10) == 0:
                 artificial_image = self.model.predict(samples_batch_training_in[0:10])
                 self.save_image_feature(artificial_image[0], samples_batch_training_in[0],
                                         samples_batch_training_out[0], i)
@@ -76,13 +70,12 @@ class NeuralModel:
 
         list_samples_training = glob(path_images + "/*")
         list_samples_training.sort()
-
         list_samples_training = list_samples_training[:512]
         list_features_image_gray_scale = []
 
         for i in tqdm(list_samples_training, desc="Loading dataset calibration"):
-            gray_scale_feature = self.parse_image(i)
 
+            gray_scale_feature = self.parse_image(i)
             list_features_image_gray_scale.append(gray_scale_feature)
 
         return list_features_image_gray_scale
@@ -94,26 +87,6 @@ class NeuralModel:
     def get_feature_batch(self, samples_training, random_array_feature):
 
         return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epoch)])
-
-    class ImageGeneratorCallback(keras.callbacks.Callback):
-
-        def __init__(self, dataset_in, dataset_out):
-            super().__init__()
-            self.dataset_in = dataset_in
-            self.dataset_out = dataset_out
-
-        def on_epoch_end(self, epoch, logs=None):
-            latency_matrix = randint(0, len(self.dataset_in) - 1)
-            generated_image = self.model.generator(self.dataset_in[latency_matrix:latency_matrix + 1])
-            generated_image = generated_image * 255
-            generated_image.numpy()
-            synthetic_image = keras.preprocessing.image.array_to_img(generated_image[0])
-            if epoch % 10 == 0:
-                synthetic_image.save('images/generated_img_{}.png'.format(epoch))
-                cv2.imwrite('{}/input{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch),
-                            self.dataset_in[latency_matrix] * 255)
-                cv2.imwrite('{}/output_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch),
-                            self.dataset_out[latency_matrix] * 255)
 
     @staticmethod
     def save_image_feature(examples, examples_a, example_b, epoch):
