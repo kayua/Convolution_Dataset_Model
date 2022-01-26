@@ -28,6 +28,7 @@ DEFAULT_SAVE_MODEL_FILE = 'models_saved/model'
 DEFAULT_TRAINING_THRESHOLD = 0.75
 DEFAULT_TRAINING_SEED = 0
 DEFAULT_TRAINING_PIF = 0
+DEFAULT_LEARNING_RATE = 0.001
 
 DEFAULT_PREDICT_LOAD_MODEL_FILE = ''
 DEFAULT_INPUT_SWARM_FILE = ''
@@ -145,6 +146,9 @@ def dataset_parameters(parser):
 
     help_msg = 'Seed (Default {})'.format(DEFAULT_TRAINING_SEED)
     parser.add_argument("--seed", type=int, help=help_msg, default=DEFAULT_TRAINING_SEED)
+
+    help_msg = 'Learning rate (Default {})'.format(DEFAULT_LEARNING_RATE)
+    parser.add_argument("--learning_rate", type=int, help=help_msg, default=DEFAULT_LEARNING_RATE)
 
     help_msg = 'PIF (Default {})'.format(DEFAULT_TRAINING_PIF)
     parser.add_argument("--pfi", type=int, help=help_msg, default=DEFAULT_TRAINING_PIF)
