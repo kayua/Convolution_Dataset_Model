@@ -105,6 +105,5 @@ def main():
     arguments_cmd_choice(args)
 
 
-
 if __name__ == '__main__':
     exit(main())
