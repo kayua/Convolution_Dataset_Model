@@ -13,10 +13,8 @@ from tools.parameters.parameters import TIME_FORMAT
 def calibration_neural_model(args):
 
     logging.info('Starting calibration')
-
     neural_network_instance = create_classifier_model(args)
     neural_network_instance.calibration_neural_network()
-
     logging.info('End calibration')
 
 
@@ -32,35 +30,27 @@ def create_samples(args):
 def training_neural_model(args):
 
     logging.info('Start training neural network model')
-
     dataset_instance_input = Dataset(args)
     dataset_instance_output = Dataset(args)
     neural_network_instance = create_classifier_model(args)
-
     dataset_instance_input.load_file_samples(args.load_samples_training_in)
     dataset_instance_output.load_file_samples(args.load_samples_training_out)
-
     training_input_samples = dataset_instance_input.get_features()
     training_output_samples = dataset_instance_output.get_features()
-
     neural_network_instance.training(training_input_samples, training_output_samples)
     neural_network_instance.save_network()
-
     logging.info('End training neural network model')
 
 
 def predict_neural_model(args):
 
     logging.info('Start prediction neural network model')
-
     dataset_instance_input = Dataset(args)
-    dataset_instance_input.load_file_samples(args.input_predict)
     neural_network_instance = create_classifier_model(args)
-
+    dataset_instance_input.load_file_samples(args.input_predict)
     predict_input_samples = dataset_instance_input.get_features()
     features_predicted = neural_network_instance.predict(predict_input_samples)
     dataset_instance_input.cast_all_features_to_swarm(features_predicted, predict_input_samples)
-
     logging.info('End prediction neural network model')
 
 
