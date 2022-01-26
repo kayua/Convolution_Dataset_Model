@@ -154,8 +154,8 @@ def dataset_parameters(parser):
 
 def add_arguments(parser):
 
-    parser = dataset_arguments(parser)
     parser = dataset_parameters(parser)
+    parser = dataset_arguments(parser)
     cmd_choices = ['Calibration', 'CreateSamples', 'Training', 'Predict', 'Analyse']
     parser.add_argument('cmd', choices=cmd_choices)
     return parser
