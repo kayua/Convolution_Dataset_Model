@@ -28,7 +28,6 @@ class Neural:
         self.file_load_model = args.load_model
         self.neural_network = None
         self.args = args
-        self.adversarial_model = args.adversarial
         self.verbosity = args.verbosity
         self.feature_window_width = args.window_width
         self.feature_window_length = args.window_length
