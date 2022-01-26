@@ -89,25 +89,31 @@ class NeuralModel:
 
     def get_random_batch(self, samples_training):
 
-        return [randint(0, len(samples_training) - 1) for _ in range(self.steps_per_epochs)]
+        return [randint(0, len(samples_training) - 1) for _ in range(self.steps_per_epoch)]
 
     def get_feature_batch(self, samples_training, random_array_feature):
 
-        return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epochs)])
+        return numpy.array([samples_training[random_array_feature[i]] for i in range(self.steps_per_epoch)])
 
     class ImageGeneratorCallback(keras.callbacks.Callback):
 
-        def __init__(self, latency_points):
+        def __init__(self, dataset_in, dataset_out):
             super().__init__()
-            self.number_latency_points = latency_points
+            self.dataset_in = dataset_in
+            self.dataset_out = dataset_out
 
         def on_epoch_end(self, epoch, logs=None):
-            latency_matrix = random.normal(shape=(2, self.number_latency_points))
-            generated_image = self.model.generator(latency_matrix)
+            latency_matrix = randint(0, len(self.dataset_in) - 1)
+            generated_image = self.model.generator(self.dataset_in[latency_matrix:latency_matrix + 1])
             generated_image = generated_image * 255
             generated_image.numpy()
             synthetic_image = keras.preprocessing.image.array_to_img(generated_image[0])
-            synthetic_image.save('generated_img_{}.png'.format(epoch))
+            if epoch % 10 == 0:
+                synthetic_image.save('images/generated_img_{}.png'.format(epoch))
+                cv2.imwrite('{}/input{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch),
+                            self.dataset_in[latency_matrix] * 255)
+                cv2.imwrite('{}/output_{}.png'.format(DEFAULT_CALIBRATION_PATH_IMAGE, epoch),
+                            self.dataset_out[latency_matrix] * 255)
 
     @staticmethod
     def save_image_feature(examples, examples_a, example_b, epoch):
