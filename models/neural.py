@@ -49,18 +49,9 @@ class Neural:
             logging.debug('Architecture file: {}.json'.format(self.file_load_model))
             logging.debug('Architecture file: {}.json'.format(self.file_load_model))
             neural_model_json = open('{}.json'.format(self.file_load_model), 'r')
-
-            if self.adversarial_model:
-
-                self.neural_network.generator_model = model_from_json(neural_model_json.read())
-                self.neural_network.generator_model.load_weights('{}.h5'.format(self.file_load_model))
-                self.neural_network.generator_model.compile(loss=self.loss, optimizer=self.optimizer,
-                                                            metrics=self.metrics)
-            else:
-
-                self.neural_network.model = model_from_json(neural_model_json.read())
-                self.neural_network.model.load_weights('{}.h5'.format(self.file_load_model))
-                self.neural_network.model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
+            self.neural_network.model = model_from_json(neural_model_json.read())
+            self.neural_network.model.load_weights('{}.h5'.format(self.file_load_model))
+            self.neural_network.model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
 
             logging.debug('Loaded file {}.h5'.format(self.file_load_model))
             logging.debug('Neural network compiled: {} {} {} '.format(self.loss, self.optimizer, self.metrics))
@@ -82,30 +73,15 @@ class Neural:
 
             logging.info('Saving neural network model')
 
-            if self.adversarial_model:
-
-                model_architecture_json = self.neural_network.model.to_json()
-                logging.debug('Saving adversarial model')
-
-            else:
-
-                model_architecture_json = self.neural_network.model.to_json()
-                logging.debug('Saving feedforward model model')
+            model_architecture_json = self.neural_network.model.to_json()
+            logging.debug('Saving feedforward model model')
 
             with open('{}.json'.format(self.file_save_models), "w") as json_file:
 
                 json_file.write(model_architecture_json)
                 logging.debug('Write file {}.json'.format(self.file_save_models))
-
-                if self.adversarial_model:
-
-                    self.neural_network.model.save_weights('{}.h5'.format(self.file_save_models))
-                    logging.debug('Write file {}.h5'.format(self.file_save_models))
-
-                else:
-
-                    self.neural_network.model.save_weights('{}.h5'.format(self.file_save_models))
-                    logging.debug('Write file {}.h5'.format(self.file_save_models))
+                self.neural_network.model.save_weights('{}.h5'.format(self.file_save_models))
+                logging.debug('Write file {}.h5'.format(self.file_save_models))
 
             logging.debug('Neural network saved {}'.format(self.file_save_models))
 
@@ -123,7 +99,7 @@ class Neural:
         x_training_set = x_samples.reshape((number_samples, self.feature_window_width, self.feature_window_length, 1))
         y_training_set = y_samples.reshape((number_samples, self.feature_window_width, self.feature_window_length, 1))
         logging.info('Neural network sample shape x= {} y= {}'.format(x_training_set.shape, y_training_set.shape))
-        self.neural_network.training(x_training_set, y_training_set, None)
+        self.neural_network.training(x_training_set, y_training_set)
 
         return 0
 
