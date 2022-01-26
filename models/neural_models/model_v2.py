@@ -303,4 +303,3 @@ class AdversarialClass(keras.Model):
 
         return {"d_loss": self.d_loss_metric.result(), "g_loss": self.g_loss_metric.result(), }
 
-
