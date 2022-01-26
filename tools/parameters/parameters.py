@@ -24,20 +24,20 @@ DEFAULT_TRAINING_METRICS = 'mse'
 DEFAULT_TRAINING_LOSS = 'mse'
 DEFAULT_TRAINING_OPTIMIZER = 'adam'
 DEFAULT_TRAINING_BATCH_SIZE = 32
-DEFAULT_TRAINING_SAVE_MODEL_FILE = 'models_saved/model'
+DEFAULT_SAVE_MODEL_FILE = 'models_saved/model'
 DEFAULT_TRAINING_THRESHOLD = 0.75
 DEFAULT_TRAINING_SEED = 0
 DEFAULT_TRAINING_PIF = 0
 
 DEFAULT_PREDICT_LOAD_MODEL_FILE = ''
-DEFAULT_PREDICT_INPUT_SWARM_FILE = ''
-DEFAULT_PREDICT_OUTPUT_SWARM_FILE = ''
+DEFAULT_INPUT_SWARM_FILE = ''
+DEFAULT_OUTPUT_SWARM_FILE = ''
 
-DEFAULT_EVALUATION_CORRECTED_SWARM_FILE = ''
-DEFAULT_EVALUATION_FAILED_SWARM_FILE = ''
-DEFAULT_EVALUATION_ORIGINAL_SWARM_FILE = ''
-DEFAULT_EVALUATION_FILE_ANALYSE_MODE = '+a'
-DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS = 'results.txt'
+DEFAULT_CORRECTED_SWARM_FILE = ''
+DEFAULT_FAILED_SWARM_FILE = ''
+DEFAULT_ORIGINAL_SWARM_FILE = ''
+DEFAULT_FILE_ANALYSE_MODE = '+a'
+DEFAULT_FILE_ANALYSE_RESULTS = 'results.txt'
 
 
 def show_config(args):
@@ -70,33 +70,32 @@ def dataset_arguments(parser):
     help_msg = 'Load file samples (OUTPUT NEURAL) (Default {})'.format(DEFAULT_LOAD_SAMPLES_FITTING_OUT)
     parser.add_argument("--load_samples_out", type=str, help=help_msg, default=DEFAULT_LOAD_SAMPLES_FITTING_OUT)
 
-    help_msg = 'File save model (Default {})'.format(DEFAULT_TRAINING_SAVE_MODEL_FILE)
-
-    parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_TRAINING_SAVE_MODEL_FILE)
+    help_msg = 'File save model (Default {})'.format(DEFAULT_SAVE_MODEL_FILE)
+    parser.add_argument("--save_model", type=str, help=help_msg, default=DEFAULT_SAVE_MODEL_FILE)
 
     help_msg = 'File load model (Default {})'.format(DEFAULT_PREDICT_LOAD_MODEL_FILE)
     parser.add_argument("--load_model", type=str, help=help_msg, default=DEFAULT_PREDICT_LOAD_MODEL_FILE)
 
-    help_msg = 'File input to predict (Default {})'.format(DEFAULT_PREDICT_INPUT_SWARM_FILE)
-    parser.add_argument("--input_predict", type=str, help=help_msg, default=DEFAULT_PREDICT_INPUT_SWARM_FILE)
+    help_msg = 'File input to predict (Default {})'.format(DEFAULT_INPUT_SWARM_FILE)
+    parser.add_argument("--input_predict", type=str, help=help_msg, default=DEFAULT_INPUT_SWARM_FILE)
 
-    help_msg = 'File output to predict (Default {})'.format(DEFAULT_PREDICT_OUTPUT_SWARM_FILE)
-    parser.add_argument("--output_predict", type=str, help=help_msg, default=DEFAULT_PREDICT_OUTPUT_SWARM_FILE)
+    help_msg = 'File output to predict (Default {})'.format(DEFAULT_OUTPUT_SWARM_FILE)
+    parser.add_argument("--output_predict", type=str, help=help_msg, default=DEFAULT_OUTPUT_SWARM_FILE)
 
-    help_msg = 'File corrected for evaluation (Default {})'.format(DEFAULT_EVALUATION_CORRECTED_SWARM_FILE)
-    parser.add_argument("--file_corrected", type=str, help=help_msg, default=DEFAULT_EVALUATION_CORRECTED_SWARM_FILE)
+    help_msg = 'File corrected for evaluation (Default {})'.format(DEFAULT_CORRECTED_SWARM_FILE)
+    parser.add_argument("--file_corrected", type=str, help=help_msg, default=DEFAULT_CORRECTED_SWARM_FILE)
 
-    help_msg = 'File failed for evaluation (Default {})'.format(DEFAULT_EVALUATION_FAILED_SWARM_FILE)
-    parser.add_argument("--file_failed", type=str, help=help_msg, default=DEFAULT_EVALUATION_FAILED_SWARM_FILE)
+    help_msg = 'File failed for evaluation (Default {})'.format(DEFAULT_FAILED_SWARM_FILE)
+    parser.add_argument("--file_failed", type=str, help=help_msg, default=DEFAULT_FAILED_SWARM_FILE)
 
-    help_msg = 'File failed for evaluation (Default {})'.format(DEFAULT_EVALUATION_ORIGINAL_SWARM_FILE)
-    parser.add_argument("--file_original", type=str, help=help_msg, default=DEFAULT_EVALUATION_ORIGINAL_SWARM_FILE)
+    help_msg = 'File failed for evaluation (Default {})'.format(DEFAULT_ORIGINAL_SWARM_FILE)
+    parser.add_argument("--file_original", type=str, help=help_msg, default=DEFAULT_ORIGINAL_SWARM_FILE)
 
-    help_msg = 'File analyse file mode (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_MODE)
-    parser.add_argument("--file_analyse_mode", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_MODE)
+    help_msg = 'File analyse file mode (Default {})'.format(DEFAULT_FILE_ANALYSE_MODE)
+    parser.add_argument("--file_analyse_mode", type=str, help=help_msg, default=DEFAULT_FILE_ANALYSE_MODE)
 
-    help_msg = 'File analyse file (Default {})'.format(DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
-    parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_EVALUATION_FILE_ANALYSE_RESULTS)
+    help_msg = 'File analyse file (Default {})'.format(DEFAULT_FILE_ANALYSE_RESULTS)
+    parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_FILE_ANALYSE_RESULTS)
 
     return parser
 
