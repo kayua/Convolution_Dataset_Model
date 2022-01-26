@@ -1,16 +1,40 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import logging
-from argparse import ArgumentParser
-from models.neural import Neural
-from models.neural_models.model_v1 import ModelsV1
-from models.neural_models.model_v2 import ModelsV2
-from models.neural_models.model_v3 import ModelsV3
-from tools.analyse.analyse import Analyse
-from tools.dataset.dataset import Dataset
-from tools.parameters.parameters import add_arguments, show_config
-from tools.parameters.parameters import TIME_FORMAT
+__author__ = 'All'
+__email__ = ' @gmail.com, @unipampa.edu.br '
+__version__ = '{2}.{0}.{2}'
+__data__ = '2021/11/21'
+__credits__ = ['All']
+
+
+try:
+
+    import logging
+    from argparse import ArgumentParser
+    from models.neural import Neural
+    from models.neural_models.model_v1 import ModelsV1
+    from models.neural_models.model_v2 import ModelsV2
+    from models.neural_models.model_v3 import ModelsV3
+    from tools.analyse.analyse import Analyse
+    from tools.dataset.dataset import Dataset
+    from tools.parameters.parameters import add_arguments, show_config
+    from tools.parameters.parameters import TIME_FORMAT
+
+except ImportError as error:
+
+    print(error)
+    print()
+    print("1. Setup a virtual environment: ")
+    print("  python3 - m venv ~/Python3env/Mosquitoes ")
+    print("  source ~/Python3env/Regenerating_dataset/bin/activate ")
+    print()
+    print("2. Install requirements:")
+    print("  pip3 install --upgrade pip")
+    print("  pip3 install -r requirements.txt ")
+    print()
+    exit(-1)
+
 
 
 def calibration_neural_model(args):
