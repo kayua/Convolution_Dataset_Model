@@ -1,4 +1,4 @@
-![alt text](layout/layout_aedes.png)
+![alt text](layout/layout_regerating.png)
 # Sound Classification with neural network
 
 
