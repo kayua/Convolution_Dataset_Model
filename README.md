@@ -1,4 +1,4 @@
-![alt text](layout/layout_regerating.png)
+![alt text](layout/layout_regenerating.png)
 # Sound Classification with neural network
 
 
