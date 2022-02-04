@@ -90,10 +90,10 @@ def dataset_arguments(parser):
     help_msg = 'File failed for evaluation (Default {})'.format(DEFAULT_ORIGINAL_SWARM_FILE)
     parser.add_argument("--file_original", type=str, help=help_msg, default=DEFAULT_ORIGINAL_SWARM_FILE)
 
-    help_msg = 'File analyse file mode (Default {})'.format(DEFAULT_FILE_ANALYSE_MODE)
+    help_msg = 'File evaluation file mode (Default {})'.format(DEFAULT_FILE_ANALYSE_MODE)
     parser.add_argument("--file_analyse_mode", type=str, help=help_msg, default=DEFAULT_FILE_ANALYSE_MODE)
 
-    help_msg = 'File analyse file (Default {})'.format(DEFAULT_FILE_ANALYSE_RESULTS)
+    help_msg = 'File evaluation file (Default {})'.format(DEFAULT_FILE_ANALYSE_RESULTS)
     parser.add_argument("--file_analyse", type=str, help=help_msg, default=DEFAULT_FILE_ANALYSE_RESULTS)
 
     return parser
