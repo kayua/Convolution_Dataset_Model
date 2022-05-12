@@ -9,8 +9,10 @@ __credits__ = ['All']
 
 
 try:
-
+    import sys
     import logging
+    import subprocess
+    import shlex
     from argparse import ArgumentParser
     from models.neural import Neural
     from models.neural_models.model_v1 import ModelsV1
@@ -49,7 +51,9 @@ def create_samples(args):
 
     logging.info('Creating file samples')
     dataset_instance = Dataset(args)
+    logging.debug("create_samples: a")
     dataset_instance.load_swarm_to_feature()
+    logging.debug("create_samples: b")
     dataset_instance.save_file_samples_features()
     logging.info('Samples file created')
 
@@ -57,11 +61,20 @@ def create_samples(args):
 def training_neural_model(args):
 
     logging.info('Start training neural network model')
+
     dataset_instance_input = Dataset(args)
+    logging.debug('dataset_instance_input: {}'.format(dataset_instance_input))
+
     dataset_instance_output = Dataset(args)
+    logging.debug('dataset_instance_output: {}'.format(dataset_instance_output))
+
     neural_network_instance = create_classifier_model(args)
     dataset_instance_input.load_file_samples(args.load_samples_in)
+    logging.debug('args.load_samples_in: {}'.format(args.load_samples_in))
+
     dataset_instance_output.load_file_samples(args.load_samples_out)
+    logging.debug('args.load_samples_out: {}'.format(args.load_samples_out))
+
     training_input_samples = dataset_instance_input.get_features()
     training_output_samples = dataset_instance_output.get_features()
     neural_network_instance.training(training_input_samples, training_output_samples)
@@ -121,7 +134,36 @@ def arguments_cmd_choice(args):
     if args.cmd == 'Analyse': evaluation(args)
 
 
+def imprime_config(args):
+	'''
+	Mostra os argumentos recebidos e as configurações processadas
+	:args: parser.parse_args
+	'''
+	logging.info("Comando:\n\t{0}\n".format(" ".join([x for x in sys.argv])))
+	logging.info("Configurações:")
+	lengths = [len(x) for x in vars(args).keys()]
+	max_lenght = max(lengths)
+
+	for k, v in sorted(vars(args).items()):
+		message = "\t"
+		message += k.ljust(max_lenght, " ")
+		message += " : {}".format(v)
+		logging.info(message)
+
+	logging.info("")
+
+
+def run_cmd(cmd_str, shell=False, check=True):
+    logging.debug("Cmd_str: {}".format(cmd_str))
+    # transforma em array por questões de segurança -> https://docs.python.org/3/library/shlex.html
+    cmd_array = shlex.split(cmd_str)
+    logging.debug("Cmd_array: {}".format(cmd_array))
+    # executa comando em subprocesso
+    subprocess.run(cmd_array, check=check, shell=shell)
+
+
 def main():
+
 
     argument_parser = ArgumentParser(description='Regenerating Datasets With Convolutional Network')
     argument_parser = add_arguments(argument_parser)
@@ -135,6 +177,15 @@ def main():
     else:
 
         logging.basicConfig(format="%(message)s", datefmt=TIME_FORMAT, level=arguments.verbosity)
+
+
+    imprime_config(arguments)
+
+    cmd = "mkdir -p samples_saved/samples_training_in/"
+    run_cmd(cmd)
+
+    cmd = "mkdir -p models_saved/model"
+    run_cmd(cmd)
 
     arguments_cmd_choice(arguments)
 
