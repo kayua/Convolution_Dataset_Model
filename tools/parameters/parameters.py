@@ -123,7 +123,7 @@ def dataset_parameters(parser):
     parser.add_argument("--verbosity", type=int, help=help_msg, default=DEFAULT_VERBOSITY)
 
     help_msg = 'Define number epochs (Default {})'.format(DEFAULT_TRAINING_EPOCHS)
-    parser.add_argument("--epochs", type=str, help=help_msg, default=DEFAULT_TRAINING_EPOCHS)
+    parser.add_argument("--epochs", type=int, help=help_msg, default=DEFAULT_TRAINING_EPOCHS)
 
     help_msg = 'Define metrics (Default {})'.format(DEFAULT_TRAINING_METRICS)
     parser.add_argument("--metrics", type=str, help=help_msg, default=DEFAULT_TRAINING_METRICS)
@@ -135,7 +135,7 @@ def dataset_parameters(parser):
     parser.add_argument("--optimizer", type=str, help=help_msg, default=DEFAULT_TRAINING_OPTIMIZER)
 
     help_msg = 'Define batch size (Default {})'.format(DEFAULT_TRAINING_BATCH_SIZE)
-    parser.add_argument("--steps_per_epoch", type=str, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
+    parser.add_argument("--steps_per_epoch", type=int, help=help_msg, default=DEFAULT_TRAINING_BATCH_SIZE)
 
     help_msg = 'Threshold (Default {})'.format(DEFAULT_TRAINING_THRESHOLD)
     parser.add_argument("--threshold", type=float, help=help_msg, default=DEFAULT_TRAINING_THRESHOLD)

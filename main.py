@@ -187,6 +187,9 @@ def main():
     cmd = "mkdir -p samples_saved/samples_training_out/"
     run_cmd(cmd)
 
+    cmd = "mkdir -p samples_saved/samples_predict/"
+    run_cmd(cmd)
+
     cmd = "mkdir -p models_saved/model"
     run_cmd(cmd)
 
