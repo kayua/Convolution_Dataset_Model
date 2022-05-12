@@ -1,7 +1,7 @@
 import logging
 from subprocess import Popen, PIPE
 import numpy
-
+import sys
 
 class Dataset:
 
@@ -138,17 +138,18 @@ class Dataset:
 
         except FileNotFoundError:
             logging.error('Error: File not found error: {}'.format(self.save_file_samples))
+            sys.exit(-1)
 
     def load_file_samples(self, load_file_samples):
 
         try:
-
-            dataset_file = numpy.load('{}.npz'.format(load_file_samples), "r")
+            file_name = '{}.npz'.format(load_file_samples)
+            dataset_file = numpy.load(file_name, "r")
             self.features = dataset_file['arr_0']
 
         except FileNotFoundError:
-
-            logging.error('Error: File not found error')
+            logging.error('Error: File not found error: {}'.format(file_name))
+            sys.exit(-1)
 
     def get_features(self):
 

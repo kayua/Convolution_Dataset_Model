@@ -63,17 +63,17 @@ def training_neural_model(args):
     logging.info('Start training neural network model')
 
     dataset_instance_input = Dataset(args)
-    logging.debug('dataset_instance_input: {}'.format(dataset_instance_input))
+    logging.debug('dataset_instance_input : {}'.format(dataset_instance_input))
 
     dataset_instance_output = Dataset(args)
     logging.debug('dataset_instance_output: {}'.format(dataset_instance_output))
 
     neural_network_instance = create_classifier_model(args)
     dataset_instance_input.load_file_samples(args.load_samples_in)
-    logging.debug('args.load_samples_in: {}'.format(args.load_samples_in))
+    logging.debug('args.load_samples_in  : {}'.format(args.load_samples_in))
 
     dataset_instance_output.load_file_samples(args.load_samples_out)
-    logging.debug('args.load_samples_out: {}'.format(args.load_samples_out))
+    logging.debug('args.load_samples_out : {}'.format(args.load_samples_out))
 
     training_input_samples = dataset_instance_input.get_features()
     training_output_samples = dataset_instance_output.get_features()
@@ -184,8 +184,12 @@ def main():
     cmd = "mkdir -p samples_saved/samples_training_in/"
     run_cmd(cmd)
 
+    cmd = "mkdir -p samples_saved/samples_training_out/"
+    run_cmd(cmd)
+
     cmd = "mkdir -p models_saved/model"
     run_cmd(cmd)
+
 
     arguments_cmd_choice(arguments)
 
