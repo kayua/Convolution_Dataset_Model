@@ -514,10 +514,10 @@ def main():
                         logging.info("\t\t\t\t\tPifs {}/{} ".format(count_pif, len(c.pifs)))
                         count_pif += 1
 
-                        failed_swarm_file = get_mon_failed_filename(dataset, pif)
-                        logging.info("\t\t\t#failed_swarm_file: {}".format(failed_swarm_file))
-                        if not os.path.isfile(failed_swarm_file):
-                            create_monitor_injected_fail_file(dataset, pif)
+                        # failed_swarm_file = get_mon_failed_filename(dataset, pif)
+                        # logging.info("\t\t\t#failed_swarm_file: {}".format(failed_swarm_file))
+                        # if not os.path.isfile(failed_swarm_file):
+                        #     create_monitor_injected_fail_file(dataset, pif)
 
                         count_threshold = 1
                         for threshold in c.thresholds:
