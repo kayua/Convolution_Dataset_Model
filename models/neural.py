@@ -46,14 +46,16 @@ class Neural:
 
             self.neural_network = NeuralModel(self.args)
             logging.info('Loading neural network model')
-            logging.debug('Architecture file: {}.json'.format(self.file_load_model))
-            logging.debug('Architecture file: {}.json'.format(self.file_load_model))
+            logging.info('Architecture file: {}.json'.format(self.file_load_model))
             neural_model_json = open('{}.json'.format(self.file_load_model), 'r')
             self.neural_network.model = model_from_json(neural_model_json.read())
+            logging.info('Loading architecture... done! {}.json'.format(self.file_load_model))
+
+            logging.info('Weights file: {}.h5'.format(self.file_load_model))
             self.neural_network.model.load_weights('{}.h5'.format(self.file_load_model))
             self.neural_network.model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
+            logging.info('Loading weights... done!  {}.h5'.format(self.file_load_model))
 
-            logging.debug('Loaded file {}.h5'.format(self.file_load_model))
             logging.debug('Neural network compiled: {} {} {} '.format(self.loss, self.optimizer, self.metrics))
 
             neural_model_json.close()
