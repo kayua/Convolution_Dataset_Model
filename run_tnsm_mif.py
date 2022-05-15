@@ -325,7 +325,7 @@ def check_files(files):
     for f in files:
         if not os.path.isfile(f):
             logging.info("ERROR: file not found! {}".format(f))
-            sys.exit(1)
+            #sys.exit(1)
 
 def main():
 
@@ -534,10 +534,10 @@ def main():
                                 time_start_experiment = datetime.datetime.now()
                                 logging.info("\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
 
-                                if not args.skip_train:
-                                    check_files([model_architecture_file, model_weights_file])
+                                #if not args.skip_train:
+                                #    check_files([model_architecture_file, model_weights_file])
 
-                                check_files([original_swarm_file, failed_swarm_file])
+                                #check_files([original_swarm_file, failed_swarm_file])
 
                                 OUTPUT_DATASET_PREDICT_OUT = 'samples_saved/samples_predict/S1m07_80.sort_u_1n_4n'
                                 INPUT_ANALYSE_CORRECTED = 'dataset/corrected/S1m07_80.sort_u_1n_4n_corrected'
@@ -569,7 +569,7 @@ def main():
                                 logging.info("\t\t\t\t\t\t\t\tEnd                : {}".format(time_end_experiment.strftime(TIME_FORMAT)))
                                 logging.info("\t\t\t\t\t\t\t\tExperiment duration: {}".format(time_end_experiment - time_start_experiment))
 
-                                check_files([corrected_swarm_file])
+                                #check_files([corrected_swarm_file])
 
     time_end_campaign = datetime.datetime.now()
     logging.info("\t Campaign duration: {}".format(time_end_campaign - time_start_campaign))
