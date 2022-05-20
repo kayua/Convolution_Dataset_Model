@@ -451,7 +451,7 @@ def main():
                         cmd += " --load_samples_in {}".format(OUTPUT_DATASET_TRAINING_IN)
                         cmd += " --load_samples_out {}".format(OUTPUT_DATASET_TRAINING_OUT)
                         cmd += " --save_model {}".format(model_filename)
-                        #run_cmd(cmd)
+                        run_cmd(cmd)
 
                         time_end_experiment = datetime.datetime.now()
                         logging.info("\t\t\t\t\t\t\tEnd                : {}".format(
