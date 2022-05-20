@@ -199,9 +199,9 @@ def get_corrected_filename(dataset, mif, seed, threshold, window, full=True):
     return filename
 
 
-def get_architecture_filename(training_file, number_blocks, window, trial, full=True):
+def get_model_filename(training_file, number_blocks, window, trial, full=True):
 
-    filename = "model_arch_{}_number_blocks-{:0>2d}_window-{}_trial-{:0>2d}.json".format(
+    filename = "model_{}_number_blocks-{:0>2d}_window-{}_trial-{:0>2d}".format(
          training_file.split("/")[-1], number_blocks, window, trial)
 
     if full:
@@ -210,15 +210,6 @@ def get_architecture_filename(training_file, number_blocks, window, trial, full=
     return filename
 
 
-def get_weights_filename(training_file, number_blocks, window, trial, full=True):
-
-    filename = "model_weight_{}_epochs-{:0>4d}number_blocks-{:0>2d}_window-{:0>2d}_trial-{:0>2d}.h5".format(
-         training_file.split("/")[-1], NUM_EPOCHS, number_blocks, window, trial)
-
-    if full:
-        filename = "{}/{}".format(PATH_MODEL, filename)
-
-    return filename
 
 
 # Custom argparse type representing a bounded int
@@ -414,21 +405,6 @@ def main():
 
                     if not (number_blocks, window, trial) in dense_layers_models.keys():
                         logging.info("\tCampaign: {} number_blocks: {} Window: {}".format(count_c, number_blocks, window))
-                        validation_file = "data/01_original/S1a.sort_u_1n_4n" #get_training_filename(training_dataset)
-                        #training_file = "data/01_original/02_Increibles_TRACE_RES-100_head_1pct.txt.sort_u_1n_4n"
-                        #training_swarm_file = get_training_filename(training_dataset)
-                        logging.debug("\tvalidation_file: {}".format(validation_file))
-
-                        training_file = "data/01_original/S2a.sort_u_1n_4n"
-                        logging.debug("\ttraining_file: {}".format(training_file))
-
-                        model_architecture_file = get_architecture_filename(training_file, number_blocks, window, trial)
-                        logging.debug("\tmodel_architecture_file: {}".format(model_architecture_file))
-
-                        model_weights_file = get_weights_filename(training_file, number_blocks, window, trial)
-                        logging.debug("\tmodel_weights_file: {}".format(model_weights_file))
-
-                        dense_layers_models[(number_blocks, window, trial)] = (model_architecture_file, model_weights_file)
 
                         #check_files([training_file])
 
@@ -460,21 +436,22 @@ def main():
                         cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
                         run_cmd(cmd)
 
+                        OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
+                        OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
+
+                        model_filename = get_model_filename(OUTPUT_DATASET_TRAINING_IN, number_blocks, window, trial)
+                        logging.debug("\tmodel_filename: {}".format(model_filename))
+                        dense_layers_models[(number_blocks, window, trial)] = (model_filename)
+
                         cmd = "python3 main.py Training"
                         cmd += " --number_blocks {}".format(number_blocks)
                         cmd += " --window_width {}".format(window)
                         cmd += " --window_length {}".format(window)
                         cmd += " --epochs {}".format(NUM_EPOCHS)
-
-
-                        OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
-                        OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
-                        SAVE_NEURAL_MODEL = 'models_saved/model'
-
                         cmd += " --load_samples_in {}".format(OUTPUT_DATASET_TRAINING_IN)
                         cmd += " --load_samples_out {}".format(OUTPUT_DATASET_TRAINING_OUT)
-                        cmd += " --save_model {}".format(SAVE_NEURAL_MODEL)
-                        run_cmd(cmd)
+                        cmd += " --save_model {}".format(model_filename)
+                        #run_cmd(cmd)
 
                         time_end_experiment = datetime.datetime.now()
                         logging.info("\t\t\t\t\t\t\tEnd                : {}".format(
@@ -514,8 +491,8 @@ def main():
                         logging.info("\t\t\t\t\tPifs {}/{} ".format(count_pif, len(c.pifs)))
                         count_pif += 1
 
-                        # failed_swarm_file = get_mon_failed_filename(dataset, pif)
-                        # logging.info("\t\t\t#failed_swarm_file: {}".format(failed_swarm_file))
+                        failed_swarm_file = get_mon_failed_filename(dataset, pif)
+                        logging.info("\t\t\t#failed_swarm_file: {}".format(failed_swarm_file))
                         # if not os.path.isfile(failed_swarm_file):
                         #     create_monitor_injected_fail_file(dataset, pif)
 
@@ -529,7 +506,8 @@ def main():
                                 logging.info("\t\t\t\t\t\t\t\tWindow {}/{} ".format(count_window, len(c.windows)))
                                 count_window += 1
 
-                                (model_architecture_file, model_weights_file) = dense_layers_models[(number_blocks, window, trial)]
+                                (model_filename) = dense_layers_models[(number_blocks, window, trial)]
+
                                 corrected_swarm_file = get_corrected_filename(dataset, pif, trial, threshold, window)
                                 time_start_experiment = datetime.datetime.now()
                                 logging.info("\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
@@ -539,29 +517,18 @@ def main():
 
                                 #check_files([original_swarm_file, failed_swarm_file])
 
-                                OUTPUT_DATASET_PREDICT_OUT = 'samples_saved/samples_predict/S1m07_80.sort_u_1n_4n'
-                                INPUT_ANALYSE_CORRECTED = 'dataset/corrected/S1m07_80.sort_u_1n_4n_corrected'
-                                SAVE_NEURAL_MODEL = 'models_saved/model'
-                                cmd = "python3 main.py Predict"
-                                # cmd += " --number_blocks {}".format(number_blocks)
-                                # cmd += " --window_width {}".format(window)
-                                # cmd += " --window_length {}".format(window)
-                                # cmd += " --epochs {}".format(NUM_EPOCHS)
 
-                                cmd += " --input_predict {}".format(OUTPUT_DATASET_PREDICT_OUT)
-                                cmd += " --output_predict {}".format(INPUT_ANALYSE_CORRECTED)
-                                cmd += " --load_model {}".format(SAVE_NEURAL_MODEL)
+                                cmd = "python3 main.py Predict"
+                                cmd += " --input_predict {}".format(failed_swarm_file)
+                                cmd += " --output_predict {}".format(corrected_swarm_file)
+                                cmd += " --load_model {}".format(model_filename)
                                 run_cmd(cmd)
 
-                                INPUT_ANALYSE_ORIGINAL = 'dataset/original/S1m30_80.sort_u_1n_4n'
-                                INPUT_ANALYSE_CORRECTED = 'dataset/corrected/S1m07_80.sort_u_1n_4n_corrected'
-                                INPUT_ANALYSE_FAILED = 'dataset/failed/S1m07_80.sort_u_1n_4n'
-                                RESULT_METRICS = 'results/results.txt'
-
+                                RESULT_METRICS = 'results/results_tnsm_mif.txt'
                                 cmd = "python3 main.py Analyse"
-                                cmd += " --file_original {}".format(INPUT_ANALYSE_ORIGINAL)
-                                cmd += " --file_corrected {}".format(INPUT_ANALYSE_CORRECTED)
-                                cmd += " --file_failed {}".format(INPUT_ANALYSE_FAILED)
+                                cmd += " --file_original {}".format(original_swarm_file)
+                                cmd += " --file_corrected {}".format(corrected_swarm_file)
+                                cmd += " --file_failed {}".format(failed_swarm_file)
                                 cmd += " --file_analyse {}".format(RESULT_METRICS)
                                 run_cmd(cmd)
 
