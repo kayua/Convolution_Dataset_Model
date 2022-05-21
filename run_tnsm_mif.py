@@ -43,7 +43,7 @@ TIME_FORMAT = '%Y-%m-%d_%H:%M:%S'
 PATH_ORIGINAL = "data/01_original"
 PATH_TRAINING = "data/01_original"
 PATH_FAILED_MON = "data/02_failed_monitors"
-PATH_FAILED_PROB =  "data/02_failed_probability"
+PATH_FAILED_PROB = "data/02_failed_probability"
 
 PATH_RANKING = "data/02_failed_monitors/ranking"
 PATH_CORRECTED = "data/03_corrected_monitors"
@@ -258,7 +258,7 @@ def run_cmd(cmd):
     cmd_array = shlex.split(cmd)
     logging.debug("Command array: {}".format(cmd_array))
     if not args.demo:
-        subprocess.run(cmd_array, check=True)
+        subprocess.run(cmd_array, check=True, shell=True)
 
 
 class Campaign():
