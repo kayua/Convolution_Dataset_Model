@@ -362,7 +362,7 @@ def main():
     global args
     args = parser.parse_args()
 
-    logging_filename = '{}/run_sbrc21_{}.log'.format(PATH_LOG, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
+    logging_filename = '{}/run_tnsm_{}.log'.format(PATH_LOG, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
 
     logging_format = '%(asctime)s\t***\t%(message)s'
     # configura o mecanismo de logging
@@ -385,6 +385,7 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = '1' #0
     #mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
+    mifs = [7]
     c_demo = Campaign(datasets=[1], number_blocks=[32], thresholds=[.75], pifs=mifs, windows=[256])
     #
     # c_comparison = Campaign(datasets=[1], dense_layers=[3], thresholds=[.75], pifs=mifs, #7,11,17,10,16
@@ -520,11 +521,10 @@ def main():
                                 time_start_experiment = datetime.datetime.now()
                                 logging.info("\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
 
-                                #if not args.skip_train:
-                                #    check_files([model_architecture_file, model_weights_file])
+                                if not args.skip_train:
+                                    check_files(["{}.h5".format(model_filename), "{}.json".format(model_filename)])
 
-                                #check_files([original_swarm_file, failed_swarm_file])
-
+                                check_files([original_swarm_file, failed_swarm_file])
 
                                 cmd = "python3 main.py Predict"
                                 cmd += " --input_predict {}".format(failed_swarm_file)
@@ -544,7 +544,7 @@ def main():
                                 logging.info("\t\t\t\t\t\t\t\tEnd                : {}".format(time_end_experiment.strftime(TIME_FORMAT)))
                                 logging.info("\t\t\t\t\t\t\t\tExperiment duration: {}".format(time_end_experiment - time_start_experiment))
 
-                                #check_files([corrected_swarm_file])
+                                check_files([corrected_swarm_file])
 
     time_end_campaign = datetime.datetime.now()
     logging.info("\t Campaign duration: {}".format(time_end_campaign - time_start_campaign))
