@@ -258,7 +258,7 @@ def run_cmd(cmd):
     cmd_array = shlex.split(cmd)
     logging.debug("Command array: {}".format(cmd_array))
     if not args.demo:
-        subprocess.run(cmd_array, check=True, shell=True)
+        subprocess.run(cmd_array, check=True)
 
 
 class Campaign():
@@ -385,7 +385,7 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = '1' #0
     #mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
-    mifs = [7]
+    #mifs = [7]
     c_demo = Campaign(datasets=[1], number_blocks=[32], thresholds=[.75], pifs=mifs, windows=[256])
     #
     # c_comparison = Campaign(datasets=[1], dense_layers=[3], thresholds=[.75], pifs=mifs, #7,11,17,10,16
