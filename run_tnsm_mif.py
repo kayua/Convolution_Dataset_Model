@@ -62,6 +62,8 @@ files = ["00_Collection_TRACE_RES-100_from-w5000-to-w6000.zip",
          "02_Increibles_TRACE_RES-100_tail_99pct.zip"]
 
 training_files = []
+args = None
+
 
 def get_output_file_name(campaign=DEFAULT_CAMPAIGN):
     return "results_noms22_mfi_{}.txt".format(campaign)
@@ -255,7 +257,8 @@ def run_cmd(cmd):
     logging.info("Command line : {}".format(cmd))
     cmd_array = shlex.split(cmd)
     logging.debug("Command array: {}".format(cmd_array))
-    subprocess.run(cmd_array, check=True)
+    if not args.demo:
+        subprocess.run(cmd_array, check=True)
 
 
 class Campaign():
@@ -318,6 +321,7 @@ def check_files(files):
             logging.info("ERROR: file not found! {}".format(f))
             #sys.exit(1)
 
+
 def main():
 
     print("Creating the structure of directories...")
@@ -337,6 +341,9 @@ def main():
     help_msg = 'append output logging file with analysis results (default={})'.format(DEFAULT_APPEND_OUTPUT_FILE)
     parser.add_argument("--append", "-a", default=DEFAULT_APPEND_OUTPUT_FILE, help=help_msg, action='store_true')
 
+    help_msg = "demo mode (default={})".format(False)
+    parser.add_argument("--demo", "-d", help=help_msg,  action='store_true')
+
     help_msg = "number of trials (default={})".format(DEFAULT_TRIALS)
     parser.add_argument("--trials", "-r", help=help_msg, default=DEFAULT_TRIALS, type=IntRange(1))
 
@@ -352,6 +359,7 @@ def main():
     help_msg = "verbosity logging level (INFO=%d DEBUG=%d)" % (logging.INFO, logging.DEBUG)
     parser.add_argument("--verbosity", "-v", help=help_msg, default=DEFAULT_VERBOSITY_LEVEL, type=int)
 
+    global args
     args = parser.parse_args()
 
     logging_filename = '{}/run_sbrc21_{}.log'.format(PATH_LOG, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
@@ -376,8 +384,8 @@ def main():
 
     os.environ['CUDA_VISIBLE_DEVICES'] = '1' #0
     #mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
-
-    c_demo = Campaign(datasets=[1], number_blocks=[32], thresholds=[.75], pifs=[7], windows=[256])
+    mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
+    c_demo = Campaign(datasets=[1], number_blocks=[32], thresholds=[.75], pifs=mifs, windows=[256])
     #
     # c_comparison = Campaign(datasets=[1], dense_layers=[3], thresholds=[.75], pifs=mifs, #7,11,17,10,16
     #                         rnas=["lstm_mode", "no-lstm_mode"], windows=[11])
