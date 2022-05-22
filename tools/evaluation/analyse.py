@@ -66,12 +66,14 @@ class Analyse:
         number_true_peers = 0
 
         for i, swarm_line in enumerate(line_swarm_file):
-
-            swarm_line_in_list = swarm_line.split(' ')
-            snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
-            peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
-            temporary_dictionary = self.add_value_to_dic(temporary_dictionary, snapshot_value, peer_value)
-            number_true_peers += 1
+            if "#" in swarm_line:
+                logging.debug("commentary line: {}".format(swarm_line))
+            else:
+                swarm_line_in_list = swarm_line.split(' ')
+                snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
+                peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
+                temporary_dictionary = self.add_value_to_dic(temporary_dictionary, snapshot_value, peer_value)
+                number_true_peers += 1
 
         return temporary_dictionary.copy(), number_true_peers
 
