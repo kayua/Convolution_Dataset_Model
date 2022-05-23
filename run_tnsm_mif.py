@@ -547,12 +547,14 @@ def main():
                                     cmd = "python3 main.py CreateSamples"
                                     cmd += " --input_file_swarm {}".format(original_swarm_file)
                                     cmd += " --save_file_samples {}".format(original_swarm_file)
+                                    run_cmd(cmd)
 
                                 print("TESTE failed_swarm_file")
                                 if not check_files(["{}.npz".format(failed_swarm_file)]):
                                     cmd = "python3 main.py CreateSamples"
                                     cmd += " --input_file_swarm {}".format(failed_swarm_file)
                                     cmd += " --save_file_samples {}".format(failed_swarm_file)
+                                    run_cmd(cmd)
 
                                 cmd = "python3 main.py Predict"
                                 cmd += " --input_predict {}".format(failed_swarm_file)
