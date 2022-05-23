@@ -315,12 +315,16 @@ def create_probability_injected_fail_file(dataset, pif, trial):
     run_cmd(cmd)
 
 
-def check_files(files):
+def check_files(files, error=False):
     for f in files:
         if not os.path.isfile(f):
-            logging.info("ERROR: file not found! {}".format(f))
-            return False
-            #sys.exit(1)
+
+            if error:
+                logging.info("ERROR: file not found! {}".format(f))
+                sys.exit(1)
+            else:
+                logging.info("File not found! {}".format(f))
+                return False
 
     return True
 
@@ -409,32 +413,34 @@ def main():
     logging.info(" TRAINING ")
     logging.info("##########################################")
 
+
     # 1
     input_dataset_training_in = 'dataset/training/failed_training/S1m07_20.sort_u_1n_4n'
-    output_dataset_training_in = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
-    cmd = "python3 main.py CreateSamples"
-    cmd += " --input_file_swarm {}".format(input_dataset_training_in)
-    cmd += " --save_file_samples {}".format(output_dataset_training_in)
-    run_cmd(cmd)
+    OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
+    if not check_files(OUTPUT_DATASET_TRAINING_IN):
+        cmd = "python3 main.py CreateSamples"
+        cmd += " --input_file_swarm {}".format(input_dataset_training_in)
+        cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_IN)
+        run_cmd(cmd)
 
     # 2
     INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/S1m30_20.sort_u_1n_4n'
     OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
-    cmd = "python3 main.py CreateSamples"
-    cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
-    cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_OUT)
-    run_cmd(cmd)
+    if not check_files(OUTPUT_DATASET_TRAINING_OUT):
+        cmd = "python3 main.py CreateSamples"
+        cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
+        cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_OUT)
+        run_cmd(cmd)
 
     # 3
     INPUT_DATASET_PREDICT_IN = 'dataset/predict/S1m07_80.sort_u_1n_4n'
     OUTPUT_DATASET_PREDICT_OUT = 'samples_saved/samples_predict/S1m07_80.sort_u_1n_4n'
-    cmd = "python3 main.py CreateSamples"
-    cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
-    cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
-    run_cmd(cmd)
+    if not check_files(OUTPUT_DATASET_PREDICT_OUT):
+        cmd = "python3 main.py CreateSamples"
+        cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
+        cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
+        run_cmd(cmd)
 
-    OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
-    OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
 
     dense_layers_models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
@@ -458,15 +464,16 @@ def main():
                         logging.debug("\tmodel_filename: {}".format(model_filename))
                         dense_layers_models[(number_blocks, window, trial)] = (model_filename)
 
-                        cmd = "python3 main.py Training"
-                        cmd += " --number_blocks {}".format(number_blocks)
-                        cmd += " --window_width {}".format(window)
-                        cmd += " --window_length {}".format(window)
-                        cmd += " --epochs {}".format(NUM_EPOCHS)
-                        cmd += " --load_samples_in {}".format(OUTPUT_DATASET_TRAINING_IN)
-                        cmd += " --load_samples_out {}".format(OUTPUT_DATASET_TRAINING_OUT)
-                        cmd += " --save_model {}".format(model_filename)
-                        run_cmd(cmd)
+                        if not args.skip_train:
+                            cmd = "python3 main.py Training"
+                            cmd += " --number_blocks {}".format(number_blocks)
+                            cmd += " --window_width {}".format(window)
+                            cmd += " --window_length {}".format(window)
+                            cmd += " --epochs {}".format(NUM_EPOCHS)
+                            cmd += " --load_samples_in {}".format(OUTPUT_DATASET_TRAINING_IN)
+                            cmd += " --load_samples_out {}".format(OUTPUT_DATASET_TRAINING_OUT)
+                            cmd += " --save_model {}".format(model_filename)
+                            run_cmd(cmd)
 
                         time_end_experiment = datetime.datetime.now()
                         logging.info("\t\t\t\t\t\t\tEnd                : {}".format(
@@ -474,7 +481,8 @@ def main():
                         logging.info("\t\t\t\t\t\t\tExperiment duration: {}".format(
                             time_end_experiment - time_start_experiment))
 
-                        #check_files([model_architecture_file, model_weights_file])
+                        check_files(["{}.h5".format(model_filename), "{}.json".format(model_filename)])
+
 
     logging.info("\n\n\n")
     logging.info("##########################################")
@@ -508,8 +516,6 @@ def main():
 
                         failed_swarm_file = get_mon_failed_filename(dataset, pif)
                         logging.info("\t\t\t#failed_swarm_file: {}".format(failed_swarm_file))
-                        # if not os.path.isfile(failed_swarm_file):
-                        #     create_monitor_injected_fail_file(dataset, pif)
 
                         count_threshold = 1
                         for threshold in c.thresholds:
@@ -531,11 +537,18 @@ def main():
                                     check_files(["{}.h5".format(model_filename), "{}.json".format(model_filename)])
 
                                 check_files([original_swarm_file, failed_swarm_file])
+                                print("TESTE failed_swarm_file")
                                 if not check_files("{}.npz".format(failed_swarm_file)):
                                     cmd = "python3 main.py CreateSamples"
                                     cmd += " --input_file_swarm {}".format(failed_swarm_file)
                                     cmd += " --save_file_samples {}".format(failed_swarm_file)
-                                    
+
+                                print("TESTE original_swarm_file")
+                                if not check_files("{}.npz".format(failed_swarm_file)):
+                                    cmd = "python3 main.py CreateSamples"
+                                    cmd += " --input_file_swarm {}".format(original_swarm_file)
+                                    cmd += " --save_file_samples {}".format(original_swarm_file)
+
                                 cmd = "python3 main.py Predict"
                                 cmd += " --input_predict {}".format(failed_swarm_file)
                                 cmd += " --output_predict {}".format(corrected_swarm_file)
