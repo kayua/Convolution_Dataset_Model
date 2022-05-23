@@ -420,7 +420,7 @@ def main():
     # 1
     input_dataset_training_in = 'dataset/training/failed_training/S1m07_20.sort_u_1n_4n'
     OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
-    if not check_files("{].npz".format(OUTPUT_DATASET_TRAINING_IN)):
+    if not check_files("{}.npz".format(OUTPUT_DATASET_TRAINING_IN)):
         cmd = "python3 main.py CreateSamples"
         cmd += " --input_file_swarm {}".format(input_dataset_training_in)
         cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_IN)
@@ -429,7 +429,7 @@ def main():
     # 2
     INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/S1m30_20.sort_u_1n_4n'
     OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
-    if not check_files("{].npz".format(OUTPUT_DATASET_TRAINING_OUT)):
+    if not check_files("{}.npz".format(OUTPUT_DATASET_TRAINING_OUT)):
         cmd = "python3 main.py CreateSamples"
         cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
         cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_OUT)
@@ -438,7 +438,7 @@ def main():
     # 3
     INPUT_DATASET_PREDICT_IN = 'dataset/predict/S1m07_80.sort_u_1n_4n'
     OUTPUT_DATASET_PREDICT_OUT = 'samples_saved/samples_predict/S1m07_80.sort_u_1n_4n'
-    if not check_files("{].npz".format(OUTPUT_DATASET_PREDICT_OUT)):
+    if not check_files("{}.npz".format(OUTPUT_DATASET_PREDICT_OUT)):
         cmd = "python3 main.py CreateSamples"
         cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
         cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
