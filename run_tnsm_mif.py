@@ -319,7 +319,10 @@ def check_files(files):
     for f in files:
         if not os.path.isfile(f):
             logging.info("ERROR: file not found! {}".format(f))
+            return False
             #sys.exit(1)
+
+    return True
 
 
 def main():
@@ -385,7 +388,7 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = '1' #0
     #mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
-    #mifs = [7]
+    mifs = [7]
     c_demo = Campaign(datasets=[1], number_blocks=[32], thresholds=[.75], pifs=mifs, windows=[256])
     #
     # c_comparison = Campaign(datasets=[1], dense_layers=[3], thresholds=[.75], pifs=mifs, #7,11,17,10,16
@@ -398,11 +401,41 @@ def main():
     #     campaigns = [c_case]
     # else:
     #     campaigns = [c_comparison]
+
+
     campaigns = [c_demo]
     logging.info("\n\n\n")
     logging.info("##########################################")
     logging.info(" TRAINING ")
     logging.info("##########################################")
+
+    # 1
+    input_dataset_training_in = 'dataset/training/failed_training/S1m07_20.sort_u_1n_4n'
+    output_dataset_training_in = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
+    cmd = "python3 main.py CreateSamples"
+    cmd += " --input_file_swarm {}".format(input_dataset_training_in)
+    cmd += " --save_file_samples {}".format(output_dataset_training_in)
+    run_cmd(cmd)
+
+    # 2
+    INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/S1m30_20.sort_u_1n_4n'
+    OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
+    cmd = "python3 main.py CreateSamples"
+    cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
+    cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_OUT)
+    run_cmd(cmd)
+
+    # 3
+    INPUT_DATASET_PREDICT_IN = 'dataset/predict/S1m07_80.sort_u_1n_4n'
+    OUTPUT_DATASET_PREDICT_OUT = 'samples_saved/samples_predict/S1m07_80.sort_u_1n_4n'
+    cmd = "python3 main.py CreateSamples"
+    cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
+    cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
+    run_cmd(cmd)
+
+    OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
+    OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
+
     dense_layers_models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
     time_start_campaign = datetime.datetime.now()
@@ -420,33 +453,6 @@ def main():
                         time_start_experiment = datetime.datetime.now()
                         logging.info(
                             "\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
-
-                        # 1
-                        input_dataset_training_in = 'dataset/training/failed_training/S1m07_20.sort_u_1n_4n'
-                        output_dataset_training_in = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
-                        cmd = "python3 main.py CreateSamples"
-                        cmd += " --input_file_swarm {}".format(input_dataset_training_in)
-                        cmd += " --save_file_samples {}".format(output_dataset_training_in)
-                        run_cmd(cmd)
-
-                        # 2
-                        INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/S1m30_20.sort_u_1n_4n'
-                        OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
-                        cmd = "python3 main.py CreateSamples"
-                        cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
-                        cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_OUT)
-                        run_cmd(cmd)
-
-                        # 3
-                        INPUT_DATASET_PREDICT_IN = 'dataset/predict/S1m07_80.sort_u_1n_4n'
-                        OUTPUT_DATASET_PREDICT_OUT = 'samples_saved/samples_predict/S1m07_80.sort_u_1n_4n'
-                        cmd = "python3 main.py CreateSamples"
-                        cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
-                        cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
-                        run_cmd(cmd)
-
-                        OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
-                        OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
 
                         model_filename = get_model_filename(OUTPUT_DATASET_TRAINING_IN, number_blocks, window, trial)
                         logging.debug("\tmodel_filename: {}".format(model_filename))
@@ -525,7 +531,11 @@ def main():
                                     check_files(["{}.h5".format(model_filename), "{}.json".format(model_filename)])
 
                                 check_files([original_swarm_file, failed_swarm_file])
-
+                                if not check_files("{}.npz".format(failed_swarm_file)):
+                                    cmd = "python3 main.py CreateSamples"
+                                    cmd += " --input_file_swarm {}".format(failed_swarm_file)
+                                    cmd += " --save_file_samples {}".format(failed_swarm_file)
+                                    
                                 cmd = "python3 main.py Predict"
                                 cmd += " --input_predict {}".format(failed_swarm_file)
                                 cmd += " --output_predict {}".format(corrected_swarm_file)

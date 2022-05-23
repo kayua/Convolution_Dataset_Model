@@ -129,6 +129,7 @@ def arguments_cmd_choice(args):
 
     if args.cmd == 'Calibration': calibration_neural_model(args)
     if args.cmd == 'CreateSamples': create_samples(args)
+    #batch de treinamento
     if args.cmd == 'Training': training_neural_model(args)
     if args.cmd == 'Predict': predict_neural_model(args)
     if args.cmd == 'Analyse': evaluation(args)
