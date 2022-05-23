@@ -66,11 +66,11 @@ class Dataset:
         line_swarm_file = file_pointer_swarm.readlines()
         logging.debug("load_swarm_to_feature e ")
         for i, swarm_line in enumerate(line_swarm_file):
-
-            swarm_line_in_list = swarm_line.split(' ')
-            snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
-            peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
-            self.insert_in_matrix(snapshot_value, peer_value)
+            if "#" not in line_swarm_file:
+                swarm_line_in_list = swarm_line.split(' ')
+                snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
+                peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
+                self.insert_in_matrix(snapshot_value, peer_value)
         logging.debug("load_swarm_to_feature f ")
         self.feature_input.append(numpy.array(self.matrix_features))
         logging.debug("load_swarm_to_feature g ")
