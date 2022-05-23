@@ -328,6 +328,8 @@ def check_files(files, error=False):
             else:
                 logging.info("File not found! {}".format(f))
                 return False
+        else:
+            logging.info(("File found: {}".format(f)))
 
     return True
 
@@ -540,17 +542,17 @@ def main():
                                     check_files(["{}.h5".format(model_filename), "{}.json".format(model_filename)])
 
                                 check_files([original_swarm_file, failed_swarm_file])
+                                print("TESTE original_swarm_file")
+                                if not check_files(["{}.npz".format(original_swarm_file)]):
+                                    cmd = "python3 main.py CreateSamples"
+                                    cmd += " --input_file_swarm {}".format(original_swarm_file)
+                                    cmd += " --save_file_samples {}".format(original_swarm_file)
+
                                 print("TESTE failed_swarm_file")
                                 if not check_files(["{}.npz".format(failed_swarm_file)]):
                                     cmd = "python3 main.py CreateSamples"
                                     cmd += " --input_file_swarm {}".format(failed_swarm_file)
                                     cmd += " --save_file_samples {}".format(failed_swarm_file)
-
-                                print("TESTE original_swarm_file")
-                                if not check_files(["{}.npz".format(failed_swarm_file)]):
-                                    cmd = "python3 main.py CreateSamples"
-                                    cmd += " --input_file_swarm {}".format(original_swarm_file)
-                                    cmd += " --save_file_samples {}".format(original_swarm_file)
 
                                 cmd = "python3 main.py Predict"
                                 cmd += " --input_predict {}".format(failed_swarm_file)
