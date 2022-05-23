@@ -397,7 +397,7 @@ def main():
     os.environ['CUDA_VISIBLE_DEVICES'] = '1' #0
     #mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
-    mifs = [7]
+    #mifs = [7]
     c_demo = Campaign(datasets=[1], number_blocks=[32], thresholds=[.75], pifs=mifs, windows=[256])
     #
     # c_comparison = Campaign(datasets=[1], dense_layers=[3], thresholds=[.75], pifs=mifs, #7,11,17,10,16
@@ -445,7 +445,6 @@ def main():
         cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
         cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
         run_cmd(cmd)
-
 
     dense_layers_models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
