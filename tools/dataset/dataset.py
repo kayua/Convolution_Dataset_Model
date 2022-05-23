@@ -66,7 +66,7 @@ class Dataset:
         line_swarm_file = file_pointer_swarm.readlines()
         logging.debug("load_swarm_to_feature e ")
         for i, swarm_line in enumerate(line_swarm_file):
-            if "#" not in line_swarm_file:
+            if "#" not in swarm_line:
                 swarm_line_in_list = swarm_line.split(' ')
                 snapshot_value = int(swarm_line_in_list[self.snapshot_column_position - 1])
                 peer_value = int(swarm_line_in_list[self.peer_column_position - 1])
