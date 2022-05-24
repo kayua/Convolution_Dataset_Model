@@ -586,6 +586,7 @@ def main():
                                 cmd += " --window_width {}".format(window)
                                 cmd += " --seed {}".format(trial)
                                 cmd += " --epochs {}".format(NUM_EPOCHS)
+                                cmd += " --pif {}".format(pif)
 
                                 cmd += " --file_original {}".format(original_swarm_file)
                                 cmd += " --file_corrected {}".format(corrected_swarm_file)
