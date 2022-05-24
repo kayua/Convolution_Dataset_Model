@@ -196,8 +196,14 @@ def get_corrected_filename(dataset, mif, seed, threshold, window, full=True):
         mif = 100
     threshold = convert_flot_to_int(threshold)
     #filename = "{}.corrected_threshold-{:0>2d}_window-{:0>2d}".format(get_failed_filename(dataset, pif, seed, False), threshold, window)
-    filename = "{}_mfi-{:0>2d}.corrected_threshold-{:0>2d}_window-{:0>2d}_epochs-{:0>4d}".format(get_original_unzip_filename(dataset, False),
-                                                                      mif, threshold, window, NUM_EPOCHS)
+    if mif > 1:
+        filename = "{}_mif-{:0>2d}.corrected_threshold-{:0>2d}_window-{:0>2d}_epochs-{:0>4d}".format(get_original_unzip_filename(dataset, False),
+                                                                     mif, threshold, window, NUM_EPOCHS)
+    else:
+        filename = "{}_pif-{:0>2d}.corrected_threshold-{:0>2d}_window-{:0>2d}_epochs-{:0>4d}".format(
+            get_original_unzip_filename(dataset, False),
+            mif*100, threshold, window, NUM_EPOCHS)
+
     if full:
         filename = "{}/{}".format(PATH_CORRECTED, filename)
 
