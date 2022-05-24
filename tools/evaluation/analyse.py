@@ -14,7 +14,7 @@ DEFAULT_PATH_LOG = 'logs/'
 class Analyse:
 
     def __init__(self, args):
-
+        self.args = args
         self.snapshot_column_position = args.snapshot_column
         self.peer_column_position = args.peer_column
         self.corrected_swarm_file = args.file_corrected
@@ -25,7 +25,7 @@ class Analyse:
         self.analyse_file_results = args.file_analyse
         self.threshold = args.threshold
         self.seed = args.seed
-        self.pif = args.pfi
+        self.pif = args.pif
 
         self.trace_found_in_original_and_failed = 0
         self.trace_found_in_original_and_corrected = 0
@@ -160,7 +160,7 @@ class Analyse:
         analyse_results.write("  Now      : {}\n".format(datetime.now()))
         analyse_results.write("  Topology : {}\n".format(self.topology))
         analyse_results.write("  Threshold: {}\n".format(self.threshold))
-        analyse_results.write("  PIF      : {}%\n".format(int(self.pif * 100)))
+        analyse_results.write("  PIF/MIF  : {}\n".format(self.pif))
         analyse_results.write("  Dataset  : {}\n".format(self.original_swarm_file))
         analyse_results.write("  Seed     : {}\n\n".format(self.seed))
 
@@ -194,29 +194,32 @@ class Analyse:
         analyse_results.write('  True negative  (TN): {}\n'.format(self.true_negatives))
 
 
-        line_output = "#SUMMARY#"
-        line_output += ";{}".format(self.topology)
-        line_output += ";{}".format(self.number_original_swarm_lines)
-        line_output += ";{}".format(faults)
-        line_output += ";{}".format(self.threshold)
-        line_output += ";{}%".format(int(self.pif * 100))
-        line_output += ";{}".format(self.original_swarm_file)
-        line_output += ";{}".format(self.threshold)
-        line_output += ";{}".format(self.seed)
-        line_output += ";{}".format(self.true_positives)
-        line_output += ";{}".format(self.false_positives)
-        line_output += ";{}".format(self.true_negatives)
-        line_output += ";{}".format(self.false_negatives)
-        line_output += "\n"
-        print(line_output)
+        # line_output = "#SUMMARY#"
+        # line_output += ";{}".format(self.topology)
+        # line_output += ";{}".format(self.number_original_swarm_lines)
+        # line_output += ";{}".format(faults)
+        # line_output += ";{}".format(self.threshold)
+        # line_output += ";{}%".format(int(self.pif * 100))
+        # line_output += ";{}".format(self.original_swarm_file)
+        # line_output += ";{}".format(self.threshold)
+        # line_output += ";{}".format(self.seed)
+        # line_output += ";{}".format(self.true_positives)
+        # line_output += ";{}".format(self.false_positives)
+        # line_output += ";{}".format(self.true_negatives)
+        # line_output += ";{}".format(self.false_negatives)
+        # line_output += "\n"
+        # print(line_output)
 
         line_output = "#SUMNEW#"
+        line_output += ";ConvNet"
         line_output += ";{}".format(self.topology)
+        line_output += ";{}".format(self.args.window_width)
         line_output += ";{}".format(self.threshold)
+        line_output += ";{}".format(int(self.pif))
 
-        line_output += ";{}%".format(int(self.pif * 100))
         line_output += ";{}".format(self.original_swarm_file)
         line_output += ";{}".format(self.seed)
+        line_output += ";NA" # duration of the experiment
 
         line_output += ";{}".format(self.number_original_swarm_lines)
         line_output += ";{}".format(faults)
@@ -224,8 +227,8 @@ class Analyse:
 
         line_output += ";{}".format(self.true_positives)
         line_output += ";{}".format(self.false_positives)
-        line_output += ";{}".format(self.true_negatives)
         line_output += ";{}".format(self.false_negatives)
+        line_output += ";{}".format(self.true_negatives)
         line_output += "\n"
         print(line_output)
         analyse_results.write(line_output)

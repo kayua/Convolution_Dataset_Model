@@ -413,9 +413,8 @@ def main():
     #                         rnas=["lstm_mode", "no-lstm_mode"], windows=[11])
     # c_case = Campaign(datasets=[3], dense_layers=[3], thresholds=[.75], pifs=[None], rnas=["lstm_mode"], windows=[11])
     #
-    if args.campaign == "demo":
-        campaigns = [c_demo]
-    elif args.campaign == "mif":
+    campaigns = [c_demo]
+    if args.campaign == "mif":
         campaigns = [c_mif]
     elif args.campaign == "pif":
         campaigns = [c2, c3, c4, c1]
@@ -424,11 +423,7 @@ def main():
     #     campaigns = [c_case]
     # else:
     #     campaigns = [c_comparison]
-    else:
-        campaings = [c_demo]
 
-
-    campaigns = [c_demo]
     logging.info("\n\n\n")
     logging.info("##########################################")
     logging.info(" TRAINING ")
@@ -587,6 +582,11 @@ def main():
 
                                 RESULT_METRICS = 'results/results_tnsm_mif.txt'
                                 cmd = "python3 main.py Analyse"
+                                cmd += " --topology {}".format(topo_version)
+                                cmd += " --window_width {}".format(window)
+                                cmd += " --seed {}".format(trial)
+                                cmd += " --epochs {}".format(NUM_EPOCHS)
+
                                 cmd += " --file_original {}".format(original_swarm_file)
                                 cmd += " --file_corrected {}".format(corrected_swarm_file)
                                 cmd += " --file_failed {}".format(failed_swarm_file)
