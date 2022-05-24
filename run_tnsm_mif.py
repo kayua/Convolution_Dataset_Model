@@ -115,6 +115,9 @@ def get_original_filename(dataset, full=True):
     return file_out
 
 
+
+
+
 def get_original_unzip_filename(dataset, full=True):
 
     #print(files)
@@ -201,10 +204,10 @@ def get_corrected_filename(dataset, mif, seed, threshold, window, full=True):
     return filename
 
 
-def get_model_filename(training_file, number_blocks, window, trial, full=True):
+def get_model_filename(training_file, topo_version, window, trial, full=True):
 
-    filename = "model_{}_number_blocks-{:0>2d}_window-{}_trial-{:0>2d}".format(
-         training_file.split("/")[-1], number_blocks, window, trial)
+    filename = "model_{}_topo-{:0>2d}_window-{}_trial-{:0>2d}".format(
+         training_file.split("/")[-1], topo_version, window, trial)
 
     if full:
         filename = "{}/{}".format(PATH_MODEL, filename)
@@ -263,9 +266,9 @@ def run_cmd(cmd):
 
 class Campaign():
 
-    def __init__(self, datasets, pifs, number_blocks, thresholds, windows):
+    def __init__(self, datasets, pifs, topo_versions, thresholds, windows):
         self.datasets = datasets
-        self.number_blocks = number_blocks
+        self.topo_versions = topo_versions
         self.thresholds = thresholds
         self.pifs = pifs
         self.windows = windows
@@ -365,7 +368,7 @@ def main():
     help_msg = "Skip training of the machine learning model training?"
     parser.add_argument("--skip_train", "-t", default=False, help=help_msg, action='store_true')
 
-    help_msg = "Campaign [demo, case, comparison] (default={})".format(DEFAULT_CAMPAIGN)
+    help_msg = "Campaign [demo, mif, pif] (default={})".format(DEFAULT_CAMPAIGN)
     parser.add_argument("--campaign", "-c", help=help_msg, default=DEFAULT_CAMPAIGN, type=str)
 
     help_msg = "verbosity logging level (INFO=%d DEBUG=%d)" % (logging.INFO, logging.DEBUG)
@@ -395,21 +398,34 @@ def main():
     print_config(args)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = '1' #0
-    #mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
+    c1 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75],
+                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
+    c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
+    c3 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.50, .95], pifs=[.10], windows=[256])
+    c4 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[128, 512])
+
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
-    #mifs = [7]
-    c_demo = Campaign(datasets=[1], number_blocks=[32], thresholds=[.75], pifs=mifs, windows=[256])
-    #
+    c_mif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=mifs, windows=[256])
+
+    c_demo = c_mif
+    c_demo.pifs = [7]
     # c_comparison = Campaign(datasets=[1], dense_layers=[3], thresholds=[.75], pifs=mifs, #7,11,17,10,16
     #                         rnas=["lstm_mode", "no-lstm_mode"], windows=[11])
     # c_case = Campaign(datasets=[3], dense_layers=[3], thresholds=[.75], pifs=[None], rnas=["lstm_mode"], windows=[11])
     #
-    # if args.campaign == "demo":
-    #     campaigns = [c_demo]
+    if args.campaign == "demo":
+        campaigns = [c_demo]
+    elif args.campaign == "mif":
+        campaigns = [c_mif]
+    elif args.campaign == "pif":
+        campaigns = [c2, c3, c4, c1]
+
     # elif args.campaign == "case":
     #     campaigns = [c_case]
     # else:
     #     campaigns = [c_comparison]
+    else:
+        campaings = [c_demo]
 
 
     campaigns = [c_demo]
@@ -452,11 +468,11 @@ def main():
     training_dataset = "S1a"
     for trial in trials:
         for count_c, c in enumerate(campaigns):
-            for number_blocks in c.number_blocks:
+            for topo_version in c.topo_versions:
                 for window in c.windows:
 
-                    if not (number_blocks, window, trial) in dense_layers_models.keys():
-                        logging.info("\tCampaign: {} number_blocks: {} Window: {}".format(count_c, number_blocks, window))
+                    if not (topo_version, window, trial) in dense_layers_models.keys():
+                        logging.info("\tCampaign: {} topo_version: {} Window: {}".format(count_c, topo_version, window))
 
                         #check_files([training_file])
 
@@ -464,13 +480,13 @@ def main():
                         logging.info(
                             "\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
 
-                        model_filename = get_model_filename(OUTPUT_DATASET_TRAINING_IN, number_blocks, window, trial)
+                        model_filename = get_model_filename(OUTPUT_DATASET_TRAINING_IN, topo_version, window, trial)
                         logging.debug("\tmodel_filename: {}".format(model_filename))
-                        dense_layers_models[(number_blocks, window, trial)] = (model_filename)
+                        dense_layers_models[(topo_version, window, trial)] = (model_filename)
 
                         if not args.skip_train:
                             cmd = "python3 main.py Training"
-                            cmd += " --number_blocks {}".format(number_blocks)
+                            cmd += " --topology {}".format(topo_version)
                             cmd += " --window_width {}".format(window)
                             cmd += " --window_length {}".format(window)
                             cmd += " --epochs {}".format(NUM_EPOCHS)
@@ -509,18 +525,26 @@ def main():
                 original_swarm_file = get_original_unzip_filename(dataset, 30) #30 monitores -> sem falha
                 logging.info("\t\t\t#original_swarm_file: {}".format(original_swarm_file))
 
-                count_number_blocks = 1
-                for number_blocks in c.number_blocks:
-                    logging.info("\t\t\t\tnumber_blocks {}/{} ".format(count_number_blocks, len(c.number_blocks)))
-                    count_number_blocks += 1
+                count_topo_versions = 1
+                for topo_version in c.topo_versions:
+                    logging.info("\t\t\t\ttopo_version {}/{} ".format(count_topo_versions, len(c.topo_versions)))
+                    count_topo_versions += 1
                     count_pif = 1
                     for pif in c.pifs:
                         logging.info("\t\t\t\t\tPifs {}/{} ".format(count_pif, len(c.pifs)))
                         count_pif += 1
 
-                        failed_swarm_file = get_mon_failed_filename(dataset, pif)
-                        logging.info("\t\t\t#failed_swarm_file: {}".format(failed_swarm_file))
+                        if pif > 0:
+                            logging.debug("\t\t\t#monitoring injected failure - {}".format(pif))
+                            failed_swarm_file = get_mon_failed_filename(dataset, pif)
 
+                        else:
+                            logging.debug("\t\t\t#probabilistic injected failure - {}".format(pif))
+                            failed_swarm_file = get_prob_failed_filename(dataset, pif, trial)
+                            if not os.path.isfile(failed_swarm_file):
+                                create_probability_injected_fail_file(dataset, pif, trial)
+
+                        logging.info("\t\t\t#failed_swarm_file: {}".format(failed_swarm_file))
                         count_threshold = 1
                         for threshold in c.thresholds:
                             logging.info("\t\t\t\t\t\t\tThreshold {}/{} ".format(count_threshold, len(c.thresholds)))
@@ -531,7 +555,7 @@ def main():
                                 logging.info("\t\t\t\t\t\t\t\tWindow {}/{} ".format(count_window, len(c.windows)))
                                 count_window += 1
 
-                                (model_filename) = dense_layers_models[(number_blocks, window, trial)]
+                                (model_filename) = dense_layers_models[(topo_version, window, trial)]
 
                                 corrected_swarm_file = get_corrected_filename(dataset, pif, trial, threshold, window)
                                 time_start_experiment = datetime.datetime.now()

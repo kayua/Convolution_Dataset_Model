@@ -38,7 +38,6 @@ except ImportError as error:
     exit(-1)
 
 
-
 def calibration_neural_model(args):
 
     logging.info('Starting calibration')
@@ -136,22 +135,22 @@ def arguments_cmd_choice(args):
 
 
 def imprime_config(args):
-	'''
-	Mostra os argumentos recebidos e as configurações processadas
-	:args: parser.parse_args
-	'''
-	logging.info("Comando:\n\t{0}\n".format(" ".join([x for x in sys.argv])))
-	logging.info("Configurações:")
-	lengths = [len(x) for x in vars(args).keys()]
-	max_lenght = max(lengths)
+    '''
+    Mostra os argumentos recebidos e as configurações processadas
+    :args: parser.parse_args
+    '''
+    logging.info("Command:\n\t{0}\n".format(" ".join([x for x in sys.argv])))
+    logging.info("Settings:")
+    lengths = [len(x) for x in vars(args).keys()]
+    max_length = max(lengths)
 
-	for k, v in sorted(vars(args).items()):
-		message = "\t"
-		message += k.ljust(max_lenght, " ")
-		message += " : {}".format(v)
-		logging.info(message)
+    for k, v in sorted(vars(args).items()):
+        message = "\t"
+        message += k.ljust(max_length, " ")
+        message += " : {}".format(v)
+        logging.info(message)
 
-	logging.info("")
+    logging.info("")
 
 
 def run_cmd(cmd_str, shell=False, check=True):
@@ -164,7 +163,6 @@ def run_cmd(cmd_str, shell=False, check=True):
 
 
 def main():
-
 
     argument_parser = ArgumentParser(description='Regenerating Datasets With Convolutional Network')
     argument_parser = add_arguments(argument_parser)
@@ -179,7 +177,6 @@ def main():
 
         logging.basicConfig(format="%(message)s", datefmt=TIME_FORMAT, level=arguments.verbosity)
 
-
     imprime_config(arguments)
 
     cmd = "mkdir -p samples_saved/samples_training_in/"
@@ -193,7 +190,6 @@ def main():
 
     cmd = "mkdir -p models_saved/model"
     run_cmd(cmd)
-
 
     arguments_cmd_choice(arguments)
 

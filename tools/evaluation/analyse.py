@@ -155,7 +155,6 @@ class Analyse:
 
         analyse_results = open(self.analyse_file_results, self.analyse_file_mode)
 
-
         analyse_results.write('\nBEGIN ############################################\n\n')
         analyse_results.write(' RESULTS \n')
         analyse_results.write("  Now      : {}\n".format(datetime.now()))
