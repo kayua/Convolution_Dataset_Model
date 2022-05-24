@@ -415,6 +415,7 @@ def main():
     #
     campaigns = [c_demo]
     if args.campaign == "mif":
+        c_mif.pifs = mifs
         campaigns = [c_mif]
     elif args.campaign == "pif":
         campaigns = [c2, c3, c4, c1]
@@ -529,7 +530,7 @@ def main():
                         logging.info("\t\t\t\t\tPifs {}/{} ".format(count_pif, len(c.pifs)))
                         count_pif += 1
 
-                        if pif > 0:
+                        if pif > 1:
                             logging.debug("\t\t\t#monitoring injected failure - {}".format(pif))
                             failed_swarm_file = get_mon_failed_filename(dataset, pif)
 
