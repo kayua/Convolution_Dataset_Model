@@ -230,6 +230,7 @@ class Analyse:
         line_output += ";{}".format(self.false_negatives)
         line_output += ";{}".format(self.true_negatives)
         line_output += "\n"
+        line_output = line_output.replace(";", "\t")
         print(line_output)
         analyse_results.write(line_output)
 
