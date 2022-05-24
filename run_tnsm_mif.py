@@ -206,7 +206,7 @@ def get_corrected_filename(dataset, mif, seed, threshold, window, full=True):
 
 def get_model_filename(training_file, topo_version, window, trial, full=True):
 
-    filename = "model_{}_topo-{:0>2d}_window-{}_trial-{:0>2d}".format(
+    filename = "model_{}_topo-{}_window-{}_trial-{:0>2d}".format(
          training_file.split("/")[-1], topo_version, window, trial)
 
     if full:
