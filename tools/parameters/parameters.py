@@ -114,7 +114,7 @@ def dataset_parameters(parser):
     parser.add_argument("--window_width", type=int, help=help_msg, default=DEFAULT_FEATURE_WINDOW_WIDTH)
 
     help_msg = 'Define number blocks (Default {})'.format(DEFAULT_NUMBER_BLOCK_PER_SAMPLES)
-    parser.add_argument("--topo_version", type=int, help=help_msg, default=DEFAULT_NUMBER_BLOCK_PER_SAMPLES)
+    parser.add_argument("--number_blocks", type=int, help=help_msg, default=DEFAULT_NUMBER_BLOCK_PER_SAMPLES)
 
     help_msg = 'Neural topology (Default {})'.format(DEFAULT_NEURAL_TOPOLOGY)
     parser.add_argument("--topology", type=str, help=help_msg, default=DEFAULT_NEURAL_TOPOLOGY)
