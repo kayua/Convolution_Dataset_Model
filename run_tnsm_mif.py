@@ -99,20 +99,21 @@ def get_ranking_filename(dataset):
 
 
 def get_original_filename(dataset, full=True):
-    file_in = ""
-    file_out = ""
-    if full:
-        file_in = "{}/{}".format(PATH_ORIGINAL, dataset)
-        file_out = "{}.sort-k-3-3".format(file_in)
-        cmd = "sort -k 3,3 {} > {}".format(file_in, file_out)
-        logging.debug("running: {}".format(cmd))
-        os.system(cmd)
-
-    else:
-        file_in = "{}".format(dataset)
-        file_out = "{}.sort-k-3-3".format(file_in)
-
-    return file_out
+    return get_original_unzip_filename(dataset, full=True)
+    # file_in = ""
+    # file_out = ""
+    # if full:
+    #     file_in = "{}/{}".format(PATH_ORIGINAL, dataset)
+    #     file_out = "{}.sort-k-3-3".format(file_in)
+    #     cmd = "sort -k 3,3 {} > {}".format(file_in, file_out)
+    #     logging.debug("running: {}".format(cmd))
+    #     os.system(cmd)
+    #
+    # else:
+    #     file_in = "{}".format(dataset)
+    #     file_out = "{}.sort-k-3-3".format(file_in)
+    #
+    # return file_out
 
 
 
@@ -540,11 +541,11 @@ def main():
                         count_pif += 1
 
                         if pif > 1:
-                            logging.debug("\t\t\t#monitoring injected failure - {}".format(pif))
+                            logging.info("\t\t\t#monitoring injected failure - {}".format(pif))
                             failed_swarm_file = get_mon_failed_filename(dataset, pif)
 
                         else:
-                            logging.debug("\t\t\t#probabilistic injected failure - {}".format(pif))
+                            logging.info("\t\t\t#probabilistic injected failure - {}".format(pif))
                             failed_swarm_file = get_prob_failed_filename(dataset, pif, trial)
                             if not os.path.isfile(failed_swarm_file):
                                 create_probability_injected_fail_file(dataset, pif, trial)
@@ -570,14 +571,13 @@ def main():
                                     check_files(["{}.h5".format(model_filename), "{}.json".format(model_filename)])
 
                                 check_files([original_swarm_file, failed_swarm_file])
-                                print("TESTE original_swarm_file")
+
                                 if not check_files(["{}.npz".format(original_swarm_file)]):
                                     cmd = "python3 main.py CreateSamples"
                                     cmd += " --input_file_swarm {}".format(original_swarm_file)
                                     cmd += " --save_file_samples {}".format(original_swarm_file)
                                     run_cmd(cmd)
 
-                                print("TESTE failed_swarm_file")
                                 if not check_files(["{}.npz".format(failed_swarm_file)]):
                                     cmd = "python3 main.py CreateSamples"
                                     cmd += " --input_file_swarm {}".format(failed_swarm_file)
