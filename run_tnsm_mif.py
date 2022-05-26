@@ -409,22 +409,25 @@ def main():
     c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
     c3 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.50, .95], pifs=[.10], windows=[256])
     c4 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[128, 512])
+    cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[256])
 
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
     c_mif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=mifs, windows=[256])
+    cdemo_mif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
 
-    c_demo = c_mif
-    c_demo.pifs = [7]
+    #c_demo = c_mif
+    #c_demo.pifs = [7]
     # c_comparison = Campaign(datasets=[1], dense_layers=[3], thresholds=[.75], pifs=mifs, #7,11,17,10,16
     #                         rnas=["lstm_mode", "no-lstm_mode"], windows=[11])
     # c_case = Campaign(datasets=[3], dense_layers=[3], thresholds=[.75], pifs=[None], rnas=["lstm_mode"], windows=[11])
     #
-    campaigns = [c_demo]
+    campaigns = [cdemo_pif]
     if args.campaign == "mif":
         c_mif.pifs = mifs
         campaigns = [c_mif]
     elif args.campaign == "pif":
         campaigns = [c2, c3, c4, c1]
+
 
     # elif args.campaign == "case":
     #     campaigns = [c_case]
