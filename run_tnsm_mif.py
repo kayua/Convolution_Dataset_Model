@@ -434,7 +434,8 @@ def main():
         c_mif.pifs = mifs
         campaigns = [c_mif]
     elif args.campaign == "pif":
-        campaigns = [c2, c3, c4, c1]
+        #campaigns = [c3, c4, c1]
+        campaigns = [c2]
 
 
     # elif args.campaign == "case":
@@ -475,7 +476,7 @@ def main():
         cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
         run_cmd(cmd)
 
-    dense_layers_models = {}
+    models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
     time_start_campaign = datetime.datetime.now()
     training_dataset = "S1a"
@@ -484,7 +485,7 @@ def main():
             for topo_version in c.topo_versions:
                 for window in c.windows:
 
-                    if not (topo_version, window, trial) in dense_layers_models.keys():
+                    if not (topo_version, window, trial) in models.keys():
                         logging.info("\tCampaign: {} topo_version: {} Window: {}".format(count_c, topo_version, window))
 
                         #check_files([training_file])
@@ -495,7 +496,7 @@ def main():
 
                         model_filename = get_model_filename(OUTPUT_DATASET_TRAINING_IN, topo_version, window, trial)
                         logging.debug("\tmodel_filename: {}".format(model_filename))
-                        dense_layers_models[(topo_version, window, trial)] = (model_filename)
+                        models[(topo_version, window, trial)] = (model_filename)
 
                         if not args.skip_train:
                             cmd = "python3 main.py Training"
@@ -568,7 +569,7 @@ def main():
                                 logging.info("\t\t\t\t\t\t\t\tWindow {}/{} ".format(count_window, len(c.windows)))
                                 count_window += 1
 
-                                (model_filename) = dense_layers_models[(topo_version, window, trial)]
+                                (model_filename) = models[(topo_version, window, trial)]
 
                                 corrected_swarm_file = get_corrected_filename(dataset, pif, trial, threshold, window)
                                 time_start_experiment = datetime.datetime.now()
