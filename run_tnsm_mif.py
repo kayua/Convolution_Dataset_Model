@@ -99,7 +99,7 @@ def get_ranking_filename(dataset):
 
 
 def get_original_filename(dataset, full=True):
-    return get_original_unzip_filename(dataset, full=True)
+    return get_original_unzip_filename(dataset, full)
     # file_in = ""
     # file_out = ""
     # if full:
