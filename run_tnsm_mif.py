@@ -434,8 +434,8 @@ def main():
         c_mif.pifs = mifs
         campaigns = [c_mif]
     elif args.campaign == "pif":
-        #campaigns = [c3, c4, c1]
-        campaigns = [c2]
+        campaigns = [c2, c3, c1, c4]
+        #campaigns = [c2]
 
 
     # elif args.campaign == "case":
@@ -598,6 +598,9 @@ def main():
                                 cmd += " --load_model {}".format(model_filename)
                                 run_cmd(cmd)
 
+                                time_end_experiment = datetime.datetime.now()
+                                duration = time_end_experiment - time_start_experiment
+
                                 RESULT_METRICS = 'results/results_tnsm_mif.txt'
                                 cmd = "python3 main.py Analyse"
                                 cmd += " --topology {}".format(topo_version)
@@ -605,6 +608,7 @@ def main():
                                 cmd += " --seed {}".format(trial)
                                 cmd += " --epochs {}".format(NUM_EPOCHS)
                                 cmd += " --pif {}".format(pif)
+                                cmd += " --duration {}".format(duration)
 
                                 cmd += " --file_original {}".format(original_swarm_file)
                                 cmd += " --file_corrected {}".format(corrected_swarm_file)
@@ -612,9 +616,8 @@ def main():
                                 cmd += " --file_analyse {}".format(RESULT_METRICS)
                                 run_cmd(cmd)
 
-                                time_end_experiment = datetime.datetime.now()
                                 logging.info("\t\t\t\t\t\t\t\tEnd                : {}".format(time_end_experiment.strftime(TIME_FORMAT)))
-                                logging.info("\t\t\t\t\t\t\t\tExperiment duration: {}".format(time_end_experiment - time_start_experiment))
+                                logging.info("\t\t\t\t\t\t\t\tExperiment duration: {}".format(duration))
 
                                 check_files([corrected_swarm_file])
 

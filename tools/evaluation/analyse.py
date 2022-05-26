@@ -215,11 +215,11 @@ class Analyse:
         line_output += ";{}".format(self.topology)
         line_output += ";{}".format(self.args.window_width)
         line_output += ";{}".format(self.threshold)
-        line_output += ";{}".format(int(self.pif))
+        line_output += ";{}".format(self.pif)
 
         line_output += ";{}".format(self.original_swarm_file)
         line_output += ";{}".format(self.seed)
-        line_output += ";NA" # duration of the experiment
+        line_output += ";{}".format(self.args.duration) # duration of the experiment
 
         line_output += ";{}".format(self.number_original_swarm_lines)
         line_output += ";{}".format(faults)

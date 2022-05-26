@@ -149,6 +149,9 @@ def dataset_parameters(parser):
     help_msg = 'PIF(0<x<1) MIF(>1) (Default {})'.format(DEFAULT_TRAINING_PIF)
     parser.add_argument("--pif", type=float, help=help_msg, default=DEFAULT_TRAINING_PIF)
 
+    help_msg = 'Duration - logging purpose only'
+    parser.add_argument("--duration", type=str, help=help_msg, default=None)
+
     return parser
 
 
