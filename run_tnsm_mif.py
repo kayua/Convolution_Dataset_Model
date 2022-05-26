@@ -46,10 +46,12 @@ PATH_FAILED_MON = "data/02_failed_monitors"
 PATH_FAILED_PROB = "data/02_failed_probability"
 
 PATH_RANKING = "data/02_failed_monitors/ranking"
-PATH_CORRECTED = "data/03_corrected_monitors"
+PATH_CORRECTED_MIF = "data/03_corrected_monitors"
+PATH_CORRECTED_PIF = "data/04_corrected_probability"
 PATH_MODEL = "models_saved"
 PATH_LOG = 'logs/'
-PATHS = [PATH_ORIGINAL, PATH_TRAINING, PATH_FAILED_MON, PATH_FAILED_PROB, PATH_CORRECTED, PATH_MODEL, PATH_LOG]
+PATHS = [PATH_ORIGINAL, PATH_TRAINING, PATH_FAILED_MON, PATH_FAILED_PROB,
+         PATH_CORRECTED_MIF, PATH_CORRECTED_PIF, PATH_MODEL, PATH_LOG]
 
 SOURCE_ZIP_FILES = "/home/mansilha/Research/acdc/"
 files = ["00_Collection_TRACE_RES-100_from-w5000-to-w6000.zip",
@@ -206,7 +208,12 @@ def get_corrected_filename(dataset, mif, seed, threshold, window, full=True):
             int(mif*100), threshold, window, NUM_EPOCHS)
 
     if full:
-        filename = "{}/{}".format(PATH_CORRECTED, filename)
+        if mif > 1:
+            path_corrected = PATH_CORRECTED_MIF
+        else:
+            path_corrected = PATH_CORRECTED_PIF
+
+        filename = "{}/{}".format(path_corrected, filename)
 
     return filename
 
