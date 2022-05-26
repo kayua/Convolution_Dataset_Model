@@ -429,12 +429,15 @@ def main():
     #                         rnas=["lstm_mode", "no-lstm_mode"], windows=[11])
     # c_case = Campaign(datasets=[3], dense_layers=[3], thresholds=[.75], pifs=[None], rnas=["lstm_mode"], windows=[11])
     #
+    result_metrics_file_name = 'results/results_tnsm_demo.txt'
     campaigns = [cdemo_pif]
     if args.campaign == "mif":
         c_mif.pifs = mifs
         campaigns = [c_mif]
+        result_metrics_file_name = 'results/results_tnsm_mif.txt'
     elif args.campaign == "pif":
         campaigns = [c2, c3, c1, c4]
+        result_metrics_file_name = 'results/results_tnsm_pif.txt'
         #campaigns = [c2]
 
 
@@ -601,7 +604,7 @@ def main():
                                 time_end_experiment = datetime.datetime.now()
                                 duration = time_end_experiment - time_start_experiment
 
-                                RESULT_METRICS = 'results/results_tnsm_mif.txt'
+
                                 cmd = "python3 main.py Analyse"
                                 cmd += " --topology {}".format(topo_version)
                                 cmd += " --window_width {}".format(window)
@@ -613,7 +616,7 @@ def main():
                                 cmd += " --file_original {}".format(original_swarm_file)
                                 cmd += " --file_corrected {}".format(corrected_swarm_file)
                                 cmd += " --file_failed {}".format(failed_swarm_file)
-                                cmd += " --file_analyse {}".format(RESULT_METRICS)
+                                cmd += " --file_analyse {}".format(result_metrics_file_name)
                                 run_cmd(cmd)
 
                                 logging.info("\t\t\t\t\t\t\t\tEnd                : {}".format(time_end_experiment.strftime(TIME_FORMAT)))
