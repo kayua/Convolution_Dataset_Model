@@ -438,7 +438,7 @@ def main():
     elif args.campaign == "pif":
         campaigns = [c2, c3, c1, c4]
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
-        #campaigns = [c2]
+        campaigns = [c4]
 
 
     # elif args.campaign == "case":
@@ -583,27 +583,33 @@ def main():
 
                                 check_files([original_swarm_file, failed_swarm_file])
 
-                                if not check_files(["{}.npz".format(original_swarm_file)]):
+                                original_swarm_file_window = "{}_window-{}".format(original_swarm_file, window)
+                                failed_swarm_file_window = "{}_window-{}".format(failed_swarm_file, window)
+
+                                if not check_files(["{}.npz".format(original_swarm_file_window)]):
                                     cmd = "python3 main.py CreateSamples"
+                                    cmd += " --window_width {}".format(window)
+                                    cmd += " --window_length {}".format(window)
                                     cmd += " --input_file_swarm {}".format(original_swarm_file)
-                                    cmd += " --save_file_samples {}".format(original_swarm_file)
+                                    cmd += " --save_file_samples {}".format(original_swarm_file_window)
                                     run_cmd(cmd)
 
-                                if not check_files(["{}.npz".format(failed_swarm_file)]):
+                                if not check_files(["{}.npz".format(failed_swarm_file_window)]):
                                     cmd = "python3 main.py CreateSamples"
+                                    cmd += " --window_width {}".format(window)
+                                    cmd += " --window_length {}".format(window)
                                     cmd += " --input_file_swarm {}".format(failed_swarm_file)
-                                    cmd += " --save_file_samples {}".format(failed_swarm_file)
+                                    cmd += " --save_file_samples {}".format(failed_swarm_file_window)
                                     run_cmd(cmd)
 
                                 cmd = "python3 main.py Predict"
-                                cmd += " --input_predict {}".format(failed_swarm_file)
+                                cmd += " --input_predict {}".format(failed_swarm_file_window)
                                 cmd += " --output_predict {}".format(corrected_swarm_file)
                                 cmd += " --load_model {}".format(model_filename)
                                 run_cmd(cmd)
 
                                 time_end_experiment = datetime.datetime.now()
                                 duration = time_end_experiment - time_start_experiment
-
 
                                 cmd = "python3 main.py Analyse"
                                 cmd += " --topology {}".format(topo_version)
