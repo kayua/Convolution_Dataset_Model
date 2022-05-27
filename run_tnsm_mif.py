@@ -436,9 +436,9 @@ def main():
         campaigns = [c_mif]
         result_metrics_file_name = 'results/results_tnsm_mif.txt'
     elif args.campaign == "pif":
-        campaigns = [c2, c3, c1, c4]
+        campaigns = [c2, c3, c1]
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
-        campaigns = [c4]
+        #campaigns = [c4]
 
 
     # elif args.campaign == "case":
