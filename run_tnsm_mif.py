@@ -603,6 +603,7 @@ def main():
                                     run_cmd(cmd)
 
                                 cmd = "python3 main.py Predict"
+                                cmd += " --threshold {}".format(threshold)
                                 cmd += " --input_predict {}".format(failed_swarm_file_window)
                                 cmd += " --output_predict {}".format(corrected_swarm_file)
                                 cmd += " --load_model {}".format(model_filename)
@@ -612,6 +613,7 @@ def main():
                                 duration = time_end_experiment - time_start_experiment
 
                                 cmd = "python3 main.py Analyse"
+                                cmd += " --threshold {}".format(threshold)
                                 cmd += " --topology {}".format(topo_version)
                                 cmd += " --window_width {}".format(window)
                                 cmd += " --seed {}".format(trial)
