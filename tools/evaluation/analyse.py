@@ -215,7 +215,9 @@ class Analyse:
         line_output += ";{}".format(self.topology)
         line_output += ";{}".format(self.args.window_width)
         line_output += ";{}".format(self.threshold)
-        line_output += ";{}".format(self.pif)
+        pif_mif = "{}".format(self.pif)
+        pif_mif = pif_mif.replace(".", ",")
+        line_output += ";{}".format(pif_mif)
 
         line_output += ";{}".format(self.original_swarm_file)
         line_output += ";{}".format(self.seed)
