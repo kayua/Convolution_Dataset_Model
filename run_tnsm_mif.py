@@ -516,13 +516,14 @@ def main():
                         models[(topo_version, window, trial)] = (model_filename)
 
                         if not args.skip_train:
+                            output_dataset_training_out = "{}.out".format(output_dataset_training_in)
                             cmd = "python3 main.py Training"
                             cmd += " --topology {}".format(topo_version)
                             cmd += " --window_width {}".format(window)
                             cmd += " --window_length {}".format(window)
                             cmd += " --epochs {}".format(NUM_EPOCHS)
                             cmd += " --load_samples_in {}".format(output_dataset_training_in)
-                            #cmd += " --load_samples_out {}".format(OUTPUT_DATASET_TRAINING_OUT)
+                            cmd += " --load_samples_out {}".format(output_dataset_training_out)
                             cmd += " --save_model {}".format(model_filename)
                             run_cmd(cmd)
 
