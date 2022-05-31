@@ -502,6 +502,17 @@ def main():
                         cmd += " --save_file_samples {}".format(output_dataset_training_in)
                         run_cmd(cmd)
 
+                    # 2
+                    INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/S1m30_20.sort_u_1n_4n'
+                    output_dataset_training_out = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n.window-{}'.format(window)
+                    if not check_files("{}.npz".format(output_dataset_training_out)):
+                        cmd = "python3 main.py CreateSamples"
+                        cmd += " --window_width {}".format(window)
+                        cmd += " --window_length {}".format(window)
+                        cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
+                        cmd += " --save_file_samples {}".format(output_dataset_training_out)
+                        run_cmd(cmd)
+
                     if not (topo_version, window, trial) in models.keys():
                         logging.info("\tCampaign: {} topo_version: {} Window: {}".format(count_c, topo_version, window))
 
@@ -516,7 +527,6 @@ def main():
                         models[(topo_version, window, trial)] = (model_filename)
 
                         if not args.skip_train:
-                            output_dataset_training_out = "{}.out".format(output_dataset_training_in)
                             cmd = "python3 main.py Training"
                             cmd += " --topology {}".format(topo_version)
                             cmd += " --window_width {}".format(window)
