@@ -443,6 +443,9 @@ def main():
         c4.windows = [512]
         campaigns = [c4]
 
+    elif args.campaign == "teste":
+        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
+        campaigns = [ct]
 
     # elif args.campaign == "case":
     #     campaigns = [c_case]
@@ -492,8 +495,10 @@ def main():
                 for window in c.windows:
 
                     # 1
-                    INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/S1m07_20.sort_u_1n_4n'
-                    output_dataset_training_in = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n.window-{}'.format(window)
+                    dt_failed = "S1m07_20.sort_u_1n_4n"
+                    dt_failed = "S2a.sort_u_1n_4n.pif-50_trial-0"
+                    INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
+                    output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(dt_failed, window)
                     if not check_files("{}.npz".format(output_dataset_training_in)):
                         cmd = "python3 main.py CreateSamples"
                         cmd += " --window_width {}".format(window)
@@ -502,9 +507,23 @@ def main():
                         cmd += " --save_file_samples {}".format(output_dataset_training_in)
                         run_cmd(cmd)
 
+                    # data_mon = "S1m07_20"
+                    # INPUT_DATASET_TRAINING_IN2 = 'dataset/training/failed_training/{}.sort_u_1n_4n'.format(data_mon)
+                    # output_dataset_training_in2 = 'samples_saved/samples_training_in/{}.sort_u_1n_4n.window-{}'.format(
+                    #     data_mon, window)
+                    # if not check_files("{}.npz".format(output_dataset_training_in)):
+                    #     cmd = "python3 main.py CreateSamples"
+                    #     cmd += " --window_width {}".format(window)
+                    #     cmd += " --window_length {}".format(window)
+                    #     cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_IN2)
+                    #     cmd += " --save_file_samples {}".format(output_dataset_training_in2)
+                    #     run_cmd(cmd)
+
                     # 2
-                    INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/S1m30_20.sort_u_1n_4n'
-                    output_dataset_training_out = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n.window-{}'.format(window)
+                    dt_original = "S1m30_20.sort_u_1n_4n"
+                    dt_original = "S2a.sort_u_1n_4n"
+                    INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/{}'.format(dt_original)
+                    output_dataset_training_out = 'samples_saved/samples_training_out/{}.window-{}'.format(dt_original, window)
                     if not check_files("{}.npz".format(output_dataset_training_out)):
                         cmd = "python3 main.py CreateSamples"
                         cmd += " --window_width {}".format(window)
@@ -628,6 +647,8 @@ def main():
                                     run_cmd(cmd)
 
                                 cmd = "python3 main.py Predict"
+                                cmd += " --window_width {}".format(window)
+                                cmd += " --window_length {}".format(window)
                                 cmd += " --threshold {}".format(threshold)
                                 cmd += " --input_predict {}".format(failed_swarm_file_window)
                                 cmd += " --output_predict {}".format(corrected_swarm_file)
