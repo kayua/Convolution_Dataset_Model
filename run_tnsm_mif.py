@@ -439,6 +439,8 @@ def main():
         campaigns = [c2, c3, c1]
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
         #campaigns = [c4]
+    elif args.campaign == "window":
+        campaigns = [c4]
 
 
     # elif args.campaign == "case":
@@ -452,32 +454,32 @@ def main():
     logging.info("##########################################")
 
 
-    # 1
-    input_dataset_training_in = 'dataset/training/failed_training/S1m07_20.sort_u_1n_4n'
-    OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
-    if not check_files("{}.npz".format(OUTPUT_DATASET_TRAINING_IN)):
-        cmd = "python3 main.py CreateSamples"
-        cmd += " --input_file_swarm {}".format(input_dataset_training_in)
-        cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_IN)
-        run_cmd(cmd)
+    # # 1
+    # input_dataset_training_in = 'dataset/training/failed_training/S1m07_20.sort_u_1n_4n'
+    # OUTPUT_DATASET_TRAINING_IN = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n'
+    # if not check_files("{}.npz".format(OUTPUT_DATASET_TRAINING_IN)):
+    #     cmd = "python3 main.py CreateSamples"
+    #     cmd += " --input_file_swarm {}".format(input_dataset_training_in)
+    #     cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_IN)
+    #     run_cmd(cmd)
 
-    # 2
-    INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/S1m30_20.sort_u_1n_4n'
-    OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
-    if not check_files("{}.npz".format(OUTPUT_DATASET_TRAINING_OUT)):
-        cmd = "python3 main.py CreateSamples"
-        cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
-        cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_OUT)
-        run_cmd(cmd)
+    # # 2
+    # INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/S1m30_20.sort_u_1n_4n'
+    # OUTPUT_DATASET_TRAINING_OUT = 'samples_saved/samples_training_out/S1m30_20.sort_u_1n_4n'
+    # if not check_files("{}.npz".format(OUTPUT_DATASET_TRAINING_OUT)):
+    #     cmd = "python3 main.py CreateSamples"
+    #     cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
+    #     cmd += " --save_file_samples {}".format(OUTPUT_DATASET_TRAINING_OUT)
+    #     run_cmd(cmd)
 
-    # 3
-    INPUT_DATASET_PREDICT_IN = 'dataset/predict/S1m07_80.sort_u_1n_4n'
-    OUTPUT_DATASET_PREDICT_OUT = 'samples_saved/samples_predict/S1m07_80.sort_u_1n_4n'
-    if not check_files("{}.npz".format(OUTPUT_DATASET_PREDICT_OUT)):
-        cmd = "python3 main.py CreateSamples"
-        cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
-        cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
-        run_cmd(cmd)
+    # # 3
+    # INPUT_DATASET_PREDICT_IN = 'dataset/predict/S1m07_80.sort_u_1n_4n'
+    # OUTPUT_DATASET_PREDICT_OUT = 'samples_saved/samples_predict/S1m07_80.sort_u_1n_4n'
+    # if not check_files("{}.npz".format(OUTPUT_DATASET_PREDICT_OUT)):
+    #     cmd = "python3 main.py CreateSamples"
+    #     cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
+    #     cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
+    #     run_cmd(cmd)
 
     models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
@@ -488,6 +490,17 @@ def main():
             for topo_version in c.topo_versions:
                 for window in c.windows:
 
+                    # 1
+                    INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/S1m07_20.sort_u_1n_4n'
+                    output_dataset_training_in = 'samples_saved/samples_training_in/S1m07_20.sort_u_1n_4n.window-{}'.format(window)
+                    if not check_files("{}.npz".format(output_dataset_training_in)):
+                        cmd = "python3 main.py CreateSamples"
+                        cmd += " --window_width {}".format(window)
+                        cmd += " --window_length {}".format(window)
+                        cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_IN)
+                        cmd += " --save_file_samples {}".format(output_dataset_training_in)
+                        run_cmd(cmd)
+
                     if not (topo_version, window, trial) in models.keys():
                         logging.info("\tCampaign: {} topo_version: {} Window: {}".format(count_c, topo_version, window))
 
@@ -497,7 +510,7 @@ def main():
                         logging.info(
                             "\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
 
-                        model_filename = get_model_filename(OUTPUT_DATASET_TRAINING_IN, topo_version, window, trial)
+                        model_filename = get_model_filename(output_dataset_training_in, topo_version, window, trial)
                         logging.debug("\tmodel_filename: {}".format(model_filename))
                         models[(topo_version, window, trial)] = (model_filename)
 
@@ -507,8 +520,8 @@ def main():
                             cmd += " --window_width {}".format(window)
                             cmd += " --window_length {}".format(window)
                             cmd += " --epochs {}".format(NUM_EPOCHS)
-                            cmd += " --load_samples_in {}".format(OUTPUT_DATASET_TRAINING_IN)
-                            cmd += " --load_samples_out {}".format(OUTPUT_DATASET_TRAINING_OUT)
+                            cmd += " --load_samples_in {}".format(output_dataset_training_in)
+                            #cmd += " --load_samples_out {}".format(OUTPUT_DATASET_TRAINING_OUT)
                             cmd += " --save_model {}".format(model_filename)
                             run_cmd(cmd)
 
