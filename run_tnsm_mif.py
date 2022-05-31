@@ -440,6 +440,7 @@ def main():
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
         #campaigns = [c4]
     elif args.campaign == "window":
+        c4.windows = [128]
         campaigns = [c4]
 
 
