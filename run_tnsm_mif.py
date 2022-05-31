@@ -218,10 +218,10 @@ def get_corrected_filename(dataset, mif, seed, threshold, window, full=True):
     return filename
 
 
-def get_model_filename(training_file, topo_version, window, trial, full=True):
-
-    filename = "model_{}_topo-{}_window-{}_trial-{:0>2d}".format(
-         training_file.split("/")[-1], topo_version, window, trial)
+def get_model_filename(training_file, topo_version, trial, full=True):
+    #window size is taken from training file
+    filename = "model_{}_topo-{}_trial-{:0>2d}".format(
+         training_file.split("/")[-1], topo_version, trial)
 
     if full:
         filename = "{}/{}".format(PATH_MODEL, filename)
@@ -440,7 +440,7 @@ def main():
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
         #campaigns = [c4]
     elif args.campaign == "window":
-        c4.windows = [128]
+        c4.windows = [512]
         campaigns = [c4]
 
 
@@ -511,7 +511,7 @@ def main():
                         logging.info(
                             "\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
 
-                        model_filename = get_model_filename(output_dataset_training_in, topo_version, window, trial)
+                        model_filename = get_model_filename(output_dataset_training_in, topo_version, trial)
                         logging.debug("\tmodel_filename: {}".format(model_filename))
                         models[(topo_version, window, trial)] = (model_filename)
 
