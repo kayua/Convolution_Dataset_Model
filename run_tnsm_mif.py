@@ -496,16 +496,19 @@ def main():
 
                     # 1
                     dt_failed = "S1m07_20.sort_u_1n_4n"
-                    dt_failed = "S2a.sort_u_1n_4n.pif-50_trial-0"
-                    INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
-                    output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(dt_failed, window)
-                    if not check_files("{}.npz".format(output_dataset_training_in)):
-                        cmd = "python3 main.py CreateSamples"
-                        cmd += " --window_width {}".format(window)
-                        cmd += " --window_length {}".format(window)
-                        cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_IN)
-                        cmd += " --save_file_samples {}".format(output_dataset_training_in)
-                        run_cmd(cmd)
+                    dt_faileds = ["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
+                    output_dataset_training_ins = []
+                    for dt_failed in dt_faileds:
+                        INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
+                        output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(dt_failed, window)
+                        if not check_files("{}.npz".format(output_dataset_training_in)):
+                            cmd = "python3 main.py CreateSamples"
+                            cmd += " --window_width {}".format(window)
+                            cmd += " --window_length {}".format(window)
+                            cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_IN)
+                            cmd += " --save_file_samples {}".format(output_dataset_training_in)
+                            run_cmd(cmd)
+                            output_dataset_training_ins.append(output_dataset_training_in)
 
                     # data_mon = "S1m07_20"
                     # INPUT_DATASET_TRAINING_IN2 = 'dataset/training/failed_training/{}.sort_u_1n_4n'.format(data_mon)
@@ -541,20 +544,24 @@ def main():
                         logging.info(
                             "\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
 
-                        model_filename = get_model_filename(output_dataset_training_in, topo_version, trial)
+                        model_filename = get_model_filename(output_dataset_training_ins[0], topo_version, trial)
                         logging.debug("\tmodel_filename: {}".format(model_filename))
                         models[(topo_version, window, trial)] = (model_filename)
 
                         if not args.skip_train:
-                            cmd = "python3 main.py Training"
-                            cmd += " --topology {}".format(topo_version)
-                            cmd += " --window_width {}".format(window)
-                            cmd += " --window_length {}".format(window)
-                            cmd += " --epochs {}".format(NUM_EPOCHS)
-                            cmd += " --load_samples_in {}".format(output_dataset_training_in)
-                            cmd += " --load_samples_out {}".format(output_dataset_training_out)
-                            cmd += " --save_model {}".format(model_filename)
-                            run_cmd(cmd)
+                            for i, output_dataset_training_in in enumerate(output_dataset_training_ins):
+
+                                cmd = "python3 main.py Training"
+                                cmd += " --topology {}".format(topo_version)
+                                cmd += " --window_width {}".format(window)
+                                cmd += " --window_length {}".format(window)
+                                cmd += " --epochs {}".format(NUM_EPOCHS)
+                                cmd += " --load_samples_in {}".format(output_dataset_training_in)
+                                cmd += " --load_samples_out {}".format(output_dataset_training_out)
+                                cmd += " --save_model {}".format(model_filename)
+                                if i > 0:
+                                    cmd += " --load_model {}".format(model_filename)
+                                run_cmd(cmd)
 
                         time_end_experiment = datetime.datetime.now()
                         logging.info("\t\t\t\t\t\t\tEnd                : {}".format(
