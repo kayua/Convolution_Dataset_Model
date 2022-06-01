@@ -99,7 +99,6 @@ def create_classifier_model(args):
 
     if args.cmd == 'Predict':
         neural_model.load_model()
-        return neural_model
 
     #TODO: melhorar essa API
     if args.load_model is not None:
@@ -117,7 +116,7 @@ def create_classifier_model(args):
             if args.topology == 'model_v3':
                 neural_model.create_neural_network(ModelsV3(args))
 
-        return neural_model
+    return neural_model
 
 
 def evaluation(args):
