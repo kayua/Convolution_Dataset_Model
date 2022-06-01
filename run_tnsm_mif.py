@@ -495,17 +495,31 @@ def main():
                 for window in c.windows:
 
                     # 1
-                    dt_failed = "S1m07_20.sort_u_1n_4n"
-                    dt_faileds = ["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
+                    #dt_failed = "S1m07_20.sort_u_1n_4n"
+                    dt_faileds = [] #["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
+                    for pif in [1, 10, 50]:
+                        dt_in = "dataset/training/original_training/S2a"
+                        dt_pif = "dataset/training/failed_training/"
+                        dt_pif += "S2a.sort_u_1n_4n.pif-{}_seed-{}".format(pif, trial)
+                        cmd = "./script_emulate_snapshot_failures.sh"
+                        cmd += " -i {}".format(dt_in)
+                        cmd += " -o {}".format(dt_pif)
+                        cmd += " -r {}".format(trial)
+                        cmd += " -p {}".format(convert_flot_to_int(pif))
+                        run_cmd(cmd)
+
+                        dt_faileds.append(dt_pif)
+
                     output_dataset_training_ins = []
                     for dt_failed in dt_faileds:
-                        INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
-                        output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(dt_failed, window)
+                        #INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
+                        f_dt_failed = dt_failed.split("/")[-1]
+                        output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(f_dt_failed, window)
                         if not check_files("{}.npz".format(output_dataset_training_in)):
                             cmd = "python3 main.py CreateSamples"
                             cmd += " --window_width {}".format(window)
                             cmd += " --window_length {}".format(window)
-                            cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_IN)
+                            cmd += " --input_file_swarm {}".format(dt_failed)
                             cmd += " --save_file_samples {}".format(output_dataset_training_in)
                             run_cmd(cmd)
                             output_dataset_training_ins.append(output_dataset_training_in)
