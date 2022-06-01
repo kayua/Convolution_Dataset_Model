@@ -411,7 +411,7 @@ def main():
     # imprime configurações para fins de log
     print_config(args)
 
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0' #0
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1' #0
     c1 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75],
                   pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
     c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
