@@ -527,7 +527,7 @@ def main():
                             cmd += " --input_file_swarm {}".format(dt_failed)
                             cmd += " --save_file_samples {}".format(output_dataset_training_in)
                             run_cmd(cmd)
-                            output_dataset_training_ins.append(output_dataset_training_in)
+                        output_dataset_training_ins.append(output_dataset_training_in)
 
                     # data_mon = "S1m07_20"
                     # INPUT_DATASET_TRAINING_IN2 = 'dataset/training/failed_training/{}.sort_u_1n_4n'.format(data_mon)
