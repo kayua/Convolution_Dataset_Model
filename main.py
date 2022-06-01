@@ -101,16 +101,21 @@ def create_classifier_model(args):
         neural_model.load_model()
         return neural_model
 
-    if args.cmd == 'Training' or args.cmd == 'Calibration':
+    #TODO: melhorar essa API
+    if args.load_model is not None:
+        neural_model.load_model()
 
-        if args.topology == 'model_v1':
-            neural_model.create_neural_network(ModelsV1(args))
+    else:
+        if args.cmd == 'Training' or args.cmd == 'Calibration':
 
-        if args.topology == 'model_v2':
-            neural_model.create_neural_network(ModelsV2(args))
+            if args.topology == 'model_v1':
+                neural_model.create_neural_network(ModelsV1(args))
 
-        if args.topology == 'model_v3':
-            neural_model.create_neural_network(ModelsV3(args))
+            if args.topology == 'model_v2':
+                neural_model.create_neural_network(ModelsV2(args))
+
+            if args.topology == 'model_v3':
+                neural_model.create_neural_network(ModelsV3(args))
 
         return neural_model
 
