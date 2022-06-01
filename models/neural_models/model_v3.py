@@ -121,19 +121,19 @@ class ModelsV3(NeuralModel):
 
         return numpy.array(x_training_list), numpy.array(y_training_list)
 
-    def training(self, x_training, y_training):
-
-        x_training, y_training = self.remove_empty_features(x_training, y_training)
-
-        for i in range(self.epochs):
-
-            random_array_feature = self.get_random_batch(x_training)
-            batch_training_in = self.get_feature_batch(x_training, random_array_feature)
-            batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1, steps_per_epoch=32)
-
-            if i % 10 == 0:
-                feature_predicted = self.model.predict(batch_training_in[0:10])
-                self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
-
-        return 0
+    # def training(self, x_training, y_training):
+    #
+    #     x_training, y_training = self.remove_empty_features(x_training, y_training)
+    #
+    #     for i in range(self.epochs):
+    #
+    #         random_array_feature = self.get_random_batch(x_training)
+    #         batch_training_in = self.get_feature_batch(x_training, random_array_feature)
+    #         batch_training_out = self.get_feature_batch(y_training, random_array_feature)
+    #         self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1, steps_per_epoch=32)
+    #
+    #         if i % 10 == 0:
+    #             feature_predicted = self.model.predict(batch_training_in[0:10])
+    #             self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
+    #
+    #     return 0
