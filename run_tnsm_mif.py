@@ -501,12 +501,17 @@ def main():
                         dt_in = "dataset/training/original_training/S2a"
                         dt_pif = "dataset/training/failed_training/"
                         dt_pif += "S2a.sort_u_1n_4n.pif-{}_seed-{}".format(pif, trial)
-                        cmd = "./script_emulate_snapshot_failures.sh"
-                        cmd += " -i {}".format(dt_in)
-                        cmd += " -o {}".format(dt_pif)
-                        cmd += " -r {}".format(trial)
-                        cmd += " -p {}".format(convert_flot_to_int(pif))
-                        run_cmd(cmd)
+
+                        if not os.path.isfile(dt_pif):
+                            logging.info("file not found: {}".format(dt_pif))
+                            cmd = "./script_emulate_snapshot_failures.sh"
+                            cmd += " -i {}".format(dt_in)
+                            cmd += " -o {}".format(dt_pif)
+                            cmd += " -r {}".format(trial)
+                            cmd += " -p {}".format(convert_flot_to_int(pif))
+                            run_cmd(cmd)
+                        else:
+                            logging.info("file found   : {}".format(dt_pif))
 
                         dt_faileds.append(dt_pif)
 
