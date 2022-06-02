@@ -484,7 +484,7 @@ def main():
     #     cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
     #     cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
     #     run_cmd(cmd)
-
+    learning_rates={}
     models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
     time_start_campaign = datetime.datetime.now()
@@ -497,7 +497,7 @@ def main():
                     # 1
                     #dt_failed = "S1m07_20.sort_u_1n_4n"
                     dt_faileds = [] #["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
-                    for pif in [10]:
+                    for pif in [1, 10, 50]:
                         dt_in = "dataset/training/original_training/S2a.sort_u_1n_4n"
                         dt_pif = "dataset/training/failed_training/"
                         dt_pif += "S2a.sort_u_1n_4n.pif-{}_seed-{}".format(pif, trial)
@@ -528,6 +528,7 @@ def main():
                             cmd += " --save_file_samples {}".format(output_dataset_training_in)
                             run_cmd(cmd)
                         output_dataset_training_ins.append(output_dataset_training_in)
+
 
                     # data_mon = "S1m07_20"
                     # INPUT_DATASET_TRAINING_IN2 = 'dataset/training/failed_training/{}.sort_u_1n_4n'.format(data_mon)
@@ -568,6 +569,7 @@ def main():
                         models[(topo_version, window, trial)] = (model_filename)
 
                         if not args.skip_train:
+                            learning_rate = 0.001
                             for i, output_dataset_training_in in enumerate(output_dataset_training_ins):
 
                                 cmd = "python3 main.py Training"
@@ -578,8 +580,10 @@ def main():
                                 cmd += " --load_samples_in {}".format(output_dataset_training_in)
                                 cmd += " --load_samples_out {}".format(output_dataset_training_out)
                                 cmd += " --save_model {}".format(model_filename)
+                                #cmd += " --learning_rate {}".format(learning_rate)
                                 if i > 0:
                                     cmd += " --load_model {}".format(model_filename)
+                                learning_rate = learning_rate/10
                                 run_cmd(cmd)
 
                         time_end_experiment = datetime.datetime.now()

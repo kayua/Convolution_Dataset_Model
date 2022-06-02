@@ -144,7 +144,7 @@ def dataset_parameters(parser):
     parser.add_argument("--seed", type=int, help=help_msg, default=DEFAULT_TRAINING_SEED)
 
     help_msg = 'Learning rate (Default {})'.format(DEFAULT_LEARNING_RATE)
-    parser.add_argument("--learning_rate", type=int, help=help_msg, default=DEFAULT_LEARNING_RATE)
+    parser.add_argument("--learning_rate", type=float, help=help_msg, default=DEFAULT_LEARNING_RATE)
 
     help_msg = 'PIF(0<x<1) MIF(>1) (Default {})'.format(DEFAULT_TRAINING_PIF)
     parser.add_argument("--pif", type=float, help=help_msg, default=DEFAULT_TRAINING_PIF)
