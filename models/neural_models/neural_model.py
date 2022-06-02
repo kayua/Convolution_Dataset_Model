@@ -109,3 +109,33 @@ class NeuralModel:
                 self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
 
         return 0
+
+    @staticmethod
+    def check_feature_empty(list_feature_samples):
+
+        number_true_samples = 0
+
+        for i in list_feature_samples:
+
+            for j in i:
+
+                if int(j) == 1:
+                    number_true_samples += 1
+
+        if number_true_samples > 0:
+            return 1
+
+        return 0
+
+    def remove_empty_features(self, x_training, y_training):
+
+        x_training_list = []
+        y_training_list = []
+
+        for i in range(len(x_training)):
+
+            if self.check_feature_empty(x_training[i]):
+                x_training_list.append(x_training[i])
+                y_training_list.append(y_training[i])
+
+        return numpy.array(x_training_list), numpy.array(y_training_list)
