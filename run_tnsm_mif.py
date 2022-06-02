@@ -497,7 +497,7 @@ def main():
                     # 1
                     #dt_failed = "S1m07_20.sort_u_1n_4n"
                     dt_faileds = [] #["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
-                    for pif in [1, 10, 50]:
+                    for pif in [10]:
                         dt_in = "dataset/training/original_training/S2a.sort_u_1n_4n"
                         dt_pif = "dataset/training/failed_training/"
                         dt_pif += "S2a.sort_u_1n_4n.pif-{}_seed-{}".format(pif, trial)
