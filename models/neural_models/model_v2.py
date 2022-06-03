@@ -14,6 +14,7 @@ from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Conv2DTranspose
 from tensorflow.keras.layers import Add
 from tensorflow.keras.layers import Activation
+from tensorflow.keras.optimizers import Adam
 from models.neural_models.neural_model import NeuralModel
 import numpy
 
@@ -86,7 +87,10 @@ class ModelsV2(NeuralModel):
         convolution_model = Conv2D(1, (1, 1))(convolution_model)
 
         convolution_model = Model(input_layer_block, convolution_model)
-        convolution_model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
+
+        opt = Adam(learning_rate=self.learning_rate)
+        convolution_model.compile(loss=self.loss, optimizer=opt, metrics=self.metrics)
+        #convolution_model.compile(loss=self.loss, optimizer=self.optimizer, metrics=self.metrics)
         self.model = convolution_model
 
     @staticmethod

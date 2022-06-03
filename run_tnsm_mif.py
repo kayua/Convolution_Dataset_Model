@@ -497,7 +497,7 @@ def main():
                     # 1
                     #dt_failed = "S1m07_20.sort_u_1n_4n"
                     dt_faileds = [] #["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
-                    for pif in [1, 10, 50]:
+                    for (pif, lr) in [(50, 0.00001), (10, 0.0001), (1, 0.001)]:
                         dt_in = "dataset/training/original_training/S2a.sort_u_1n_4n"
                         dt_pif = "dataset/training/failed_training/"
                         dt_pif += "S2a.sort_u_1n_4n.pif-{}_seed-{}".format(pif, trial)
@@ -513,10 +513,10 @@ def main():
                         else:
                             logging.info("file found   : {}".format(dt_pif))
 
-                        dt_faileds.append(dt_pif)
+                        dt_faileds.append((dt_pif, lr))
 
                     output_dataset_training_ins = []
-                    for dt_failed in dt_faileds:
+                    for (dt_failed, lr) in dt_faileds:
                         #INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
                         f_dt_failed = dt_failed.split("/")[-1]
                         output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(f_dt_failed, window)
@@ -527,7 +527,7 @@ def main():
                             cmd += " --input_file_swarm {}".format(dt_failed)
                             cmd += " --save_file_samples {}".format(output_dataset_training_in)
                             run_cmd(cmd)
-                        output_dataset_training_ins.append(output_dataset_training_in)
+                        output_dataset_training_ins.append((output_dataset_training_in, lr))
 
 
                     # data_mon = "S1m07_20"
@@ -569,8 +569,8 @@ def main():
                         models[(topo_version, window, trial)] = (model_filename)
 
                         if not args.skip_train:
-                            learning_rate = 0.001
-                            for i, output_dataset_training_in in enumerate(output_dataset_training_ins):
+
+                            for i, (output_dataset_training_in, lr) in enumerate(output_dataset_training_ins):
 
                                 cmd = "python3 main.py Training"
                                 cmd += " --topology {}".format(topo_version)
@@ -580,10 +580,10 @@ def main():
                                 cmd += " --load_samples_in {}".format(output_dataset_training_in)
                                 cmd += " --load_samples_out {}".format(output_dataset_training_out)
                                 cmd += " --save_model {}".format(model_filename)
-                                #cmd += " --learning_rate {}".format(learning_rate)
+                                cmd += " --learning_rate {}".format(lr)
                                 if i > 0:
                                     cmd += " --load_model {}".format(model_filename)
-                                learning_rate = learning_rate/10
+
                                 run_cmd(cmd)
 
                         time_end_experiment = datetime.datetime.now()

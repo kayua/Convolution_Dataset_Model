@@ -31,6 +31,7 @@ class NeuralModel:
         self.metrics = args.metrics
         self.feature_window_width = args.window_width
         self.feature_window_length = args.window_length
+        self.learning_rate = args.learning_rate
 
     @staticmethod
     def adapter_input(training_set_in, training_set_out):
