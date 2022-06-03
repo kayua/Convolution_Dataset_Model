@@ -564,7 +564,9 @@ def main():
                         logging.info(
                             "\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
 
-                        model_filename = get_model_filename(output_dataset_training_ins[0], topo_version, trial)
+                        (output_dataset_training_in_in, lr)  = output_dataset_training_ins[0]
+    
+                        model_filename = get_model_filename(output_dataset_training_in_in, topo_version, trial)
                         logging.debug("\tmodel_filename: {}".format(model_filename))
                         models[(topo_version, window, trial)] = (model_filename)
 
