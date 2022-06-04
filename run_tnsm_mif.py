@@ -37,7 +37,7 @@ DEFAULT_START_TRIALS = 0
 DEFAULT_CAMPAIGN = "demo"
 DEFAULT_VALIDATION_DATASET = "swarm/validation/S1_25.sort_u_1n_3n"
 DEFAULT_TRAINING_DATASET = "S2a"
-NUM_EPOCHS = 120
+NUM_EPOCHS = 240 #120
 TIME_FORMAT = '%Y-%m-%d_%H:%M:%S'
 
 PATH_ORIGINAL = "data/01_original"
@@ -436,7 +436,7 @@ def main():
         campaigns = [c_mif]
         result_metrics_file_name = 'results/results_tnsm_mif.txt'
     elif args.campaign == "pif":
-        campaigns = [c2, c3, c1]
+        campaigns = [ c3, c1]
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
         #campaigns = [c4]
     elif args.campaign == "window":
@@ -565,7 +565,7 @@ def main():
                             "\t\t\t\t\t\t\t\tBegin: {}".format(time_start_experiment.strftime(TIME_FORMAT)))
 
                         (output_dataset_training_in_in, lr)  = output_dataset_training_ins[0]
-    
+
                         model_filename = get_model_filename(output_dataset_training_in_in, topo_version, trial)
                         logging.debug("\tmodel_filename: {}".format(model_filename))
                         models[(topo_version, window, trial)] = (model_filename)
