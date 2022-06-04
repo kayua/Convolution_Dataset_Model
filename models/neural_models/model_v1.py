@@ -27,7 +27,7 @@ class ModelsV1(NeuralModel):
         self.create_neural_network()
 
     def create_neural_network(self):
-        filtros = 256
+        filtros = 180
         input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
 
         first_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
