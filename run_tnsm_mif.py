@@ -542,7 +542,8 @@ def main():
                             signal = ">"
                         cmd += " {} {} {}".format(dt_failed, signal, file_out)
                         begin_lines += num_lines
-                        run_cmd(cmd, shell=True)
+                        #run_cmd(cmd, shell=True)
+                        subprocess.run(cmd, check=True, shell=True)
 
                     dt_failed = file_out # dt_faileds[0]
                     lr = 0.0001
