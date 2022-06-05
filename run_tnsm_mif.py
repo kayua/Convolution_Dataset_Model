@@ -534,8 +534,8 @@ def main():
                         # INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
                         f_dt_failed = dt_failed.split("/")[-1]
                         cmd = "sed -n "
-                        cmd += " '{},{}p'".format(begin_lines, begin_lines+num_lines)
-                        cmd += ";{}q ".format(begin_lines+num_lines+1)
+                        cmd += " '{},{}p".format(begin_lines, begin_lines+num_lines)
+                        cmd += ";{}q' ".format(begin_lines+num_lines+1)
 
                         signal = ">>"
                         if begin_lines == 0:
