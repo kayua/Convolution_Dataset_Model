@@ -548,12 +548,12 @@ def main():
                         logging.info("cmd: {}".format(cmd))
                         subprocess.run(cmd, check=True, shell=True)
 
-                    file_out_sort = "{}.sort_u_1n_4n".format(file_out)
-                    cmd = "sort -u -k1n,1 {} > {}".format(file_out, file_out_sort)
+                    file_out_sort = "{}.sort_u".format(file_out)
+                    cmd = "sort -u {} > {}".format(file_out, file_out_sort)
                     logging.info("cmd: {}".format(cmd))
                     subprocess.run(cmd, check=True, shell=True)
 
-                    dt_failed = file_out_sort # dt_faileds[0]
+                    dt_failed = file_out # dt_faileds[0]
                     lr = 0.0001
                     f_dt_failed = dt_failed.split("/")[-1]
                     output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(
