@@ -528,8 +528,8 @@ def main():
                     #     output_dataset_training_ins.append((output_dataset_training_in, lr))
                     file_out = "dataset/training/failed_training/merged_files.txt"
                     output_dataset_training_ins = []
-                    begin_lines = 0
-                    num_lines = 10000
+                    begin_lines = 1
+                    num_lines = 7000
                     for (dt_failed, lr) in dt_faileds:
                         # INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
                         f_dt_failed = dt_failed.split("/")[-1]
@@ -538,7 +538,7 @@ def main():
                         cmd += ";{}q' ".format(begin_lines+num_lines+1)
 
                         signal = ">>"
-                        if begin_lines == 0:
+                        if begin_lines == 1:
                             signal = ">"
                         cmd += " {} {} {}".format(dt_failed, signal, file_out)
                         begin_lines += num_lines
