@@ -535,10 +535,10 @@ def main():
                     begin_lines = 1
                     num_lines = 7000
                     for (dt_failed, lr) in dt_faileds:
-                        cmd = "sed -n "
-                        cmd += " '{},{}p".format(begin_lines, begin_lines+num_lines)
-                        cmd += ";{}q' ".format(begin_lines+num_lines+1)
-
+                        #cmd = "sed -n "
+                        #cmd += " '{},{}p".format(begin_lines, begin_lines+num_lines)
+                        #cmd += ";{}q' ".format(begin_lines+num_lines+1)
+                        cmd = "cat "
                         signal = ">>"
                         if begin_lines == 1:
                             signal = ">"
