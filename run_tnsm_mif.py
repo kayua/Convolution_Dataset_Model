@@ -543,6 +543,7 @@ def main():
                         cmd += " {} {} {}".format(dt_failed, signal, file_out)
                         begin_lines += num_lines
                         #run_cmd(cmd, shell=True)
+                        logging.info("cmd: {}".format(cmd))
                         subprocess.run(cmd, check=True, shell=True)
 
                     dt_failed = file_out # dt_faileds[0]
@@ -550,13 +551,13 @@ def main():
                     f_dt_failed = dt_failed.split("/")[-1]
                     output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(
                         f_dt_failed, window)
-                    if not check_files("{}.npz".format(output_dataset_training_in)):
-                        cmd = "python3 main.py CreateSamples"
-                        cmd += " --window_width {}".format(window)
-                        cmd += " --window_length {}".format(window)
-                        cmd += " --input_file_swarm {}".format(dt_failed)
-                        cmd += " --save_file_samples {}".format(output_dataset_training_in)
-                        run_cmd(cmd)
+                    #if not check_files("{}.npz".format(output_dataset_training_in)):
+                    cmd = "python3 main.py CreateSamples"
+                    cmd += " --window_width {}".format(window)
+                    cmd += " --window_length {}".format(window)
+                    cmd += " --input_file_swarm {}".format(dt_failed)
+                    cmd += " --save_file_samples {}".format(output_dataset_training_in)
+                    run_cmd(cmd)
                     output_dataset_training_ins.append((output_dataset_training_in, lr))
 
 
@@ -577,13 +578,13 @@ def main():
                     dt_original = "S2a.sort_u_1n_4n"
                     INPUT_DATASET_TRAINING_OUT = 'dataset/training/original_training/{}'.format(dt_original)
                     output_dataset_training_out = 'samples_saved/samples_training_out/{}.window-{}'.format(dt_original, window)
-                    if not check_files("{}.npz".format(output_dataset_training_out)):
-                        cmd = "python3 main.py CreateSamples"
-                        cmd += " --window_width {}".format(window)
-                        cmd += " --window_length {}".format(window)
-                        cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
-                        cmd += " --save_file_samples {}".format(output_dataset_training_out)
-                        run_cmd(cmd)
+                    #if not check_files("{}.npz".format(output_dataset_training_out)):
+                    cmd = "python3 main.py CreateSamples"
+                    cmd += " --window_width {}".format(window)
+                    cmd += " --window_length {}".format(window)
+                    cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
+                    cmd += " --save_file_samples {}".format(output_dataset_training_out)
+                    run_cmd(cmd)
 
                     if not (topo_version, window, trial) in models.keys():
                         logging.info("\tCampaign: {} topo_version: {} Window: {}".format(count_c, topo_version, window))
