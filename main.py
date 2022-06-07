@@ -80,6 +80,38 @@ def training_neural_model(args):
     neural_network_instance.save_network()
     logging.info('End training neural network model')
 
+    
+def merge_samples_training(args):
+
+    logging.info('Start training neural network model')
+
+    dataset_instance_input_1 = Dataset(args) # 1% falha
+    logging.debug('dataset_instance_input : {}'.format(dataset_instance_input))
+
+    dataset_instance_output_1 = Dataset(args) # 1% falha
+    logging.debug('dataset_instance_output: {}'.format(dataset_instance_output))
+    
+    
+    dataset_instance_input_2 = Dataset(args)   # 10% falha
+    logging.debug('dataset_instance_input : {}'.format(dataset_instance_input))
+
+    dataset_instance_output_2 = Dataset(args) # 10% falha
+    logging.debug('dataset_instance_output: {}'.format(dataset_instance_output))
+    
+    dataset_instance_input.load_file_samples(args.load_samples_in)
+    logging.debug('args.load_samples_in  : {}'.format(args.load_samples_in))
+
+    dataset_instance_output.load_file_samples(args.load_samples_out)
+    logging.debug('args.load_samples_out : {}'.format(args.load_samples_out))
+
+    training_input_samples = dataset_instance_input_1.get_features()
+    training_output_samples = dataset_instance_output_1.get_features()
+    
+    training_input_samples += dataset_instance_input_2.get_features()
+    training_output_samples += dataset_instance_output_2.get_features()
+    
+    dataset_instance.save_file_samples_features() #Verificar como esse método gera o npz
+    
 
 def predict_neural_model(args):
 
