@@ -105,9 +105,12 @@ def merge_samples(args):
             merge_samples_in += dataset_in.get_features()
             merge_samples_out += dataset_out.get_features()
 
-    logging.info("\tWriting file")
+    logging.info("\n\tWriting file")
     try:
+        logging.info("\t\tinput: {}".format(args.save_file_samples))
         numpy.savez(args.save_file_samples, merge_samples_in)
+
+        logging.info("\t\toutut: {}_output".format(args.save_file_samples))
         numpy.savez("{}_output".format(args.save_file_samples), merge_samples_out)
 
     except FileNotFoundError:

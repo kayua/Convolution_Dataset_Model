@@ -608,7 +608,7 @@ def main():
                     cmd += " --save_file_samples {}".format(merged_file_samples)
                     run_cmd(cmd)
                     output_dataset_training_ins = [(merged_file_samples, 0.001)]
-                    output_dataset_training_out = "{}_output".format(output_dataset_training_ins)
+                    output_dataset_training_out = "{}_output".format(merged_file_samples)
 
                     if not (topo_version, window, trial) in models.keys():
                         logging.info("\tCampaign: {} topo_version: {} Window: {}".format(count_c, topo_version, window))
