@@ -3,6 +3,7 @@ from subprocess import Popen, PIPE
 import numpy
 import sys
 
+
 class Dataset:
 
     def __init__(self, args):
@@ -137,7 +138,7 @@ class Dataset:
             numpy.savez(self.save_file_samples, self.features)
 
         except FileNotFoundError:
-            logging.error('Error: File not found error: {}'.format(self.save_file_samples))
+            logging.error('Error: writing file error: {}'.format(self.save_file_samples))
             sys.exit(-1)
 
     def load_file_samples(self, load_file_samples):

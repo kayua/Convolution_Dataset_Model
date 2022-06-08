@@ -494,6 +494,7 @@ def main():
 
                     # 1
                     #dt_failed = "S1m07_20.sort_u_1n_4n"
+
                     dt_faileds = [] #["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
                     for (pif, lr) in [(50, 0.00001), (10, 0.0001), (1, 0.001)]:
                         dt_in = "dataset/training/original_training/S2a.sort_u_1n_4n"
@@ -513,60 +514,63 @@ def main():
 
                         dt_faileds.append((dt_pif, lr))
 
-                    # # multiple files BEGIN
-                    # output_dataset_training_ins = []
-                    # for (dt_failed, lr) in dt_faileds:
-                    #     #INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
-                    #     f_dt_failed = dt_failed.split("/")[-1]
-                    #     output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(f_dt_failed, window)
-                    #     if not check_files("{}.npz".format(output_dataset_training_in)):
-                    #         cmd = "python3 main.py CreateSamples"
-                    #         cmd += " --window_width {}".format(window)
-                    #         cmd += " --window_length {}".format(window)
-                    #         cmd += " --input_file_swarm {}".format(dt_failed)
-                    #         cmd += " --save_file_samples {}".format(output_dataset_training_in)
-                    #         run_cmd(cmd)
-                    #     output_dataset_training_ins.append((output_dataset_training_in, lr))
-                    # # multiple files END
 
-                    #only one file BEGIN
-                    file_out = "dataset/training/failed_training/merged_files"
+                    # multiple files BEGIN
+                    output_dataset_merged_in = ""
                     output_dataset_training_ins = []
-                    begin_lines = 1
-                    num_lines = 7000
                     for (dt_failed, lr) in dt_faileds:
-                        #cmd = "sed -n "
-                        #cmd += " '{},{}p".format(begin_lines, begin_lines+num_lines)
-                        #cmd += ";{}q' ".format(begin_lines+num_lines+1)
-                        cmd = "cat "
-                        signal = ">>"
-                        if begin_lines == 1:
-                            signal = ">"
-                        cmd += " {} {} {}".format(dt_failed, signal, file_out)
-                        begin_lines += num_lines
-                        #run_cmd(cmd, shell=True)
-                        logging.info("cmd: {}".format(cmd))
-                        subprocess.run(cmd, check=True, shell=True)
+                        #INPUT_DATASET_TRAINING_IN = 'dataset/training/failed_training/{}'.format(dt_failed)
+                        f_dt_failed = dt_failed.split("/")[-1]
+                        output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(f_dt_failed, window)
+                        if not check_files("{}.npz".format(output_dataset_training_in)):
+                            cmd = "python3 main.py CreateSamples"
+                            cmd += " --window_width {}".format(window)
+                            cmd += " --window_length {}".format(window)
+                            cmd += " --input_file_swarm {}".format(dt_failed)
+                            cmd += " --save_file_samples {}".format(output_dataset_training_in)
+                            run_cmd(cmd)
+                        output_dataset_training_ins.append((output_dataset_training_in, lr))
+                        output_dataset_merged_in += "{};".format(dt_pif)
+                    # multiple files END
 
-                    file_out_sort = "{}.sort_u".format(file_out)
-                    cmd = "sort -u {} > {}".format(file_out, file_out_sort)
-                    logging.info("cmd: {}".format(cmd))
-                    subprocess.run(cmd, check=True, shell=True)
-
-                    dt_failed = file_out # dt_faileds[0]
-                    lr = 0.0001
-                    f_dt_failed = dt_failed.split("/")[-1]
-                    output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(
-                        f_dt_failed, window)
-                    #if not check_files("{}.npz".format(output_dataset_training_in)):
-                    cmd = "python3 main.py CreateSamples"
-                    cmd += " --window_width {}".format(window)
-                    cmd += " --window_length {}".format(window)
-                    cmd += " --input_file_swarm {}".format(dt_failed)
-                    cmd += " --save_file_samples {}".format(output_dataset_training_in)
-                    run_cmd(cmd)
-                    output_dataset_training_ins.append((output_dataset_training_in, lr))
-                    # only one file END
+                    # #only one file BEGIN
+                    # file_out = "dataset/training/failed_training/merged_files"
+                    # output_dataset_training_ins = []
+                    # begin_lines = 1
+                    # num_lines = 7000
+                    # for (dt_failed, lr) in dt_faileds:
+                    #     #cmd = "sed -n "
+                    #     #cmd += " '{},{}p".format(begin_lines, begin_lines+num_lines)
+                    #     #cmd += ";{}q' ".format(begin_lines+num_lines+1)
+                    #     cmd = "cat "
+                    #     signal = ">>"
+                    #     if begin_lines == 1:
+                    #         signal = ">"
+                    #     cmd += " {} {} {}".format(dt_failed, signal, file_out)
+                    #     begin_lines += num_lines
+                    #     #run_cmd(cmd, shell=True)
+                    #     logging.info("cmd: {}".format(cmd))
+                    #     subprocess.run(cmd, check=True, shell=True)
+                    #
+                    # file_out_sort = "{}.sort_u".format(file_out)
+                    # cmd = "sort -u {} > {}".format(file_out, file_out_sort)
+                    # logging.info("cmd: {}".format(cmd))
+                    # subprocess.run(cmd, check=True, shell=True)
+                    #
+                    # dt_failed = file_out # dt_faileds[0]
+                    # lr = 0.0001
+                    # f_dt_failed = dt_failed.split("/")[-1]
+                    # output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(
+                    #     f_dt_failed, window)
+                    # #if not check_files("{}.npz".format(output_dataset_training_in)):
+                    # cmd = "python3 main.py CreateSamples"
+                    # cmd += " --window_width {}".format(window)
+                    # cmd += " --window_length {}".format(window)
+                    # cmd += " --input_file_swarm {}".format(dt_failed)
+                    # cmd += " --save_file_samples {}".format(output_dataset_training_in)
+                    # run_cmd(cmd)
+                    # output_dataset_training_ins.append((output_dataset_training_in, lr))
+                    # # only one file END
 
 
                     # data_mon = "S1m07_20"
@@ -593,6 +597,18 @@ def main():
                     cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
                     cmd += " --save_file_samples {}".format(output_dataset_training_out)
                     run_cmd(cmd)
+
+                    # ONE NZ BEGIN
+                    merged_file_samples = "dataset/training/failed_training/merged_files"
+                    cmd = "python3 main.py MergeSamples"
+                    cmd += " --window_width {}".format(window)
+                    cmd += " --window_length {}".format(window)
+                    cmd += " --load_samples_in {}".format(output_dataset_merged_in[:-1])
+                    cmd += " --load_samples_out {}".format(output_dataset_training_out)
+                    cmd += " --save_file_samples {}".format(merged_file_samples)
+                    run_cmd(cmd)
+                    output_dataset_training_ins = [(merged_file_samples, 0.001)]
+                    output_dataset_training_out = "{}_output".format(output_dataset_training_ins)
 
                     if not (topo_version, window, trial) in models.keys():
                         logging.info("\tCampaign: {} topo_version: {} Window: {}".format(count_c, topo_version, window))

@@ -22,6 +22,7 @@ try:
     from tools.dataset.dataset import Dataset
     from tools.parameters.parameters import add_arguments, show_config
     from tools.parameters.parameters import TIME_FORMAT
+    import numpy
 
 except ImportError as error:
 
@@ -81,36 +82,64 @@ def training_neural_model(args):
     logging.info('End training neural network model')
 
     
-def merge_samples_training(args):
+def merge_samples(args):
+    merge_samples_in = None
+    merge_samples_out = None
 
-    logging.info('Start training neural network model')
+    logging.info('Merge samples')
+    logging.info("\tOUTPUT")
+    dataset_out = Dataset(args)
+    dataset_out.load_file_samples(args.load_samples_out)
 
-    dataset_instance_input_1 = Dataset(args) # 1% falha
-    logging.debug('dataset_instance_input : {}'.format(dataset_instance_input))
+    logging.info("\tINPUT")
+    files_in = args.load_samples_in.split(";")
+    logging.debug("\tfiles_in: {}".format(files_in))
+    for f in files_in:
+        logging.info("\t\tfile: {}".format(f))
+        dataset_in = Dataset(args)
+        dataset_in.load_file_samples(f)
+        if merge_samples_in is None:
+            merge_samples_in = dataset_in.get_features()
+            merge_samples_out = dataset_out.get_features()
+        else:
+            merge_samples_in += dataset_in.get_features()
+            merge_samples_out += dataset_out.get_features()
 
-    dataset_instance_output_1 = Dataset(args) # 1% falha
-    logging.debug('dataset_instance_output: {}'.format(dataset_instance_output))
+    logging.info("\tWriting file")
+    try:
+        numpy.savez(args.save_file_samples, merge_samples_in.features)
+        numpy.savez("{}_output".format(args.save_file_samples), merge_samples_in.features)
+
+    except FileNotFoundError:
+        logging.error('Error: writing file error: {}'.format(args.save_file_samples))
+        sys.exit(-1)
+    logging.info("\tDone!")
+    # dataset_instance_input_1 = Dataset(args) # 1% falha
+    # logging.debug('dataset_instance_input : {}'.format(dataset_instance_input))
+    #
+    # dataset_instance_output_1 = Dataset(args) # 1% falha
+    # logging.debug('dataset_instance_output: {}'.format(dataset_instance_output))
+    #
+    #
+    # dataset_instance_input_2 = Dataset(args)   # 10% falha
+    # logging.debug('dataset_instance_input : {}'.format(dataset_instance_input))
+    #
+    # dataset_instance_output_2 = Dataset(args) # 10% falha
+    # logging.debug('dataset_instance_output: {}'.format(dataset_instance_output))
+    #
+    # dataset_instance_input_2.load_file_samples(args.load_samples_in)
+    # logging.debug('args.load_samples_in  : {}'.format(args.load_samples_in))
+    #
+    # dataset_instance_input_2.load_file_samples(args.load_samples_out)
+    # logging.debug('args.load_samples_out : {}'.format(args.load_samples_out))
+    #
+    # training_input_samples = dataset_instance_input_1.get_features()
+    # training_output_samples = dataset_instance_output_1.get_features()
+    #
+    # training_input_samples += dataset_instance_input_2.get_features()
+    # training_output_samples += dataset_instance_output_2.get_features()
     
-    
-    dataset_instance_input_2 = Dataset(args)   # 10% falha
-    logging.debug('dataset_instance_input : {}'.format(dataset_instance_input))
-
-    dataset_instance_output_2 = Dataset(args) # 10% falha
-    logging.debug('dataset_instance_output: {}'.format(dataset_instance_output))
-    
-    dataset_instance_input.load_file_samples(args.load_samples_in)
-    logging.debug('args.load_samples_in  : {}'.format(args.load_samples_in))
-
-    dataset_instance_output.load_file_samples(args.load_samples_out)
-    logging.debug('args.load_samples_out : {}'.format(args.load_samples_out))
-
-    training_input_samples = dataset_instance_input_1.get_features()
-    training_output_samples = dataset_instance_output_1.get_features()
-    
-    training_input_samples += dataset_instance_input_2.get_features()
-    training_output_samples += dataset_instance_output_2.get_features()
-    
-    dataset_instance.save_file_samples_features() #Verificar como esse método gera o npz
+    #dataset_instance.save_file_samples_features() #Verificar como esse método gera o npz
     
 
 def predict_neural_model(args):
@@ -168,6 +197,8 @@ def arguments_cmd_choice(args):
     if args.cmd == 'Training': training_neural_model(args)
     if args.cmd == 'Predict': predict_neural_model(args)
     if args.cmd == 'Analyse': evaluation(args)
+
+    if args.cmd == 'MergeSamples': merge_samples(args)
 
 
 def imprime_config(args):
