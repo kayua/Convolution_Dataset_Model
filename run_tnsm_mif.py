@@ -37,7 +37,7 @@ DEFAULT_START_TRIALS = 0
 DEFAULT_CAMPAIGN = "demo"
 DEFAULT_VALIDATION_DATASET = "swarm/validation/S1_25.sort_u_1n_3n"
 DEFAULT_TRAINING_DATASET = "S2a"
-NUM_EPOCHS = 240 #120
+NUM_EPOCHS = 240 *10 #120
 TIME_FORMAT = '%Y-%m-%d_%H:%M:%S'
 
 PATH_ORIGINAL = "data/01_original"
@@ -607,7 +607,7 @@ def main():
                     cmd += " --load_samples_out {}".format(output_dataset_training_out)
                     cmd += " --save_file_samples {}".format(merged_file_samples)
                     run_cmd(cmd)
-                    output_dataset_training_ins = [(merged_file_samples, 0.001)]
+                    output_dataset_training_ins = [(merged_file_samples, 0.0001)]
                     output_dataset_training_out = "{}_output".format(merged_file_samples)
 
                     if not (topo_version, window, trial) in models.keys():
