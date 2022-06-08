@@ -530,7 +530,7 @@ def main():
                             cmd += " --save_file_samples {}".format(output_dataset_training_in)
                             run_cmd(cmd)
                         output_dataset_training_ins.append((output_dataset_training_in, lr))
-                        output_dataset_merged_in += "{};".format(dt_pif)
+                        output_dataset_merged_in += "{};".format(output_dataset_training_in)
                     # multiple files END
 
                     # #only one file BEGIN
