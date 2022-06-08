@@ -107,8 +107,8 @@ def merge_samples(args):
 
     logging.info("\tWriting file")
     try:
-        numpy.savez(args.save_file_samples, merge_samples_in.features)
-        numpy.savez("{}_output".format(args.save_file_samples), merge_samples_in.features)
+        numpy.savez(args.save_file_samples, merge_samples_in)
+        numpy.savez("{}_output".format(args.save_file_samples), merge_samples_out)
 
     except FileNotFoundError:
         logging.error('Error: writing file error: {}'.format(args.save_file_samples))
