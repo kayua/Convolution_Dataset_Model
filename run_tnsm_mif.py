@@ -598,17 +598,18 @@ def main():
                     cmd += " --save_file_samples {}".format(output_dataset_training_out)
                     run_cmd(cmd)
 
-                    # ONE NZ BEGIN
-                    merged_file_samples = "dataset/training/failed_training/merged_files"
-                    cmd = "python3 main.py MergeSamples"
-                    cmd += " --window_width {}".format(window)
-                    cmd += " --window_length {}".format(window)
-                    cmd += " --load_samples_in {}".format(output_dataset_merged_in[:-1])
-                    cmd += " --load_samples_out {}".format(output_dataset_training_out)
-                    cmd += " --save_file_samples {}".format(merged_file_samples)
-                    run_cmd(cmd)
-                    output_dataset_training_ins = [(merged_file_samples, 0.0001)]
-                    output_dataset_training_out = "{}_output".format(merged_file_samples)
+                    # # ONE NZ BEGIN
+                    # merged_file_samples = "dataset/training/failed_training/merged_files"
+                    # cmd = "python3 main.py MergeSamples"
+                    # cmd += " --window_width {}".format(window)
+                    # cmd += " --window_length {}".format(window)
+                    # cmd += " --load_samples_in {}".format(output_dataset_merged_in[:-1])
+                    # cmd += " --load_samples_out {}".format(output_dataset_training_out)
+                    # cmd += " --save_file_samples {}".format(merged_file_samples)
+                    # run_cmd(cmd)
+                    # output_dataset_training_ins = [(merged_file_samples, 0.0001)]
+                    # output_dataset_training_out = "{}_output".format(merged_file_samples)
+                    # # ONE NZ END
 
                     if not (topo_version, window, trial) in models.keys():
                         logging.info("\tCampaign: {} topo_version: {} Window: {}".format(count_c, topo_version, window))
