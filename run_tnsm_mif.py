@@ -489,6 +489,8 @@ def main():
     #     cmd += " --input_file_swarm {}".format(INPUT_DATASET_PREDICT_IN)
     #     cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
     #     run_cmd(cmd)
+
+    WINDOW_WIDTH = 128
     learning_rates={}
     models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
@@ -503,7 +505,8 @@ def main():
                     #dt_failed = "S1m07_20.sort_u_1n_4n"
 
                     dt_faileds = [] #["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
-                    for (pif, lr) in [(50, 0.00001), (40, 0.00001), (25, 0.00001), (20, 0.00001), (15, 0.0001), (10, 0.0001), (5, 0.0001),  (2, 0.001), (1, 0.001)]:
+                    #for (pif, lr) in [(50, 0.00001), (40, 0.00001), (25, 0.00001), (20, 0.00001), (15, 0.0001), (10, 0.0001), (5, 0.0001),  (2, 0.001), (1, 0.001)]:
+                    for (pif, lr) in [(50, 0.00001), (10, 0.0001), (1, 0.001)]:
                         dt_in = "dataset/training/original_training/S2a.sort_u_1n_4n"
                         dt_pif = "dataset/training/failed_training/"
                         dt_pif += "S2a.sort_u_1n_4n.pif-{}_seed-{}".format(pif, trial)
@@ -531,7 +534,7 @@ def main():
                         output_dataset_training_in = 'samples_saved/samples_training_in/{}.window-{}'.format(f_dt_failed, window)
                         if not check_files("{}.npz".format(output_dataset_training_in)):
                             cmd = "python3 main.py CreateSamples"
-                            cmd += " --window_width {}".format(window)
+                            cmd += " --window_width {}".format(WINDOW_WIDTH)
                             cmd += " --window_length {}".format(window)
                             cmd += " --input_file_swarm {}".format(dt_failed)
                             cmd += " --save_file_samples {}".format(output_dataset_training_in)
@@ -599,7 +602,7 @@ def main():
                     output_dataset_training_out = 'samples_saved/samples_training_out/{}.window-{}'.format(dt_original, window)
                     #if not check_files("{}.npz".format(output_dataset_training_out)):
                     cmd = "python3 main.py CreateSamples"
-                    cmd += " --window_width {}".format(window)
+                    cmd += " --window_width {}".format(WINDOW_WIDTH)
                     cmd += " --window_length {}".format(window)
                     cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
                     cmd += " --save_file_samples {}".format(output_dataset_training_out)
@@ -639,7 +642,7 @@ def main():
 
                                 cmd = "python3 main.py Training"
                                 cmd += " --topology {}".format(topo_version)
-                                cmd += " --window_width {}".format(window)
+                                cmd += " --window_width {}".format(WINDOW_WIDTH)
                                 cmd += " --window_length {}".format(window)
                                 cmd += " --epochs {}".format(NUM_EPOCHS)
                                 cmd += " --load_samples_in {}".format(output_dataset_training_in)
@@ -727,7 +730,7 @@ def main():
 
                                 if not check_files(["{}.npz".format(original_swarm_file_window)]):
                                     cmd = "python3 main.py CreateSamples"
-                                    cmd += " --window_width {}".format(window)
+                                    cmd += " --window_width {}".format(WINDOW_WIDTH)
                                     cmd += " --window_length {}".format(window)
                                     cmd += " --input_file_swarm {}".format(original_swarm_file)
                                     cmd += " --save_file_samples {}".format(original_swarm_file_window)
@@ -735,14 +738,14 @@ def main():
 
                                 if not check_files(["{}.npz".format(failed_swarm_file_window)]):
                                     cmd = "python3 main.py CreateSamples"
-                                    cmd += " --window_width {}".format(window)
+                                    cmd += " --window_width {}".format(WINDOW_WIDTH)
                                     cmd += " --window_length {}".format(window)
                                     cmd += " --input_file_swarm {}".format(failed_swarm_file)
                                     cmd += " --save_file_samples {}".format(failed_swarm_file_window)
                                     run_cmd(cmd)
 
                                 cmd = "python3 main.py Predict"
-                                cmd += " --window_width {}".format(window)
+                                cmd += " --window_width {}".format(WINDOW_WIDTH)
                                 cmd += " --window_length {}".format(window)
                                 cmd += " --threshold {}".format(threshold)
                                 cmd += " --input_predict {}".format(failed_swarm_file_window)
