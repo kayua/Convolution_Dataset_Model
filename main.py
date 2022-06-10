@@ -17,7 +17,7 @@ try:
     from models.neural import Neural
     from models.neural_models.model_v1 import ModelsV1
     from models.neural_models.model_v2 import ModelsV2
-    from models.neural_models.model_v3 import ModelsV3
+    from models.neural_models.model_v3 import ModelsV3, ModelsV4
     from tools.evaluation.analyse import Analyse
     from tools.dataset.dataset import Dataset
     from tools.parameters.parameters import add_arguments, show_config
@@ -179,6 +179,9 @@ def create_classifier_model(args):
 
             if args.topology == 'model_v3':
                 neural_model.create_neural_network(ModelsV3(args))
+
+            if args.topology == 'model_v4':
+                neural_model.create_neural_network(ModelsV4(args))
 
     return neural_model
 

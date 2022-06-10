@@ -37,7 +37,7 @@ DEFAULT_START_TRIALS = 0
 DEFAULT_CAMPAIGN = "demo"
 DEFAULT_VALIDATION_DATASET = "swarm/validation/S1_25.sort_u_1n_3n"
 DEFAULT_TRAINING_DATASET = "S2a"
-NUM_EPOCHS = 240 *10 #120
+NUM_EPOCHS = 120 # *10 #120
 TIME_FORMAT = '%Y-%m-%d_%H:%M:%S'
 
 PATH_ORIGINAL = "data/01_original"
@@ -410,12 +410,19 @@ def main():
     print_config(args)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = '0' #0
-    c1 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75],
-                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
-    c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
-    c3 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.50, .95], pifs=[.10], windows=[256])
-    c4 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[128, 512])
-    cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[256])
+    # c1 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75],
+    #               pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
+    # c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
+    # c3 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.50, .95], pifs=[.10], windows=[256])
+    # c4 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[128, 512])
+    # cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[256])
+
+    c1 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75],
+                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[16])
+    c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[16])
+    c3 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50, .95], pifs=[.10], windows=[16])
+    c4 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[32, 64])
+    cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[16])
 
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
     c_mif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=mifs, windows=[256])
