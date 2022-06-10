@@ -18,7 +18,7 @@ try:
     from models.neural_models.model_v1 import ModelsV1
     from models.neural_models.model_v2 import ModelsV2
     from models.neural_models.model_v3 import ModelsV3
-    from models.neural_models.model_v3 import ModelsV4
+    from models.neural_models.model_v4 import ModelsV4
     from tools.evaluation.analyse import Analyse
     from tools.dataset.dataset import Dataset
     from tools.parameters.parameters import add_arguments, show_config
