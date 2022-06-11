@@ -48,7 +48,7 @@ class Dataset:
             self.clean_matrix()
 
         if (snapshot_id % self.feature_window_length) != 0:
-            print("snapshot_id: {}    feature_window_length: {}    %: {}".format(snapshot_id, self.feature_window_length, (snapshot_id % self.feature_window_length)-1))
+            print("peer_id: {}    snapshot_id: {}    feature_window_length: {}    %: {}".format(peer_id, snapshot_id, self.feature_window_length, (snapshot_id % self.feature_window_length)-1))
             self.matrix_features[peer_id][(snapshot_id % self.feature_window_length)-1] = 1
 
         else:
