@@ -409,7 +409,7 @@ def main():
     # imprime configurações para fins de log
     print_config(args)
 
-    os.environ['CUDA_VISIBLE_DEVICES'] = '1' #0
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0' #0
     c1 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75],
                   pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
     c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
@@ -417,11 +417,11 @@ def main():
     c4 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[128, 512])
     cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[256])
 
-    # c1 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75],
-    #               pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[16])
-    # c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[16])
-    # c3 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50, .95], pifs=[.10], windows=[16])
-    # c4 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[32, 64])
+    c16_1 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75],
+                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[16])
+    c16_2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[16])
+    c16_3 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50, .95], pifs=[.10], windows=[16])
+    #c16_4 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[32, 64])
     # cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[16])
 
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
@@ -449,7 +449,8 @@ def main():
         campaigns = [c4]
 
     elif args.campaign == "teste":
-        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
+        #ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
+        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[16])
         campaigns = [ct]
 
     # elif args.campaign == "case":
@@ -490,7 +491,7 @@ def main():
     #     cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
     #     run_cmd(cmd)
 
-    WINDOW_WIDTH = 256
+    WINDOW_WIDTH = 128
     learning_rates={}
     models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
