@@ -491,7 +491,7 @@ def main():
     #     cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
     #     run_cmd(cmd)
 
-    WINDOW_WIDTH = 128
+    WINDOW_WIDTH = 16
     learning_rates={}
     models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
