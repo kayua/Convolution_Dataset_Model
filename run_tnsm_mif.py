@@ -450,7 +450,7 @@ def main():
 
     elif args.campaign == "teste":
         #ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
-        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[32])
+        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[64])
         campaigns = [ct]
 
     # elif args.campaign == "case":
@@ -491,7 +491,7 @@ def main():
     #     cmd += " --save_file_samples {}".format(OUTPUT_DATASET_PREDICT_OUT)
     #     run_cmd(cmd)
 
-    WINDOW_WIDTH = 32
+    WINDOW_WIDTH = 64
     learning_rates={}
     models = {}
     trials = range(args.start_trials, (args.start_trials + args.trials))
