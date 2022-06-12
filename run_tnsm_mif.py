@@ -37,7 +37,7 @@ DEFAULT_START_TRIALS = 0
 DEFAULT_CAMPAIGN = "demo"
 DEFAULT_VALIDATION_DATASET = "swarm/validation/S1_25.sort_u_1n_3n"
 DEFAULT_TRAINING_DATASET = "S2a"
-NUM_EPOCHS = 30 # *10 #120
+NUM_EPOCHS = 100 # *10 #120
 TIME_FORMAT = '%Y-%m-%d_%H:%M:%S'
 
 PATH_ORIGINAL = "data/01_original"
@@ -450,7 +450,7 @@ def main():
 
     elif args.campaign == "teste":
         #ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
-        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[64])
+        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.5], pifs=[.10], windows=[64])
         campaigns = [ct]
 
     # elif args.campaign == "case":
@@ -508,7 +508,7 @@ def main():
                     dt_faileds = [] #["S2a.sort_u_1n_4n.pif-50_trial-0", "S2a.sort_u_1n_4n.pif-10_trial-0", "S2a.sort_u_1n_4n.pif-1_trial-0"]
                     #for (pif, lr) in [(50, 0.00001), (40, 0.00001), (25, 0.00001), (20, 0.00001), (15, 0.0001), (10, 0.0001), (5, 0.0001),  (2, 0.001), (1, 0.001)]:
                     #for (pif, lr) in [(50, 0.00001), (10, 0.0001), (1, 0.001)]:
-                    for (pif, lr) in [(10, 0.0001)]:
+                    for (pif, lr) in [(10, 0.00001)]:
                         dt_in = "dataset/training/original_training/S2a.sort_u_1n_4n"
                         dt_pif = "dataset/training/failed_training/"
                         dt_pif += "S2a.sort_u_1n_4n.pif-{}_seed-{}".format(pif, trial)
