@@ -25,8 +25,8 @@ class Dataset:
 
     def allocation_matrix(self):
 
-        size_matrix_allocation_width = self.feature_window_width * self.number_block_per_samples
-        #size_matrix_allocation_width = 256 * self.number_block_per_samples
+        #size_matrix_allocation_width = self.feature_window_width * self.number_block_per_samples
+        size_matrix_allocation_width = 256 * self.number_block_per_samples
 
         for i in range(len(self.matrix_features), size_matrix_allocation_width):
 
