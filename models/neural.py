@@ -107,8 +107,8 @@ class Neural:
 
         logging.info('Start training neural network model')
         x_samples, y_samples = self.neural_network.adapter_input(training_set_in, training_set_out)
-        number_samples_x = int(x_samples.size / (self.feature_window_width))# * self.number_block_per_samples))
-        number_samples_y = int(x_samples.size / (self.feature_window_length))# * self.number_block_per_samples))
+        number_samples_x = int(x_samples.size / int(self.feature_window_width * self.feature_window_length))
+        number_samples_y = int(y_samples.size / int(self.feature_window_width * self.feature_window_length))
         logging.debug('Reshape list samples')
         x_training_set = x_samples.reshape((number_samples_x, self.feature_window_width, self.feature_window_length, 1))
         y_training_set = y_samples.reshape((number_samples_y, self.feature_window_width, self.feature_window_length, 1))
