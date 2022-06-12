@@ -417,11 +417,11 @@ def main():
     c4 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[128, 512])
     cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[256])
 
-    c16_1 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75],
-                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[16])
-    c16_2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[16])
-    c16_3 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50, .95], pifs=[.10], windows=[16])
-    #c16_4 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[32, 64])
+    c64_1 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75],
+                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[64])
+    c64_2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[64])
+    c64_3 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50, .95], pifs=[.10], windows=[64])
+    #c64_4 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[32, 64])
     # cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[16])
 
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
