@@ -32,7 +32,6 @@ class Neural:
         self.feature_window_width = args.window_width
         self.feature_window_length = args.window_length
 
-        self.number_block_per_samples = args.number_blocks
 
     def create_neural_network(self, model_instance):
 
