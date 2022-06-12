@@ -450,7 +450,7 @@ def main():
 
     elif args.campaign == "teste":
         #ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
-        ct = Campaign(datasets=[1], topo_versions=['model_v6'], thresholds=[.75], pifs=[.10], windows=[256])
+        ct = Campaign(datasets=[1], topo_versions=['model_v6'], thresholds=[.5], pifs=[.10], windows=[256])
         campaigns = [ct]
 
     # elif args.campaign == "case":
