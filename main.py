@@ -20,6 +20,8 @@ try:
     from models.neural_models.model_v3 import ModelsV3
     from models.neural_models.model_v4 import ModelsV4
     from models.neural_models.model_v5 import ModelsV5
+    from models.neural_models.model_v6 import ModelsV6
+
     from tools.evaluation.analyse import Analyse
     from tools.dataset.dataset import Dataset
     from tools.parameters.parameters import add_arguments, show_config
@@ -187,6 +189,9 @@ def create_classifier_model(args):
 
             if args.topology == 'model_v5':
                 neural_model.create_neural_network(ModelsV5(args))
+
+            if args.topology == 'model_v6':
+                neural_model.create_neural_network(ModelsV6(args))
 
     return neural_model
 
