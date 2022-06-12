@@ -43,28 +43,27 @@ class ModelsV4(NeuralModel):
         second_convolution = Conv2D(filtros, tam_kernel_filtro, strides=strides, padding='same')(first_convolution)
         second_convolution = Activation(activations.relu)(second_convolution)
 
-        # third_convolution = Conv2D(filtros, tam_kernel_filtro, strides=strides, padding='same')(second_convolution)
-        # third_convolution = Activation(activations.relu)(third_convolution)
+        third_convolution = Conv2D(filtros, tam_kernel_filtro, strides=strides, padding='same')(second_convolution)
+        third_convolution = Activation(activations.relu)(third_convolution)
 
 
 
         #TRANSPOSE
-        first_deconvolution = Conv2DTranspose(filtros, tam_kernel_filtro, strides=strides, padding='same')(second_convolution)
+        first_deconvolution = Conv2DTranspose(filtros, tam_kernel_filtro, strides=strides, padding='same')(third_convolution)
         first_deconvolution = Activation(activations.relu)(first_deconvolution)
 
-        interpolation = Add()([first_deconvolution, first_convolution])
+        interpolation = Add()([first_deconvolution, second_convolution])
 
         second_deconvolution = Conv2DTranspose(filtros, tam_kernel_filtro, strides=strides, padding='same')(interpolation)
         second_deconvolution = Activation(activations.relu)(second_deconvolution)
 
-        # interpolation = Add()([second_deconvolution, first_convolution])
-        #
-        # third_deconvolution = Conv2DTranspose(filtros, tam_kernel_filtro, strides=strides, padding='same')(interpolation)
-        # third_deconvolution = Activation(activations.relu)(third_deconvolution)
+        interpolation = Add()([second_deconvolution, first_convolution])
+
+        third_deconvolution = Conv2DTranspose(filtros, tam_kernel_filtro, strides=strides, padding='same')(interpolation)
+        third_deconvolution = Activation(activations.relu)(third_deconvolution)
 
 
-
-        interpolation = Add()([second_deconvolution, input_layer_block])
+        interpolation = Add()([third_deconvolution, input_layer_block])
 
 
         #TODO CHECK
