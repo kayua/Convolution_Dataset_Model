@@ -51,8 +51,10 @@ class Dataset:
 
         if (snapshot_id % self.feature_window_length) != 0:
             #print("peer_id: {}    snapshot_id: {}    feature_window_length: {}    %: {}".format(peer_id, snapshot_id, self.feature_window_length, (snapshot_id % self.feature_window_length)-1))
-            self.matrix_features[peer_id][(snapshot_id % self.feature_window_length)-1] = 1
-
+            try:
+                self.matrix_features[peer_id][(snapshot_id % self.feature_window_length)-1] = 1
+            except:
+                print("matrix_features: {} {}".format(peer_id, (snapshot_id % self.feature_window_length)-1))
         else:
 
             self.matrix_features[peer_id][self.feature_window_length-1] = 1
