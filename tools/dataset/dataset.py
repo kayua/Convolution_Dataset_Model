@@ -32,7 +32,7 @@ class Dataset:
 
             self.matrix_features.append([0 for _ in range(self.feature_window_length)])
         print("matrix: [{}][{}]".format(len(self.matrix_features), len(self.matrix_features[0])))
-        
+
     def clean_matrix(self):
 
         for i in range(len(self.matrix_features)):
