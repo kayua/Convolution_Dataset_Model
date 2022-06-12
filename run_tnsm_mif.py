@@ -418,9 +418,9 @@ def main():
     cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[256])
 
     c64_1 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75],
-                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
-    c64_2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
-    c64_3 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50, .95], pifs=[.10], windows=[256])
+                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[64])
+    c64_2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[64])
+    c64_3 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50, .95], pifs=[.10], windows=[64])
     #c64_4 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[32, 64])
     # cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[16])
 
@@ -450,7 +450,7 @@ def main():
 
     elif args.campaign == "teste":
         #ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
-        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[256])
+        ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[64])
         campaigns = [ct]
 
     # elif args.campaign == "case":
@@ -540,6 +540,7 @@ def main():
                             cmd += " --window_length {}".format(window)
                             cmd += " --input_file_swarm {}".format(dt_failed)
                             cmd += " --save_file_samples {}".format(output_dataset_training_in)
+                            cmd += " --number_blocks {}".format(32*(256/window))
                             run_cmd(cmd)
                         output_dataset_training_ins.append((output_dataset_training_in, lr))
                         output_dataset_merged_in += "{};".format(output_dataset_training_in)
@@ -608,6 +609,8 @@ def main():
                     cmd += " --window_length {}".format(window)
                     cmd += " --input_file_swarm {}".format(INPUT_DATASET_TRAINING_OUT)
                     cmd += " --save_file_samples {}".format(output_dataset_training_out)
+                    cmd += " --number_blocks {}".format(32 * (256 / window))
+
                     run_cmd(cmd)
 
                     # # ONE NZ BEGIN
@@ -651,6 +654,7 @@ def main():
                                 cmd += " --load_samples_out {}".format(output_dataset_training_out)
                                 cmd += " --save_model {}".format(model_filename)
                                 cmd += " --learning_rate {}".format(lr)
+                                cmd += " --number_blocks {}".format(32 * (256 / window))
                                 if i > 0:
                                     cmd += " --load_model {}".format(model_filename)
 
@@ -736,6 +740,7 @@ def main():
                                     cmd += " --window_length {}".format(window)
                                     cmd += " --input_file_swarm {}".format(original_swarm_file)
                                     cmd += " --save_file_samples {}".format(original_swarm_file_window)
+                                    cmd += " --number_blocks {}".format(32 * (256 / window))
                                     run_cmd(cmd)
 
                                 if not check_files(["{}.npz".format(failed_swarm_file_window)]):
@@ -744,6 +749,7 @@ def main():
                                     cmd += " --window_length {}".format(window)
                                     cmd += " --input_file_swarm {}".format(failed_swarm_file)
                                     cmd += " --save_file_samples {}".format(failed_swarm_file_window)
+                                    cmd += " --number_blocks {}".format(32 * (256 / window))
                                     run_cmd(cmd)
 
                                 cmd = "python3 main.py Predict"
@@ -753,6 +759,7 @@ def main():
                                 cmd += " --input_predict {}".format(failed_swarm_file_window)
                                 cmd += " --output_predict {}".format(corrected_swarm_file)
                                 cmd += " --load_model {}".format(model_filename)
+                                cmd += " --number_blocks {}".format(32 * (256 / window))
                                 run_cmd(cmd)
 
                                 time_end_experiment = datetime.datetime.now()
@@ -762,10 +769,12 @@ def main():
                                 cmd += " --threshold {}".format(threshold)
                                 cmd += " --topology {}".format(topo_version)
                                 cmd += " --window_width {}".format(window)
+                                cmd += " --window_length {}".format(window)
                                 cmd += " --seed {}".format(trial)
                                 cmd += " --epochs {}".format(NUM_EPOCHS)
                                 cmd += " --pif {}".format(pif)
                                 cmd += " --duration {}".format(duration)
+                                cmd += " --number_blocks {}".format(32 * (256 / window))
 
                                 cmd += " --file_original {}".format(original_swarm_file)
                                 cmd += " --file_corrected {}".format(corrected_swarm_file)

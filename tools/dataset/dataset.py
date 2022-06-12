@@ -25,8 +25,8 @@ class Dataset:
 
     def allocation_matrix(self):
 
-        #size_matrix_allocation_width = self.feature_window_width * self.number_block_per_samples
-        size_matrix_allocation_width = 256 * self.number_block_per_samples
+        size_matrix_allocation_width = self.feature_window_width * self.number_block_per_samples
+        #size_matrix_allocation_width = 256 * self.number_block_per_samples
 
         for i in range(len(self.matrix_features), size_matrix_allocation_width):
 
@@ -43,6 +43,7 @@ class Dataset:
 
     def insert_in_matrix(self, snapshot_id, peer_id):
 
+        #se primeiro do bloco, limpa o quadro
         if snapshot_id > self.snapshot_id:
 
             self.snapshot_id = self.snapshot_id + self.feature_window_length
