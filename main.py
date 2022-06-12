@@ -185,6 +185,9 @@ def create_classifier_model(args):
             if args.topology == 'model_v4':
                 neural_model.create_neural_network(ModelsV4(args))
 
+            if args.topology == 'model_v5':
+                neural_model.create_neural_network(ModelsV5(args))
+
     return neural_model
 
 
