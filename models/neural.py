@@ -32,6 +32,8 @@ class Neural:
         self.feature_window_width = args.window_width
         self.feature_window_length = args.window_length
 
+        self.number_block_per_samples = args.number_blocks
+
     def create_neural_network(self, model_instance):
 
         logging.info('Creating neural network model')
@@ -93,13 +95,23 @@ class Neural:
             exit(-1)
 
     def training(self, training_set_in, training_set_out):
+        #RM-2022-06-12
+        # logging.info('Start training neural network model')
+        # x_samples, y_samples = self.neural_network.adapter_input(training_set_in, training_set_out)
+        # number_samples = int(x_samples.size / int(self.feature_window_width * self.feature_window_length))
+        # logging.debug('Reshape list samples')
+        # x_training_set = x_samples.reshape((number_samples, self.feature_window_width, self.feature_window_length, 1))
+        # y_training_set = y_samples.reshape((number_samples, self.feature_window_width, self.feature_window_length, 1))
+        # logging.info('Neural network sample shape x= {} y= {}'.format(x_training_set.shape, y_training_set.shape))
+        # self.neural_network.training(x_training_set, y_training_set)
 
         logging.info('Start training neural network model')
         x_samples, y_samples = self.neural_network.adapter_input(training_set_in, training_set_out)
-        number_samples = int(x_samples.size / int(self.feature_window_width * self.feature_window_length))
+        number_samples_x = int(x_samples.size / (self.feature_window_width * self.number_block_per_samples))
+        number_samples_y = int(x_samples.size / (self.feature_window_length * self.number_block_per_samples))
         logging.debug('Reshape list samples')
-        x_training_set = x_samples.reshape((number_samples, self.feature_window_width, self.feature_window_length, 1))
-        y_training_set = y_samples.reshape((number_samples, self.feature_window_width, self.feature_window_length, 1))
+        x_training_set = x_samples.reshape((number_samples_x, self.feature_window_width, self.feature_window_length, 1))
+        y_training_set = y_samples.reshape((number_samples_y, self.feature_window_width, self.feature_window_length, 1))
         logging.info('Neural network sample shape x= {} y= {}'.format(x_training_set.shape, y_training_set.shape))
         self.neural_network.training(x_training_set, y_training_set)
 
