@@ -441,7 +441,7 @@ def main():
         campaigns = [c_mif]
         result_metrics_file_name = 'results/results_tnsm_mif.txt'
     elif args.campaign == "pif":
-        campaigns = [c64_3, c64_1, c64_2, c64_4]
+        campaigns = [c64_3, c64_1,  c64_4]
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
         #campaigns = [c4]
     elif args.campaign == "window":
