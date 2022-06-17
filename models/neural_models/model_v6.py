@@ -105,6 +105,7 @@ class ModelsV6(NeuralModel):
 
         convolution_model = Model(input_layer_block, convolution_model)
         opt = Adam(learning_rate=self.learning_rate)
+
         convolution_model.compile(loss=self.loss, optimizer=opt, metrics=self.metrics)
         self.model = convolution_model
 

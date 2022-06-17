@@ -51,10 +51,10 @@ class NeuralModel:
             samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
             self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
 
-            if (i % 10) == 0:
-                artificial_image = self.model.predict(samples_batch_training_in[0:10])
-                self.save_image_feature(artificial_image[0], samples_batch_training_in[0],
-                                        samples_batch_training_out[0], i)
+            # if (i % 10) == 0:
+            #     artificial_image = self.model.predict(samples_batch_training_in[0:10])
+            #     self.save_image_feature(artificial_image[0], samples_batch_training_in[0],
+            #                             samples_batch_training_out[0], i)
 
         return 0
 
@@ -110,17 +110,13 @@ class NeuralModel:
             #     feature_predicted = self.model.predict(batch_training_in[0:10])
             #     self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
 
-        print("\n\n#PRECISION")
-        for i in range(self.epochs):
-            h = self.list_history[i]
-            print("{}\t{}\t{}".format(i, h.history['precision'], h.history['val_precision']))
 
-        print("\n\n#MSE")
-        for i in range(self.epochs):
-            h = self.list_history[i]
-            print("{}\t{}\t{}".format(i, h.history['mse'], h.history['val_mse']))
-
-        print("\n\n")
+        for m in self.metrics:
+            print("\n\n#{}".format(m))
+            for i in range(self.epochs):
+                h = self.list_history[i]
+                print("{}\t{}\t{}".format(i, h.history[m], h.history['val_{}'.format(m)]))
+        print("\n\n\n")
         return 0
 
     # print(history.history.keys())
