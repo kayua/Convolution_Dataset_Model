@@ -49,7 +49,8 @@ class NeuralModel:
             random_array_feature = self.get_random_batch(x_training)
             samples_batch_training_in = self.get_feature_batch(x_training, random_array_feature)
             samples_batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
+            history = self.model.fit(x=samples_batch_training_in, y=samples_batch_training_out, verbose=2)
+            print(history.history.keys())
 
             # if (i % 10) == 0:
             #     artificial_image = self.model.predict(samples_batch_training_in[0:10])
