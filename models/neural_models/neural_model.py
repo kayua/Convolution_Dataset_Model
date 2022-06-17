@@ -99,6 +99,7 @@ class NeuralModel:
 
         x_training, y_training = self.remove_empty_features(x_training, y_training)
         self.list_history = []
+        m = self.metrics
         for i in range(self.epochs):
 
             random_array_feature = self.get_random_batch(x_training)
@@ -106,13 +107,15 @@ class NeuralModel:
             batch_training_out = self.get_feature_batch(y_training, random_array_feature)
             history = self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1, steps_per_epoch=32)
             self.list_history.append(history)
+            print(history)
+            print("{}\t{}\t{}".format(i, history.history[m], history.history['val_{}'.format(m)]))
             # if i % 10 == 0:
             #     feature_predicted = self.model.predict(batch_training_in[0:10])
             #     self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
 
 
         #for m in self.metrics:
-        m = self.metrics
+
         print("\n\n#{}".format(m))
         for i in range(self.epochs):
             h = self.list_history[i]
