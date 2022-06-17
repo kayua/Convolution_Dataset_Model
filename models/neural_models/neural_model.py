@@ -123,7 +123,7 @@ class NeuralModel:
         for i in range(self.epochs):
             h = self.list_history[i]
             #print("{}\t{}\t{}".format(i, h.history[m], h.history['val_{}'.format(m)]))
-            print("{}\t{}\t{}".format(i+1, h.history[m], h.history['loss']))
+            print("{}\t{}\t{}".format(i+1, h.history[m][0], h.history['loss'][0]))
         print("\n\n\n")
         return 0
 
