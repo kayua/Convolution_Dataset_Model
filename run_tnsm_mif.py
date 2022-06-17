@@ -410,11 +410,11 @@ def main():
     print_config(args)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = '0' #0
-    c1 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75],
-                  pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
-    c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
-    c3 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.50, .95], pifs=[.10], windows=[256])
-    c4 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[128, 512])
+    # c1 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75],
+    #               pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
+    # c2 = Campaign(datasets=[1], topo_versions=['model_v2', 'model_v3'], thresholds=[.75], pifs=[.10], windows=[256])
+    # c3 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.50, .95], pifs=[.10], windows=[256])
+    # c4 = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[128, 512])
     cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[.10], windows=[256])
 
     c64_1 = Campaign(datasets=[1], topo_versions=['model_v6'], thresholds=[.50],
@@ -445,8 +445,8 @@ def main():
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
         #campaigns = [c4]
     elif args.campaign == "window":
-        c4.windows = [512]
-        campaigns = [c4]
+        #c4.windows = [512]
+        campaigns = [c64_4]
 
     elif args.campaign == "teste":
         #ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])
