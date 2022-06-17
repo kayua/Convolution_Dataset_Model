@@ -98,7 +98,7 @@ class NeuralModel:
     def training(self, x_training, y_training):
 
         x_training, y_training = self.remove_empty_features(x_training, y_training)
-        self.list_history = {}
+        self.list_history = []
         for i in range(self.epochs):
 
             random_array_feature = self.get_random_batch(x_training)
