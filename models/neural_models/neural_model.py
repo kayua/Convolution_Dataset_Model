@@ -110,7 +110,7 @@ class NeuralModel:
             print(history)
             print(history.history.keys())
             #print("{}\t{}\t{}".format(i, history.history[m], history.history['val_{}'.format(m)]))
-            print("{}\t{}".format(i, history.history[m]]))
+            print("{}\t{}".format(i, history.history[m]))
             # if i % 10 == 0:
             #     feature_predicted = self.model.predict(batch_training_in[0:10])
             #     self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
@@ -121,7 +121,8 @@ class NeuralModel:
         print("\n\n#{}".format(m))
         for i in range(self.epochs):
             h = self.list_history[i]
-            print("{}\t{}\t{}".format(i, h.history[m], h.history['val_{}'.format(m)]))
+            #print("{}\t{}\t{}".format(i, h.history[m], h.history['val_{}'.format(m)]))
+            print("{}\t{}".format(i, h.history[m]))
         print("\n\n\n")
         return 0
 
