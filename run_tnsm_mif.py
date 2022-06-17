@@ -421,7 +421,7 @@ def main():
                   pifs=[.01, .02, .05, .10, .15, .20, .25, .40, .50], windows=[256])
     c64_2 = Campaign(datasets=[1], topo_versions=['model_v1', 'model_v4'], thresholds=[.50], pifs=[.10], windows=[256])
     c64_3 = Campaign(datasets=[1], topo_versions=['model_v6'], thresholds=[.75, .95], pifs=[.10], windows=[256])
-    c64_4 = Campaign(datasets=[1], topo_versions=['model_v6'], thresholds=[.50], pifs=[.10], windows=[64, 128])
+    c64_4 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50], pifs=[.10], windows=[64, 128])
     # cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[16])
 
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
