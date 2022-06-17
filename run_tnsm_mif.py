@@ -423,6 +423,7 @@ def main():
     c64_3 = Campaign(datasets=[1], topo_versions=['model_v6'], thresholds=[.75, .95], pifs=[.10], windows=[256])
     c64_4 = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.50], pifs=[.10], windows=[64, 128])
     # cdemo_pif = Campaign(datasets=[1], topo_versions=['model_v4'], thresholds=[.75], pifs=[.10], windows=[16])
+    c_fitting = Campaign(datasets=[1], topo_versions=['model_v6'], thresholds=[.50], pifs=[.10], windows=[256])
 
     mifs = [20, 17, 16, 12, 11, 10, 9, 8, 7]
     c_mif = Campaign(datasets=[1], topo_versions=['model_v6'], thresholds=[.50], pifs=mifs, windows=[256])
@@ -441,12 +442,14 @@ def main():
         campaigns = [c_mif]
         result_metrics_file_name = 'results/results_tnsm_mif.txt'
     elif args.campaign == "pif":
-        campaigns = [c64_3, c64_1, c64_2]
+        campaigns = [c64_3, c64_1, c64_2, c64_4]
         result_metrics_file_name = 'results/results_tnsm_pif.txt'
         #campaigns = [c4]
     elif args.campaign == "window":
         #c4.windows = [512]
         campaigns = [c64_4]
+    elif args.campaign == "fit":
+        campaigns = [c_fitting]
 
     elif args.campaign == "teste":
         #ct = Campaign(datasets=[1], topo_versions=['model_v1'], thresholds=[.75], pifs=[7], windows=[256])

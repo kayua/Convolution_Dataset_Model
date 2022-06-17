@@ -32,6 +32,7 @@ class NeuralModel:
         self.feature_window_width = args.window_width
         self.feature_window_length = args.window_length
         self.learning_rate = args.learning_rate
+        self.list_history = []
 
     @staticmethod
     def adapter_input(training_set_in, training_set_out):
@@ -97,19 +98,35 @@ class NeuralModel:
     def training(self, x_training, y_training):
 
         x_training, y_training = self.remove_empty_features(x_training, y_training)
-
+        self.list_history = {}
         for i in range(self.epochs):
 
             random_array_feature = self.get_random_batch(x_training)
             batch_training_in = self.get_feature_batch(x_training, random_array_feature)
             batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1, steps_per_epoch=32)
+            history = self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1, steps_per_epoch=32)
+            self.list_history.append(history)
+            # if i % 10 == 0:
+            #     feature_predicted = self.model.predict(batch_training_in[0:10])
+            #     self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
 
-            if i % 10 == 0:
-                feature_predicted = self.model.predict(batch_training_in[0:10])
-                self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
+        print("\n\n#PRECISION")
+        for i in range(self.epochs):
+            h = self.list_history[i]
+            print("{}\t{}\t{}".format(i, h.history['precision'], h.history['val_precision']))
 
+        print("\n\n#MSE")
+        for i in range(self.epochs):
+            h = self.list_history[i]
+            print("{}\t{}\t{}".format(i, h.history['mse'], h.history['val_mse']))
+
+        print("\n\n")
         return 0
+
+    # print(history.history.keys())
+    # #  "Accuracy"
+    # plt.plot(history.history['acc']) #acuracia de treinamento
+    # plt.plot(history.history['val_acc']) #acuracia de validação
 
     @staticmethod
     def check_feature_empty(list_feature_samples):
