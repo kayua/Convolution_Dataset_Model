@@ -108,7 +108,9 @@ class NeuralModel:
             history = self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1, steps_per_epoch=32)
             self.list_history.append(history)
             print(history)
-            print("{}\t{}\t{}".format(i, history.history[m], history.history['val_{}'.format(m)]))
+            print(history.history.keys())
+            #print("{}\t{}\t{}".format(i, history.history[m], history.history['val_{}'.format(m)]))
+            print("{}\t{}".format(i, history.history[m]]))
             # if i % 10 == 0:
             #     feature_predicted = self.model.predict(batch_training_in[0:10])
             #     self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
