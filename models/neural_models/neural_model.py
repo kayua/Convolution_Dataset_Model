@@ -111,11 +111,12 @@ class NeuralModel:
             #     self.save_image_feature(feature_predicted[0], batch_training_out[0], batch_training_in[0], i)
 
 
-        for m in self.metrics:
-            print("\n\n#{}".format(m))
-            for i in range(self.epochs):
-                h = self.list_history[i]
-                print("{}\t{}\t{}".format(i, h.history[m], h.history['val_{}'.format(m)]))
+        #for m in self.metrics:
+        m = self.metrics
+        print("\n\n#{}".format(m))
+        for i in range(self.epochs):
+            h = self.list_history[i]
+            print("{}\t{}\t{}".format(i, h.history[m], h.history['val_{}'.format(m)]))
         print("\n\n\n")
         return 0
 
