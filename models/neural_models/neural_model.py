@@ -119,11 +119,12 @@ class NeuralModel:
         #for m in self.metrics:
 
         print("\n\n#{}".format(m))
-        print("#i\tmse\tloss")
+        print("#mse,loss")
         for i in range(self.epochs):
             h = self.list_history[i]
             #print("{}\t{}\t{}".format(i, h.history[m], h.history['val_{}'.format(m)]))
-            print("{}\t{}\t{}".format(i+1, h.history[m][0], h.history['loss'][0]))
+            #print("{}\t{}\t{}".format(i+1, h.history[m][0], h.history['loss'][0]))
+            print("{},{}".format(h.history[m][0], h.history['loss'][0]))
         print("\n\n\n")
         return 0
 
