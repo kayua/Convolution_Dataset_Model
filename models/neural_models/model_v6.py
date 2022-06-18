@@ -29,7 +29,7 @@ class ModelsV6(NeuralModel):
     def create_neural_network(self):
         filtros = 180  # -primeiro valor #256-não funciona, 220 piora, 140 mesma coisa, 70 mesma coisa (20min)
         input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
-
+        #kernel=(3, 3) -> (5, 5)
         first_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
         first_convolution = Activation(activations.relu)(first_convolution)
 
