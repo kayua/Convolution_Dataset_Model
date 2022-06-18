@@ -102,11 +102,14 @@ class NeuralModel:
         self.list_history = []
         m = self.metrics
         for i in range(self.epochs):
-
             random_array_feature = self.get_random_batch(x_training)
             batch_training_in = self.get_feature_batch(x_training, random_array_feature)
             batch_training_out = self.get_feature_batch(y_training, random_array_feature)
-            history = self.model.fit(x=batch_training_in, y=batch_training_out, epochs=1, verbose=1, steps_per_epoch=32)
+
+            random_array_feature = self.get_random_batch(x_training)
+            batch_validation_in = self.get_feature_batch(x_training, random_array_feature)
+            batch_validation_out = self.get_feature_batch(y_training, random_array_feature)
+            history = self.model.fit(x=batch_training_in, y=batch_training_out, validation_data=(batch_validation_in,batch_validation_out), epochs=1, verbose=1, steps_per_epoch=32)
             self.list_history.append(history)
             #print(history)
             #print(history.history.keys())
@@ -120,12 +123,12 @@ class NeuralModel:
         #for m in self.metrics:
 
         print("\n\n#{}".format(m))
-        print("#mse,loss")
+        print("#mse,val_mse")
         for i in range(self.epochs):
             h = self.list_history[i]
             #print("{}\t{}\t{}".format(i, h.history[m], h.history['val_{}'.format(m)]))
             #print("{}\t{}\t{}".format(i+1, h.history[m][0], h.history['loss'][0]))
-            print("{},{}".format(h.history[m][0], h.history['loss'][0]))
+            print("{},{}".format(h.history['mse'][0], h.history['val_mse'.format(m)][0]))
         print("\n\n\n")
         return 0
 
