@@ -30,75 +30,76 @@ class ModelsV6(NeuralModel):
         filtros = 180  # -primeiro valor #256-não funciona, 220 piora, 140 mesma coisa, 70 mesma coisa (20min)
         input_layer_block = Input(shape=(self.feature_window_width, self.feature_window_length, 1))
         #kernel=(3, 3) -> (5, 5)
-        first_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(input_layer_block)
+        kernel=(5, 5)
+        first_convolution = Conv2D(filtros, kernel, strides=(2, 2), padding='same')(input_layer_block)
         first_convolution = Activation(activations.relu)(first_convolution)
 
-        second_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(first_convolution)
+        second_convolution = Conv2D(filtros, kernel, strides=(2, 2), padding='same')(first_convolution)
         second_convolution = Activation(activations.relu)(second_convolution)
 
-        third_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(second_convolution)
+        third_convolution = Conv2D(filtros, kernel, strides=(2, 2), padding='same')(second_convolution)
         third_convolution = Activation(activations.relu)(third_convolution)
 
-        fourth_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(third_convolution)
+        fourth_convolution = Conv2D(filtros, kernel, strides=(2, 2), padding='same')(third_convolution)
         fourth_convolution = Activation(activations.relu)(fourth_convolution)
 
-        fifth_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(fourth_convolution)
+        fifth_convolution = Conv2D(filtros, kernel, strides=(2, 2), padding='same')(fourth_convolution)
         fifth_convolution = Activation(activations.relu)(fifth_convolution)
 
-        sixth_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(fifth_convolution)
+        sixth_convolution = Conv2D(filtros, kernel, strides=(2, 2), padding='same')(fifth_convolution)
         sixth_convolution = Activation(activations.relu)(sixth_convolution)
 
-        seventh_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(sixth_convolution)
+        seventh_convolution = Conv2D(filtros, kernel, strides=(2, 2), padding='same')(sixth_convolution)
         seventh_convolution = Activation(activations.relu)(seventh_convolution)
 
-        eighth_convolution = Conv2D(filtros, (3, 3), strides=(2, 2), padding='same')(seventh_convolution)
+        eighth_convolution = Conv2D(filtros, kernel, strides=(2, 2), padding='same')(seventh_convolution)
         eighth_convolution = Activation(activations.relu)(eighth_convolution)
 
 
-        first_deconvolution = Conv2DTranspose(filtros, (3, 3), strides=(2, 2), padding='same')(eighth_convolution)
+        first_deconvolution = Conv2DTranspose(filtros, kernel, strides=(2, 2), padding='same')(eighth_convolution)
         first_deconvolution = Activation(activations.relu)(first_deconvolution)
 
         interpolation = Add()([first_deconvolution, seventh_convolution])
 
-        second_deconvolution = Conv2DTranspose(filtros, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        second_deconvolution = Conv2DTranspose(filtros, kernel, strides=(2, 2), padding='same')(interpolation)
         second_deconvolution = Activation(activations.relu)(second_deconvolution)
 
         interpolation = Add()([second_deconvolution, sixth_convolution])
 
-        third_deconvolution = Conv2DTranspose(filtros, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        third_deconvolution = Conv2DTranspose(filtros, kernel, strides=(2, 2), padding='same')(interpolation)
         third_deconvolution = Activation(activations.relu)(third_deconvolution)
 
         interpolation = Add()([third_deconvolution, fifth_convolution])
 
-        fourth_deconvolution = Conv2DTranspose(filtros, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        fourth_deconvolution = Conv2DTranspose(filtros, kernel, strides=(2, 2), padding='same')(interpolation)
         fourth_deconvolution = Activation(activations.relu)(fourth_deconvolution)
 
         interpolation = Add()([fourth_deconvolution, fourth_convolution])
 
-        fifth_deconvolution = Conv2DTranspose(filtros, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        fifth_deconvolution = Conv2DTranspose(filtros, kernel, strides=(2, 2), padding='same')(interpolation)
         fifth_deconvolution = Activation(activations.relu)(fifth_deconvolution)
 
         interpolation = Add()([fifth_deconvolution, third_convolution])
 
-        sixth_deconvolution = Conv2DTranspose(filtros, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        sixth_deconvolution = Conv2DTranspose(filtros, kernel, strides=(2, 2), padding='same')(interpolation)
         sixth_deconvolution = Activation(activations.relu)(sixth_deconvolution)
 
         interpolation = Add()([sixth_deconvolution, second_convolution])
 
-        seventh_deconvolution = Conv2DTranspose(filtros, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        seventh_deconvolution = Conv2DTranspose(filtros, kernel, strides=(2, 2), padding='same')(interpolation)
         seventh_deconvolution = Activation(activations.relu)(seventh_deconvolution)
 
         interpolation = Add()([seventh_deconvolution, first_convolution])
 
-        eighth_deconvolution = Conv2DTranspose(filtros, (3, 3), strides=(2, 2), padding='same')(interpolation)
+        eighth_deconvolution = Conv2DTranspose(filtros, kernel, strides=(2, 2), padding='same')(interpolation)
         eighth_deconvolution = Activation(activations.relu)(eighth_deconvolution)
 
         interpolation = Add()([eighth_deconvolution, input_layer_block])
 
-        convolution_model = Conv2DTranspose(filtros, (3, 3), strides=(1, 1), padding='same')(interpolation)
+        convolution_model = Conv2DTranspose(filtros, kernel, strides=(1, 1), padding='same')(interpolation)
         convolution_model = Activation(activations.relu)(convolution_model)
 
-        convolution_model = Conv2DTranspose(filtros, (3, 3), strides=(1, 1), padding='same')(convolution_model)
+        convolution_model = Conv2DTranspose(filtros, kernel, strides=(1, 1), padding='same')(convolution_model)
         convolution_model = Activation(activations.relu)(convolution_model)
 
         convolution_model = Conv2D(1, (1, 1))(convolution_model)
