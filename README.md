@@ -8,6 +8,8 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 
 ## Neural Network Topologies
 
+Three NN topologies are proposed, named Dense, LSTM and Convolutional (Conv), according to their fundamental structures. Each NN is composed of input, intermediate (also known as hidden layers), and output structures. Below, we provide more details of each proposed NN topology.
+
 <table>
     <tbody>
         <tr>
