@@ -25,7 +25,7 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 </table>
 
 
-
+## Error rate evolution
 
 <table>
     <tbody> 
@@ -44,7 +44,7 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 </table>
 
 
-
+## Cumulative distribution function
 <table>
     <tbody>
         <tr>
