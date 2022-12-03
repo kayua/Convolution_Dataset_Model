@@ -44,7 +44,7 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 </table>
 
 
-## Comparison of results (Probabilistic vs Convolutive)
+## Comparison of Results (Probabilistic vs Convolutive)
 <table>
     <tbody>
         <tr>
@@ -71,11 +71,6 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 
 
 </table>
-
-
-
-
-
 
 
 
