@@ -28,6 +28,7 @@ Three NN topologies are proposed, named Dense, LSTM and Convolutional (Conv), ac
 
 
 ## Error Rate Evolution
+Impact of the number of epochs on average error for Dense topology (arrangements $A=$3, window width $W=$11), LSTM topology (arrangements $A=$3, window width $W=$11), and Conv. topology (arrangements $A=$8, squared window width $W=H=$256).
 
 <table>
     <tbody> 
