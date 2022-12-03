@@ -18,7 +18,7 @@ Three Neural Network topologies are proposed, named Dense, LSTM and Convolutiona
             <th width="20%">Conv Topology</th>
         </tr>
         <tr>
-            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/dense_model.png" background-color="#FFFFFFF"></td>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/dense_model.png"></td>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/lstm.png"></td>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/conv.png"></td>
         </tr>
@@ -77,9 +77,36 @@ Comparison between the best neural network model and state-of-the-art probabilis
 
 </table>
 
+## Steps to Install:
+
+1. Upgrade and update
+    - sudo apt-get update
+    - sudo apt-get upgrade 
+    
+2. Installation of application and internal dependencies
+    - git clone [https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network]
+    - pip install -r requirements.txt
+    
+3. Test installation:
+    - python3 main.py -h
 
 
-## Input parameters:
+## Run experiments:
+
+###  Run (all F_prob experiments)
+`python3 run_nom22.py -c lstm`
+
+### Run (only one F_prob scenario)
+`python3 main.py`
+
+###  Run (all F_mon experiments)
+`python3 run_mif.py -c lstm`
+
+### Run (only one F_mon scenario)
+`python3 main_mif.py`
+
+
+### Input parameters:
 
     Arguments(run_NOMS22.py):
         
@@ -128,19 +155,7 @@ Comparison between the best neural network model and state-of-the-art probabilis
         --------------------------------------------------------------
         Full traces available at: https://github.com/ComputerNetworks-UFRGS/TraceCollection/tree/master/01_traces
 
-## Run experiments
 
-###  Run (all F_prob experiments):
-`python3 run_nom22.py -c lstm`
-
-### Run (only one F_prob scenario)
-`python3 main.py`
-
-###  Run (all F_mon experiments):
-`python3 run_mif.py -c lstm`
-
-### Run (only one F_mon scenario)
-`python3 main_mif.py`
 
 ## Requirements:
 
