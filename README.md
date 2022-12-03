@@ -28,14 +28,12 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 
 
 <table>
-    <tbody>
-        
+    <tbody> 
         <tr>
-            <th width="10%">Dense evolution error</th>
-            <th width="10%">LSTM evolution error</th>
-            <th width="10%">Conv evolution error</th>
+            <th width="10%">Dense</th>
+            <th width="10%">LSTM</th>
+            <th width="10%">Conv</th>
         </tr>
-        
         <tr>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/dense_error.png" alt="2018-06-04 4 33 16" style="max-width:100%;"></td>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/lstm_error.png" alt="2018-06-04 4 40 06" style="max-width:100%;"></td>
