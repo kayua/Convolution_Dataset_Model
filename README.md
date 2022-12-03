@@ -29,6 +29,13 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 
 <table>
     <tbody>
+        
+        <tr>
+            <th width="20%">Dense Topology</th>
+        </tr>
+        
+    
+    
         <tr>
             <th width="20%">Dense Topology</th>
             <th width="20%">LSTM Topology</th>
