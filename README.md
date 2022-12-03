@@ -8,7 +8,7 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 
 ## Neural Network Topologies
 
-Three NN topologies are proposed, named Dense, LSTM and Convolutional (Conv), according to their fundamental structures. Each NN is composed of input, intermediate (also known as hidden layers), and output structures. Below, we provide more details of each proposed NN topology.
+Three Neural Network topologies are proposed, named Dense, LSTM and Convolutional (Conv), according to their fundamental structures. Each neural network is composed of input, intermediate (also known as hidden layers), and output structures. Below, we provide more details of each proposed neural network topology.
 
 <table>
     <tbody>
@@ -47,7 +47,9 @@ Impact of the number of epochs on average error for Dense topology (arrangements
 </table>
 
 
-## Comparison of Results (Probabilistic vs Convolutive)
+## Comparison of Results (Probabilistic vs Convolutional)
+
+Comparison between the best neural network model and state-of-the-art probabilistic technique. Values obtained for probabilistic error injection and monitoring error injection.
 <table>
     <tbody>
         <tr>
