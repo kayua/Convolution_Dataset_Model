@@ -14,8 +14,6 @@ Algorithm for correcting sessions of users of large-scale networked systems base
             <th width="20%">Chroma Constant</th>
             <th width="20%">Chroma Normalized</th>
             <th width="20%">Chroma Power</th>
-        </tr>
-        <tr>
             <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/chroma_constant/aedes_aegypti.png" alt="Feature Chroma Constant" style="max-width:100%;"></td>
             <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/chroma_normalized/aedes_aegypti.png" alt="Feature Chroma Normalized" style="max-width:100%;"></td>
             <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/chroma_power/aedes_aegypti.png" alt="Feature Chroma Power" style="max-width:100%;"></td>
