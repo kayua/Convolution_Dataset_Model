@@ -51,7 +51,7 @@ Algorithm for correcting sessions of users of large-scale networked systems base
             <th width="20%">Dense Topology</th>
         </tr>
         <tr>
-            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/results_FMON.png" alt="2018-06-04 4 33 16" style="max-width:120%;"></td>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/results.png" alt="2018-06-04 4 33 16" style="max-width:120%;"></td>
         </tr>
 
 
