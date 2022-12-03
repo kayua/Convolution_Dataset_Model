@@ -6,6 +6,45 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 (obtained with 7 monitors/20 failed), and recovered (using NN).](layout/example2.png?raw=true "Examples of traces: ground truth (obtained with 27 monitors), failed
 (obtained with 7 monitors/20 failed), and recovered (using NN).")
 
+
+
+<table>
+    <tbody>
+        <tr>
+            <th width="20%">Chroma Constant</th>
+            <th width="20%">Chroma Normalized</th>
+            <th width="20%">Chroma Power</th>
+            <th width="20%">Tonal Centroids</th>
+        </tr>
+        <tr>
+            <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/chroma_constant/aedes_aegypti.png" alt="Feature Chroma Constant" style="max-width:100%;"></td>
+            <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/chroma_normalized/aedes_aegypti.png" alt="Feature Chroma Normalized" style="max-width:100%;"></td>
+            <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/chroma_power/aedes_aegypti.png" alt="Feature Chroma Power" style="max-width:100%;"></td>
+            <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/tonal_centroids/aedes_aegypti.png" alt="Feature Tonal centroids" style="max-width:100%;"></td>
+        </tr>
+
+
+</table>
+
+<table>
+    <tbody>
+        <tr>
+            <th width="20%">Mel Scale</th>
+            <th width="20%">Chroma Contrast</th>
+            <th width="20%">Chroma Power</th>
+            <th width="20%">Tonal Centroids</th>
+        </tr>
+        <tr>
+            <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/mel/aedes_aegypti.png" alt="2018-06-04 4 33 16" style="max-width:100%;"></td>
+            <td><img src="https://github.com/kayua/API-Aedes-Detector/blob/master/layout/contrast/aedes_aegypti.png" alt="2018-06-04 4 40 06" style="max-width:100%;"></td>
+            <td><img src="https://github.com/kayua/MosquitoClassification-TensorFlow/blob/master/spectrograms/chroma_power/aedes_aegypti7_chroma_power.png" alt="2018-06-04 4 43 02" style="max-width:100%;"></td>
+            <td><img src="https://github.com/kayua/MosquitoClassification-TensorFlow/blob/master/spectrograms/tonal_centroids/aedes_aegypti7_tonal_centroids.png" alt="2018-06-04 4 47 40" style="max-width:100%;"></td>
+        </tr>
+
+
+</table>
+
+
 ## Input parameters:
 
     Arguments(run_NOMS22.py):
