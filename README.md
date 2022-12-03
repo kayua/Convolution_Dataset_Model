@@ -128,6 +128,8 @@ Comparison between the best neural network model and state-of-the-art probabilis
         --------------------------------------------------------------
         Full traces available at: https://github.com/ComputerNetworks-UFRGS/TraceCollection/tree/master/01_traces
 
+## Run experiments
+
 ###  Run (all F_prob experiments):
 `python3 run_nom22.py -c lstm`
 
