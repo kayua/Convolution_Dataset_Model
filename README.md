@@ -18,7 +18,7 @@ Algorithm for correcting sessions of users of large-scale networked systems base
         <tr>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/dense_model.png" alt="2018-06-04 4 33 16" style="max-width:110%;"></td>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/lstm.png" alt="2018-06-04 4 40 06" style="max-width:110%;"></td>
-            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/conv.png" alt="2018-06-04 4 43 02" style="max-width:110%;"></td>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/DL_topology_fig_new-Conv.pdf" alt="2018-06-04 4 43 02" style="max-width:110%;"></td>
         </tr>
 
 
