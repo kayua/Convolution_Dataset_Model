@@ -111,49 +111,54 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 
 ### Input parameters:
 
-    Arguments(run_NOMS22.py):
+    Arguments(run_TNSM.py):
         
-        -h, --help          Show this help message and exit
-        --append, -a        Append output logging file with analysis results (default=False)
-        --trials, -r        Number of trials (default=1)
-        --start_trials, -s  Start trials (default=0)
-        --skip_train, -t    Skip training of the machine learning model training?
-        --campaign, -c      Campaign [demo, lstm, no-lstm, deterministic](default=demo)
-        --verbosity, -v     Verbosity logging level (INFO=20 DEBUG=10)
+       -h, --help            Show this help message and exit
+       --append, -a          Append output logging file with analysis results
+       --demo, -d            Demo mode (default=False)
+       --trials, -r          Mumber of trials (default=1)
+       --start_trials,-s     Start trials (default=0)
+       --skip_train, -t      Skip training of the machine learning model training?
+       --campaign -c         Campaign [demo, mif, pif] (default=demo)
+       --verbosity, -v       Verbosity logging level (INFO=20 DEBUG=10)
+
 
     --------------------------------------------------------------
    
     Arguments(main.py):
 
-        -h, --help                  Show this help message and exit
-        --original_swarm_file       File of ground truth.
-        --training_swarm_file       File of training samples
-        --corrected_swarm_file      File of correction
-        --validation_swarm_file     File of validation
-        --failed_swarm_file         File of failed swarm
-        --analyse_file              Analyse results with statistics
-        --dense_layers              Number of dense layers (e.g. 1, 2, 3)
-        --neurons NEURONS           Number neurons per layer
-        --cells CELLS               Numbers cells(neurons) LSTM
-        --num_sample_training       Number samples for training
-        --num_epochs                Number epochs training
-        --analyse_file_mode         Open mode (e.g. 'w' or 'a')
-        --model_architecture_file   Full model architecture file
-        --model_weights_file        Full model weights file
-        --size_window_left          Left window size
-        --size_window_right         Right window size
-        --threshold                 i.e. alpha (e.g. 0.5 - 0.95)
-        --pif PIF                   Pif (only for statistics)
-        --dataset DATASET           Dataset (only for statistics)
-        --seed SEED                 Seed (only for statistics)
-        --lstm_mode                 Activate LSTM mode
-        --no-lstm_mode              Deactivate LSTM mode
-        --skip_train, -t            Skip training of the machine learning model
-        --deterministic_mode        Set deterministic correction mode
-        --skip_correct, -c          Skip correction of the dataset
-        --skip_analyse, -a          Skip analysis of the results
-        --verbosity, -v             Verbosity logging level (INFO=20 DEBUG=10)
-        --mode MODE                 Mode
+          -h, --help            Show this help message and exit
+          --snapshot_column     Snapshot column position (Default 1)
+          --peer_column         Peer column position (Default 2)
+          --window_length       Define length window (Default 256)
+          --window_width        Define width window (Default 256)
+          --number_blocks       Define number blocks (Default 32)
+          --topology            Neural topology (Default model_v1)
+          --verbosity           Verbosity (Default 20)
+          --epochs              Define number epochs (Default 120)
+          --metrics             Define metrics (Default mse)
+          --loss LOSS           Define loss (Default mse)
+          --optimizer           Define optimizer (Default adam)
+          --steps_per_epoch     Define batch size (Default 32)
+          --threshold           Threshold (Default 0.75)
+          --seed                Seed (Default 0)
+          --learning_rate       Learning rate (Default 0.001)
+          --pif PIF             PIF(0<x<1) MIF(>1) (Default 0)
+          --duration            Duration
+          --input_file_swarm    Input file swarm (Default )
+          --save_file_samples   Save file samples (Default )
+          --load_samples_in     Load file samples in (Default )
+          --load_samples_out    Load file samples out (Default )
+          --save_model          File save model (Default models_saved/model)
+          --load_model          File load model (Default None)
+          --input_predict       File input to predict (Default )
+          --output_predict      File output to predict (Default )
+          --file_corrected      File corrected for evaluation (Default )
+          --file_failed         File failed for evaluation (Default )
+          --file_original       File failed for evaluation (Default )
+          --file_analyse_mode   File evaluation file mode (Default +a)
+          --file_analyse        File evaluation file (Default results.txt)
+
 
         --------------------------------------------------------------
         Full traces available at: https://github.com/ComputerNetworks-UFRGS/TraceCollection/tree/master/01_traces
