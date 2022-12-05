@@ -63,11 +63,14 @@ Comparison between the best neural network model and state-of-the-art probabilis
 </table>
 
 ## Cumulative Distribution Function
+
+Impact, in terms of number (left) and duration (right) of a trace (S1) failed (Fmon = 20) and regenerated using the proposed BB-based (topology=Conv., threshold α =0.50, arrangements A =8, squared window width W = H =256) and prior probabilistic-based (threshold α =0.75).
+
 <table>
     <tbody> 
         <tr>
-            <th width="10%">Dense</th>
-            <th width="10%">LSTM</th>
+            <th width="10%">Sessions Duration</th>
+            <th width="10%">Number Sessions</th>
         </tr>
         <tr>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/CDF_duration.png" alt="2018-06-04 4 33 16" style="max-width:100%;"></td>
