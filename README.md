@@ -26,8 +26,9 @@ Three Neural Network topologies are proposed, named Dense, LSTM and Convolutiona
 
 </table>
 
+## Experimental Evaluation
 
-## Error Rate Evolution
+### Fitting Analysis
 Impact of the number of epochs on average error for Dense topology (arrangements A=3, window width W=11), LSTM topology (arrangements A=3, window width W=11), and Conv. topology (arrangements A=8, squared window width W=H=256).
 
 <table>
@@ -46,8 +47,11 @@ Impact of the number of epochs on average error for Dense topology (arrangements
 
 </table>
 
+###  Parameter Sensitivity Analysis
 
-## Comparison of Results (Probabilistic vs Convolutional)
+### Comparing our Neural Networks
+
+### Comparison with the State-of-the-Art (Convolutional vs Probabilistic)
 
 Comparison between the best neural network model and state-of-the-art probabilistic technique. Values obtained for probabilistic error injection and monitoring error injection.
 <table>
@@ -62,7 +66,7 @@ Comparison between the best neural network model and state-of-the-art probabilis
 
 </table>
 
-## Cumulative Distribution Function
+### Qualitative Analysis
 
 Impact, in terms of number (left) and duration (right) of a trace (S1) failed (Fmon = 20) and regenerated using the proposed BB-based (topology=Conv., threshold α =0.50, arrangements A =8, squared window width W = H =256) and prior probabilistic-based (threshold α =0.75).
 
@@ -175,6 +179,22 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 `keras 2.4.3`
 `setuptools 45.2.0`
 `h5py 2.10.0`
+
+
+
+## Complementary Results
+
+
+### Comparison with the State-of-the-Art (Dense vs Probabilistic)
+
+### Comparison with the State-of-the-Art (LSTM vs Probabilistic) 
+
+### Qualitative Analysis  (Dense) 
+
+### Qualitative Analysis  (LSTM) 
+
+
+
 
 ## ACKNOWLEDGMENTS
 
