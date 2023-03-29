@@ -57,7 +57,7 @@ Comparison between the best neural network model and state-of-the-art probabilis
 <table>
     <tbody>
         <tr>
-            <th width="20%">Dense Topology</th>
+            <th width="20%">Convolutional vs Probabilistic</th>
         </tr>
         <tr>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/results.png" alt="2018-06-04 4 33 16" style="max-width:120%;"></td>
