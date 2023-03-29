@@ -49,7 +49,36 @@ Impact of the number of epochs on average error for Dense topology (arrangements
 
 ###  Parameter Sensitivity Analysis
 
+Parameter sensitivity of Conv. topology withuniform probabilistic injected failure Fprob =10%
+<table>
+    <tbody>
+        <tr>
+            <th width="20%">Convolutional vs Probabilistic</th>
+        </tr>
+        <tr>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/results.png" alt="2018-06-04 4 33 16" style="max-width:120%;"></td>
+        </tr>
+
+
+</table>
+
+
 ### Comparing our Neural Networks
+
+<table>
+    <tbody>
+        <tr>
+            <th width="20%">Convolutional vs Probabilistic</th>
+        </tr>
+        <tr>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/results.png" alt="2018-06-04 4 33 16" style="max-width:120%;"></td>
+        </tr>
+
+
+</table>
+
+
+
 
 ### Comparison with the State-of-the-Art (Convolutional vs Probabilistic)
 
