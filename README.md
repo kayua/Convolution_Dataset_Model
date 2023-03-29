@@ -66,19 +66,17 @@ Parameter sensitivity of Conv. topology withuniform probabilistic injected failu
 ### Comparing our Neural Networks
 
 <table>
-    <tbody>
+    <tbody> 
         <tr>
-            <th width="20%">Convolutional vs Probabilistic</th>
+            <th width="10%">Probabilistic Injected Failure</th>
+            <th width="10%">Monitoring Injected Failure</th>
         </tr>
         <tr>
-            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/results.png" alt="2018-06-04 4 33 16" style="max-width:50%;"></td>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/comparison_nn_pif.png" alt="2018-06-04 4 33 16" style="max-width:100%;"></td>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/comparison_nn_mif.png" alt="2018-06-04 4 40 06" style="max-width:100%;"></td>
         </tr>
-
-
+        
 </table>
-
-
-
 
 ### Comparison with the State-of-the-Art (Convolutional vs Probabilistic)
 
@@ -109,8 +107,7 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/CDF_duration.png" alt="2018-06-04 4 33 16" style="max-width:100%;"></td>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/CDF_number_sessions.png" alt="2018-06-04 4 40 06" style="max-width:100%;"></td>
         </tr>
-
-
+        
 </table>
 
 ## Steps to Install:
