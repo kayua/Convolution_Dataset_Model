@@ -185,8 +185,7 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 ## Complementary Results
 
 ### Comparison with the State-of-the-Art (Dense vs Probabilistic)
-
-Impact, in terms of number (left) and duration (right) of a trace (S1) failed (Fmon = 20) and regenerated using the proposed BB-based (topology=Conv., threshold α =0.50, arrangements A =8, squared window width W = H =256) and prior probabilistic-based (threshold α =0.75).
+Comparison between the neural network Dense and state-of-the-art probabilistic technique. Values obtained for probabilistic error injection and monitoring error injection.
 
 <table>
     <tbody> 
@@ -211,8 +210,7 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 
 ### Comparison with the State-of-the-Art (LSTM vs Probabilistic) 
 
-
-Impact, in terms of number (left) and duration (right) of a trace (S1) failed (Fmon = 20) and regenerated using the proposed BB-based (topology=Conv., threshold α =0.50, arrangements A =8, squared window width W = H =256) and prior probabilistic-based (threshold α =0.75).
+Comparison between the neural network LSTM and state-of-the-art probabilistic technique. Values obtained for probabilistic error injection and monitoring error injection.
 
 <table>
     <tbody> 
