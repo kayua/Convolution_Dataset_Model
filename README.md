@@ -56,7 +56,7 @@ Parameter sensitivity of Conv. topology withuniform probabilistic injected failu
             <th width="20%">Convolutional Topology</th>
         </tr>
         <tr>
-            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/sens_conv.png" alt="2018-06-04 4 33 16" style="max-width:80%;"></td>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/sens_conv.png" alt="2018-06-04 4 33 16" style="max-width:50%;"></td>
         </tr>
 
 
@@ -71,7 +71,7 @@ Parameter sensitivity of Conv. topology withuniform probabilistic injected failu
             <th width="20%">Convolutional vs Probabilistic</th>
         </tr>
         <tr>
-            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/results.png" alt="2018-06-04 4 33 16" style="max-width:120%;"></td>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/results.png" alt="2018-06-04 4 33 16" style="max-width:50%;"></td>
         </tr>
 
 
