@@ -64,7 +64,7 @@ Parameter sensitivity of Conv. topology withuniform probabilistic injected failu
 
 
 ### Comparing our Neural Networks
-
+Comparison of topologies Dense (DE), LSTM (LS), and Convolutional (CO) for probabilistic injected failure and monitoring injected failure.
 <table>
     <tbody> 
         <tr>
