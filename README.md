@@ -195,7 +195,7 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
             <th width="10%">Probabilistic Inject Failure</th>
         </tr>
         <tr>
-            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/comparison_mif_dense_prob.png" alt="2023-03-16 4 33 16" style="max-width:100%;"></td>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/comparison_pif_dense_prob.png" alt="2023-03-16 4 33 16" style="max-width:100%;"></td>
         </tr>
 </table>
 
