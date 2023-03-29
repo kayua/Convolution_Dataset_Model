@@ -185,7 +185,6 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 ## Complementary Results
 
 ### Comparison with the State-of-the-Art (Dense vs Probabilistic)
-### Qualitative Analysis
 
 Impact, in terms of number (left) and duration (right) of a trace (S1) failed (Fmon = 20) and regenerated using the proposed BB-based (topology=Conv., threshold α =0.50, arrangements A =8, squared window width W = H =256) and prior probabilistic-based (threshold α =0.75).
 
@@ -199,9 +198,43 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
         </tr>
 </table>
 
+<table>
+    <tbody> 
+        <tr>
+            <th width="10%">Probabilistic Inject Failure</th>
+        </tr>
+        <tr>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/comparison_pif_dense_prob.png" alt="2023-03-16 4 33 16" style="max-width:100%;"></td>
+        </tr>
+</table>
 
 
 ### Comparison with the State-of-the-Art (LSTM vs Probabilistic) 
+
+
+Impact, in terms of number (left) and duration (right) of a trace (S1) failed (Fmon = 20) and regenerated using the proposed BB-based (topology=Conv., threshold α =0.50, arrangements A =8, squared window width W = H =256) and prior probabilistic-based (threshold α =0.75).
+
+<table>
+    <tbody> 
+        <tr>
+            <th width="10%">Probabilistic Inject Failure</th>
+        </tr>
+        <tr>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/comparison_pif_dense_prob.png" alt="2023-03-16 4 33 16" style="max-width:100%;"></td>
+        </tr>
+</table>
+
+<table>
+    <tbody> 
+        <tr>
+            <th width="10%">Probabilistic Inject Failure</th>
+        </tr>
+        <tr>
+            <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/comparison_pif_dense_prob.png" alt="2023-03-16 4 33 16" style="max-width:100%;"></td>
+        </tr>
+</table>
+
+
 
 ### Qualitative Analysis  (Dense) 
 
