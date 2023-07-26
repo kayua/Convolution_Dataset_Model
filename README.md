@@ -208,6 +208,8 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 
 
 
+
+
 ## Complementary Results
 
 ### Comparison with the State-of-the-Art (Dense vs Probabilistic)
