@@ -127,7 +127,7 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 ## Run experiments:
 
 ###  Run (all F_prob experiments)
-`python3 run_nom22.py -c lstm`
+`python3 run_jnsm_mif.py -c lstm`
 
 ### Run (only one F_prob scenario)
 `python3 main.py`
