@@ -8,7 +8,7 @@ Algorithm for correcting sessions of users of large-scale networked systems base
 
 ## Neural Network Topologies
 
-Three Neural Network topologies are proposed, named Dense, LSTM and Convolutional (Conv), according to their fundamental structures. Each neural network is composed of input, intermediate (also known as hidden layers), and output structures. Below, we provide more details of each proposed neural network topology.
+Three Neural Network topologies are proposed, named MLP, LSTM and CNN (Conv), according to their fundamental structures. Each neural network is composed of input, intermediate (also known as hidden layers), and output structures. Below, we provide more details of each proposed neural network topology.
 
 <table>
     <tbody>
@@ -64,7 +64,7 @@ Parameter sensitivity of Conv. topology withuniform probabilistic injected failu
 
 
 ### Comparing our Neural Networks
-Comparison of topologies Dense (DE), LSTM (LS), and Convolutional (CO) for probabilistic injected failure and monitoring injected failure.
+Comparison of topologies MLP, LSTM (LS), and CNN for probabilistic injected failure and monitoring injected failure.
 <table>
     <tbody> 
         <tr>
@@ -212,7 +212,7 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 
 ## Complementary Results
 
-### Comparison with the State-of-the-Art (Dense vs Probabilistic)
+### Comparison with the State-of-the-Art (MLP vs Probabilistic)
 Comparison between the neural network Dense and state-of-the-art probabilistic technique. Values obtained for probabilistic error injection and monitoring error injection.
 
 <table>
