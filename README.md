@@ -213,7 +213,7 @@ Impact, in terms of number (left) and duration (right) of a trace (S1) failed (F
 ## Complementary Results
 
 ### Comparison with the State-of-the-Art (MLP vs Probabilistic)
-Comparison between the neural network Dense and state-of-the-art probabilistic technique. Values obtained for probabilistic error injection and monitoring error injection.
+Comparison between the neural network MLP and state-of-the-art probabilistic technique. Values obtained for probabilistic error injection and monitoring error injection.
 
 <table>
     <tbody> 
