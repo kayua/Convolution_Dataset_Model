@@ -13,9 +13,9 @@ Three Neural Network topologies are proposed, named Dense, LSTM and Convolutiona
 <table>
     <tbody>
         <tr>
-            <th width="20%">Dense Topology</th>
+            <th width="20%">MLP Topology</th>
             <th width="20%">LSTM Topology</th>
-            <th width="20%">Conv Topology</th>
+            <th width="20%">CNN Topology</th>
         </tr>
         <tr>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/dense_model.png"></td>
@@ -34,9 +34,9 @@ Impact of the number of epochs on average error for Dense topology (arrangements
 <table>
     <tbody> 
         <tr>
-            <th width="10%">Dense</th>
+            <th width="10%">MLP</th>
             <th width="10%">LSTM</th>
-            <th width="10%">Conv</th>
+            <th width="10%">CNN</th>
         </tr>
         <tr>
             <td><img src="https://github.com/kayua/Regenerating-Datasets-With-Convolutional-Network/blob/master/layout/dense_error.png" alt="2018-06-04 4 33 16" style="max-width:100%;"></td>
