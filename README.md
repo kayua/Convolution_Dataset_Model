@@ -273,16 +273,16 @@ ARD 10/2020 and Nvidia – Academic Hardware Grant
 
 ## Reference
 
-@article{Paim2023,
-  author    = {Paim, Kayuã Oleques and Quincozes, Vagner Ereno and Kreutz, Diego and Mansilha, Rodrigo Brandão and Cordeiro, Weverton},
-  title     = {Regenerating Networked Systems’ Monitoring Traces Using Neural Networks},
-  journal   = {Journal of Network and Systems Management},
-  year      = {2023},
-  volume    = {32},
-  number    = {1},
-  pages     = {16},
-  month     = {},
-  doi       = {10.1007/s10922-023-09790-9},
-  url       = {https://doi.org/10.1007/s10922-023-09790-9},
-  issn      = {1573-7705},
-}
+    @article{Paim2023,
+      author    = {Paim, Kayuã Oleques and Quincozes, Vagner Ereno and Kreutz, Diego and Mansilha, Rodrigo Brandão and Cordeiro, Weverton},
+      title     = {Regenerating Networked Systems’ Monitoring Traces Using Neural Networks},
+      journal   = {Journal of Network and Systems Management},
+      year      = {2023},
+      volume    = {32},
+      number    = {1},
+      pages     = {16},
+      month     = {},
+      doi       = {10.1007/s10922-023-09790-9},
+      url       = {https://doi.org/10.1007/s10922-023-09790-9},
+      issn      = {1573-7705},
+    }
